@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"runtime"
 
+	"github.com/cheggaaa/pb"
 	"github.com/subutai-io/agent/config"
 	"github.com/subutai-io/agent/lib/container"
 	"github.com/subutai-io/agent/lib/fs"
@@ -119,7 +120,9 @@ func upload(path, token string, private bool) ([]byte, error) {
 	defer file.Close()
 
 	body := &bytes.Buffer{}
+
 	writer := multipart.NewWriter(body)
+
 	part, err := writer.CreateFormFile("file", filepath.Base(path))
 	if err != nil {
 		return nil, err
@@ -141,7 +144,27 @@ func upload(path, token string, private bool) ([]byte, error) {
 
 	config.CheckKurjun()
 
-	req, err := http.NewRequest("POST", config.CDN.Kurjun+"/template/upload", body)
+	//req, err := http.NewRequest("POST", config.CDN.Kurjun+"/template/upload", body)
+
+	// create and start bar
+	fi, err := file.Stat()
+	bar := pb.New(int(fi.Size())).SetUnits(pb.U_BYTES)
+	bar.Start()
+
+	// my io.Reader
+	rbody := body
+
+	// my io.Writer
+	//w := myWriter
+
+	// create proxy reader
+	reader := bar.NewProxyReader(rbody)
+
+	// and copy from pb reader
+	//io.Copy(w, reader)
+
+	req, err := http.NewRequest("POST", "http://localhost:8000", reader)
+	fmt.Println("http://localhost:8000")
 	if err != nil {
 		return nil, err
 	}
