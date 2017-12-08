@@ -330,3 +330,7 @@ func nameByID(id string) string {
 	}
 	return ""
 }
+
+func FingerprintID() string {
+	return fingerprint
+}
