@@ -27,7 +27,8 @@ func StateRestore() {
 
 	bolt, err := db.New()
 	log.Check(log.WarnLevel, "Opening database", err)
-	active := bolt.ContainerByKey("state", "RUNNING")
+	active := bolt.ContainerByKey("state", "RUNNNING")
+	log.Debug(";;;;;;;;;;;;;;; Running", bolt.ContainerByKey("state", "RUNNING"))
 	log.Check(log.WarnLevel, "Closing database", bolt.Close())
 
 	for _, v := range active {

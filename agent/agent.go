@@ -108,6 +108,7 @@ func Start() {
 
 func checkSS() (status bool) {
 	resp, err := client.Get("https://" + config.Management.Host + ":8443/rest/v1/peer/inited")
+	log.Debug(err)
 	if err == nil {
 		log.Check(log.DebugLevel, "Closing Management server response", resp.Body.Close())
 		if resp.StatusCode == http.StatusOK {
@@ -119,6 +120,7 @@ func checkSS() (status bool) {
 
 func connectionMonitor() {
 	for {
+		log.Debug("?????", fingerprint, "...", config.Management.GpgUser, " .")
 		container.StateRestore()
 		if !checkSS() {
 			time.Sleep(time.Second * 10)
@@ -127,6 +129,7 @@ func connectionMonitor() {
 
 		if fingerprint == "" || config.Management.GpgUser == "" {
 			fingerprint = gpg.GetFingerprint("rh@subutai.io")
+			log.Debug("---------------------------", fingerprint)
 			connect.Request(config.Agent.GpgUser, config.Management.Secret)
 		} else {
 			resp, err := client.Get("https://" + config.Management.Host + ":8444/rest/v1/agent/check/" + fingerprint)
@@ -156,7 +159,7 @@ func sendHeartbeat() bool {
 	if err != nil {
 		return false
 	}
-
+	log.Debug(".................:||....... HB ", fingerprint)
 	pool = container.Active(false)
 	res := response{Beat: heartbeat{
 		Type:       "HEARTBEAT",
@@ -332,5 +335,5 @@ func nameByID(id string) string {
 }
 
 func FingerprintID() string {
-	return fingerprint
+	return gpg.GetFingerprint("rh@subutai.io")
 }
