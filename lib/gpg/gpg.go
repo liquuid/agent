@@ -164,6 +164,7 @@ func GetFingerprint(email string) string {
 		if strings.Contains(scanner.Text(), "fingerprint") {
 			fp := strings.Split(scanner.Text(), "=")
 			if len(fp) > 1 {
+				log.Debug("((((((((((((((((((((((( " + strings.Replace(fp[1], " ", "", -1))
 				return strings.Replace(fp[1], " ", "", -1)
 			}
 		}
