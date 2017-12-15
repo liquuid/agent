@@ -25,6 +25,21 @@ paths:
           type: integer
           format: int32
           default: 20
+        - name: containersOnly
+          in: query
+          type: boolean
+        - name: templatesOnly
+          in: query
+          type: boolean
+        - name: detailedInfo
+          in: query
+          type: boolean
+        - name: withAncestors
+          in: query
+          type: boolean
+        - name: withParents
+          in: query
+          type: boolean
       responses:
         '200':
           description: GeList all subutai instances
