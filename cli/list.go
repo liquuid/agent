@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -85,6 +86,43 @@ func LxcList(name string, c, t, i, a, p bool) {
 		list = addAncestors(list)
 	}
 	printList(list, c, t, i, a, p)
+
+}
+
+// LxcListJSON function return a listing of Subutai instances with information such as IP address, parent template, etc.
+func LxcListJSON(name string, c, t, i, a, p bool) ([]byte, error) {
+	list := []string{}
+	if i {
+		if name == "" {
+			for _, item := range container.Containers() {
+				list = append(list, info(item)...)
+			}
+		} else {
+			list = append(list, info(name)...)
+		}
+	} else if c == t {
+		list = append(list, container.All()...)
+	} else if c {
+		list = append(list, container.Containers()...)
+	} else if t {
+		list = append(list, container.Templates()...)
+	}
+	for j := range list {
+		if list[j] == name {
+			list = []string{name}
+			break
+		} else if name != "" && j == len(list)-1 && !i {
+			list = []string{}
+		}
+	}
+	if p {
+		list = addParent(list)
+	}
+	if a {
+		list = addAncestors(list)
+	}
+
+	return json.Marshal(list)
 
 }
 
