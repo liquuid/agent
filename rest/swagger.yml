@@ -31,11 +31,60 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/item"
+              $ref: "#/definitions/container"
         default:
           description: generic error response
           schema:
       x-swagger-router-controller: Default
+  /agent/container/{name}:
+    parameters:
+      - type: string
+        name: name
+        in: path
+        required: true
+      - name: containersOnly
+        in: query
+        type: boolean
+      - name: templatesOnly
+        in: query
+        type: boolean
+      - name: detailedInfo
+        in: query
+        type: boolean
+      - name: withAncestors
+        in: query
+        type: boolean
+      - name: withParents
+        in: query
+        type: boolean
+    get:
+      tags:
+        - agent cli container
+      operationId: getContainerInfo
+      description: "Get container Info in JSON formatted object"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/container"
+        default:
+          description: error
+          schema:
+            $ref: "#/definitions/error"
+    delete:
+      tags:
+        - todos
+      operationId: destroyOne
+      responses:
+        204:
+          description: Deleted
+        default:
+          description: error
+          schema:
+            $ref: "#/definitions/error"
+
+
+
 definitions:
   container:
     type: object
