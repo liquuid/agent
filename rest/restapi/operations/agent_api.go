@@ -18,6 +18,8 @@ import (
 	spec "github.com/go-openapi/spec"
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	"agent/rest/restapi/operations/todos"
 )
 
 // NewAgentAPI creates a new Agent instance
@@ -35,8 +37,14 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
-		CliLxcListHandler: CliLxcListHandlerFunc(func(params CliLxcListParams) middleware.Responder {
-			return middleware.NotImplemented("operation CliLxcList has not yet been implemented")
+		CliListHandler: CliListHandlerFunc(func(params CliListParams) middleware.Responder {
+			return middleware.NotImplemented("operation CliList has not yet been implemented")
+		}),
+		TodosDestroyOneHandler: todos.DestroyOneHandlerFunc(func(params todos.DestroyOneParams) middleware.Responder {
+			return middleware.NotImplemented("operation TodosDestroyOne has not yet been implemented")
+		}),
+		GetContainerInfoHandler: GetContainerInfoHandlerFunc(func(params GetContainerInfoParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetContainerInfo has not yet been implemented")
 		}),
 	}
 }
@@ -68,8 +76,12 @@ type AgentAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
-	// CliLxcListHandler sets the operation handler for the cli lxc list operation
-	CliLxcListHandler CliLxcListHandler
+	// CliListHandler sets the operation handler for the cli list operation
+	CliListHandler CliListHandler
+	// TodosDestroyOneHandler sets the operation handler for the destroy one operation
+	TodosDestroyOneHandler todos.DestroyOneHandler
+	// GetContainerInfoHandler sets the operation handler for the get container info operation
+	GetContainerInfoHandler GetContainerInfoHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -133,8 +145,16 @@ func (o *AgentAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.CliLxcListHandler == nil {
-		unregistered = append(unregistered, "CliLxcListHandler")
+	if o.CliListHandler == nil {
+		unregistered = append(unregistered, "CliListHandler")
+	}
+
+	if o.TodosDestroyOneHandler == nil {
+		unregistered = append(unregistered, "todos.DestroyOneHandler")
+	}
+
+	if o.GetContainerInfoHandler == nil {
+		unregistered = append(unregistered, "GetContainerInfoHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -230,7 +250,17 @@ func (o *AgentAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/agent/rest/list"] = NewCliLxcList(o.context, o.CliLxcListHandler)
+	o.handlers["GET"]["/agent/rest/list"] = NewCliList(o.context, o.CliListHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/agent/container/{name}"] = todos.NewDestroyOne(o.context, o.TodosDestroyOneHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/agent/container/{name}"] = NewGetContainerInfo(o.context, o.GetContainerInfoHandler)
 
 }
 

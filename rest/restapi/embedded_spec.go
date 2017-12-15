@@ -32,13 +32,136 @@ func init() {
   "host": "localhost:8080",
   "basePath": "/",
   "paths": {
+    "/agent/container/{name}": {
+      "get": {
+        "description": "Get container Info in JSON formatted object",
+        "tags": [
+          "agent",
+          "cli",
+          "container"
+        ],
+        "operationId": "getContainerInfo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/container"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "todos"
+        ],
+        "operationId": "destroyOne",
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "name",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "boolean",
+          "name": "containersOnly",
+          "in": "query"
+        },
+        {
+          "type": "boolean",
+          "name": "templatesOnly",
+          "in": "query"
+        },
+        {
+          "type": "boolean",
+          "name": "detailedInfo",
+          "in": "query"
+        },
+        {
+          "type": "boolean",
+          "name": "withAncestors",
+          "in": "query"
+        },
+        {
+          "type": "boolean",
+          "name": "withParents",
+          "in": "query"
+        }
+      ]
+    },
     "/agent/rest/list": {
       "get": {
         "description": "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.",
-        "operationId": "cli.LxcList",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "cliList",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int32",
+            "default": 20,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "name": "containersOnly",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "name": "templatesOnly",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "name": "detailedInfo",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "name": "withAncestors",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "name": "withParents",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Get all subutai instances"
+            "description": "GeList all subutai instances",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/container"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
           }
         },
         "x-swagger-router-controller": "Default"
@@ -46,10 +169,25 @@ func init() {
     }
   },
   "definitions": {
-    "List": {
+    "container": {
       "type": "object",
       "properties": {
         "text": {
+          "type": "string"
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "message": {
           "type": "string"
         }
       }
