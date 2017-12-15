@@ -16,7 +16,10 @@ produces:
 paths:
   /agent/rest/list:
     get:
-      tags: agent cli list
+      tags: 
+        - agent 
+        - cli 
+        - list
       operationId: cliList
       description: "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc."
       parameters: 
@@ -74,7 +77,9 @@ paths:
         type: boolean
     get:
       tags:
-        - agent cli container
+        - agent
+        - cli 
+        - container
       operationId: getContainerInfo
       description: "Get container Info in JSON formatted object"
       responses:
@@ -97,9 +102,6 @@ paths:
           description: error
           schema:
             $ref: "#/definitions/error"
-
-
-
 definitions:
   container:
     type: object
