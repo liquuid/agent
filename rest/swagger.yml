@@ -16,16 +16,40 @@ produces:
 paths:
   /agent/rest/list:
     get:
-      operationId: cli.LxcList
+      tags: agent cli list
+      operationId: cliList
       description: "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc."
-      parameters: []
+      parameters: 
+        - name: limit
+          in: query
+          type: integer
+          format: int32
+          default: 20
       responses:
         '200':
-          description: Get all subutai instances
+          description: GeList all subutai instances
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/item"
+        default:
+          description: generic error response
+          schema:
       x-swagger-router-controller: Default
 definitions:
-  List:
+  container:
     type: object
     properties:
       text:
+        type: string
+
+  error:
+    type: object
+    required:
+      - message
+    properties:
+      code:
+        type: integer
+        format: int64
+      message:
         type: string
