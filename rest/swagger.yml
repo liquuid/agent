@@ -104,19 +104,16 @@ paths:
             $ref: "#/definitions/error"
 definitions:
   container:
-      operationId: cli.LxcList
-      description: "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc."
-      parameters: []
-      responses:
-        '200':
-          description: Get all subutai instances
-      x-swagger-router-controller: Default
-definitions:
-  List:
     type: object
+    required:
+      - description
     properties:
-      text:
+      name:
         type: string
+        readOnly: true
+      description:
+        type: string
+        minLength: 1
   error:
     type: object
     required:
