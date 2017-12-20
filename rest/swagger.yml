@@ -93,7 +93,7 @@ paths:
             $ref: "#/definitions/error"
     delete:
       tags:
-        - todos
+        - container
       operationId: destroyOne
       responses:
         204:
