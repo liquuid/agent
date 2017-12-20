@@ -12,6 +12,7 @@ import (
 	graceful "github.com/tylerb/graceful"
 
 	"agent/rest/restapi/operations"
+	"agent/rest/restapi/operations/container"
 )
 
 // This file is safe to edit. Once it exists it will not be overwritten
@@ -36,9 +37,14 @@ func configureAPI(api *operations.AgentAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	api.CliLxcListHandler = operations.CliLxcListHandlerFunc(func(params operations.CliLxcListParams) middleware.Responder {
-		//return cli_lxc_list.NewCliLxcList() // cli.LxcListJSON("", false, false, false, false, false)
-		return middleware.NotImplemented("operation .CliLxcList has not yet been implemented")
+	api.CliListHandler = operations.CliListHandlerFunc(func(params operations.CliListParams) middleware.Responder {
+		return middleware.NotImplemented("operation .CliList has not yet been implemented")
+	})
+	api.ContainerDestroyOneHandler = container.DestroyOneHandlerFunc(func(params container.DestroyOneParams) middleware.Responder {
+		return middleware.NotImplemented("operation container.DestroyOne has not yet been implemented")
+	})
+	api.GetContainerInfoHandler = operations.GetContainerInfoHandlerFunc(func(params operations.GetContainerInfoParams) middleware.Responder {
+		return middleware.NotImplemented("operation .GetContainerInfo has not yet been implemented")
 	})
 
 	api.ServerShutdown = func() {}

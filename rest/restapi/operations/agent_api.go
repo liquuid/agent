@@ -19,7 +19,7 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"agent/rest/restapi/operations/todos"
+	"agent/rest/restapi/operations/container"
 )
 
 // NewAgentAPI creates a new Agent instance
@@ -40,8 +40,8 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		CliListHandler: CliListHandlerFunc(func(params CliListParams) middleware.Responder {
 			return middleware.NotImplemented("operation CliList has not yet been implemented")
 		}),
-		TodosDestroyOneHandler: todos.DestroyOneHandlerFunc(func(params todos.DestroyOneParams) middleware.Responder {
-			return middleware.NotImplemented("operation TodosDestroyOne has not yet been implemented")
+		ContainerDestroyOneHandler: container.DestroyOneHandlerFunc(func(params container.DestroyOneParams) middleware.Responder {
+			return middleware.NotImplemented("operation ContainerDestroyOne has not yet been implemented")
 		}),
 		GetContainerInfoHandler: GetContainerInfoHandlerFunc(func(params GetContainerInfoParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetContainerInfo has not yet been implemented")
@@ -78,8 +78,8 @@ type AgentAPI struct {
 
 	// CliListHandler sets the operation handler for the cli list operation
 	CliListHandler CliListHandler
-	// TodosDestroyOneHandler sets the operation handler for the destroy one operation
-	TodosDestroyOneHandler todos.DestroyOneHandler
+	// ContainerDestroyOneHandler sets the operation handler for the destroy one operation
+	ContainerDestroyOneHandler container.DestroyOneHandler
 	// GetContainerInfoHandler sets the operation handler for the get container info operation
 	GetContainerInfoHandler GetContainerInfoHandler
 
@@ -149,8 +149,8 @@ func (o *AgentAPI) Validate() error {
 		unregistered = append(unregistered, "CliListHandler")
 	}
 
-	if o.TodosDestroyOneHandler == nil {
-		unregistered = append(unregistered, "todos.DestroyOneHandler")
+	if o.ContainerDestroyOneHandler == nil {
+		unregistered = append(unregistered, "container.DestroyOneHandler")
 	}
 
 	if o.GetContainerInfoHandler == nil {
@@ -255,7 +255,7 @@ func (o *AgentAPI) initHandlerCache() {
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/agent/container/{name}"] = todos.NewDestroyOne(o.context, o.TodosDestroyOneHandler)
+	o.handlers["DELETE"]["/agent/container/{name}"] = container.NewDestroyOne(o.context, o.ContainerDestroyOneHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

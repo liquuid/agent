@@ -10,23 +10,48 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // Container container
 // swagger:model container
 type Container struct {
 
-	// text
-	Text string `json:"text,omitempty"`
+	// description
+	// Required: true
+	// Min Length: 1
+	Description *string `json:"description"`
+
+	// name
+	// Read Only: true
+	Name string `json:"name,omitempty"`
 }
 
 // Validate validates this container
 func (m *Container) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateDescription(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Container) validateDescription(formats strfmt.Registry) error {
+
+	if err := validate.Required("description", "body", m.Description); err != nil {
+		return err
+	}
+
+	if err := validate.MinLength("description", "body", string(*m.Description), 1); err != nil {
+		return err
+	}
+
 	return nil
 }
 

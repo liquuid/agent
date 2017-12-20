@@ -58,7 +58,7 @@ func init() {
       },
       "delete": {
         "tags": [
-          "todos"
+          "container"
         ],
         "operationId": "destroyOne",
         "responses": {
@@ -171,9 +171,17 @@ func init() {
   "definitions": {
     "container": {
       "type": "object",
+      "required": [
+        "description"
+      ],
       "properties": {
-        "text": {
-          "type": "string"
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true
         }
       }
     },
