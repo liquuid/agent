@@ -4,6 +4,7 @@ package restapi
 
 import (
 	"crypto/tls"
+	"fmt"
 	"net/http"
 
 	errors "github.com/go-openapi/errors"
@@ -40,16 +41,53 @@ func configureAPI(api *operations.AgentAPI) http.Handler {
 	api.JSONProducer = runtime.JSONProducer()
 
 	api.CliListHandler = operations.CliListHandlerFunc(func(params operations.CliListParams) middleware.Responder {
-		lista := cli.LxcListJSON("", true, false, false, false, false)
+		var containerOnlyFlag bool = false
+		var templatesOnlyFlag bool = false
+		var detailedInfoFlag bool = false
+		var withAncestorsFlag bool = false
+		var withParentFlag bool = false
 
-		mm := models.CliListOKBody{}
+		if params.ContainersOnly != nil {
+			containerOnlyFlag = *params.ContainersOnly
+		}
 
-		for _, containerName := range lista {
-			mm = append(mm, &models.Container{nil, containerName})
+		if params.TemplatesOnly != nil {
+			templatesOnlyFlag = *params.TemplatesOnly
+		}
+
+		if params.DetailedInfo != nil {
+			detailedInfoFlag = *params.DetailedInfo
+		}
+
+		if params.WithAncestors != nil {
+			withAncestorsFlag = *params.WithAncestors
+		}
+
+		if params.WithParents != nil {
+			withParentFlag = *params.WithParents
+		}
+
+		fmt.Println(containerOnlyFlag,
+			templatesOnlyFlag,
+			detailedInfoFlag,
+			withAncestorsFlag,
+			withParentFlag)
+
+		list := cli.LxcListJSON("", containerOnlyFlag,
+			templatesOnlyFlag,
+			detailedInfoFlag,
+			withAncestorsFlag,
+			withParentFlag)
+
+		okList := models.CliListOKBody{}
+
+		for _, name := range list {
+			okList = append(okList, &models.Container{nil, name})
+			fmt.Println(name)
 
 		}
 
-		return &operations.CliListOK{Payload: mm}
+		return &operations.CliListOK{Payload: okList}
 
 	})
 	api.ContainerDestroyOneHandler = container.DestroyOneHandlerFunc(func(params container.DestroyOneParams) middleware.Responder {
