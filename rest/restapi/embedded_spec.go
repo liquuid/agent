@@ -152,7 +152,7 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "GeList all subutai instances",
+            "description": "List all subutai instances",
             "schema": {
               "type": "array",
               "items": {
@@ -172,16 +172,20 @@ func init() {
     "container": {
       "type": "object",
       "required": [
-        "description"
+        "name"
       ],
       "properties": {
-        "description": {
+        "ancestor": {
           "type": "string",
           "minLength": 1
         },
         "name": {
           "type": "string",
           "readOnly": true
+        },
+        "parent": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },

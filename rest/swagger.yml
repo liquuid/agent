@@ -106,12 +106,15 @@ definitions:
   container:
     type: object
     required:
-      - description
+      - name
     properties:
       name:
         type: string
         readOnly: true
-      description:
+      parent:
+        type: string
+        minLength: 1
+      ancestor:
         type: string
         minLength: 1
   error:

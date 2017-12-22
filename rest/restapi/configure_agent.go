@@ -4,7 +4,6 @@ package restapi
 
 import (
 	"crypto/tls"
-	"fmt"
 	"net/http"
 
 	errors "github.com/go-openapi/errors"
@@ -43,7 +42,6 @@ func configureAPI(api *operations.AgentAPI) http.Handler {
 	api.CliListHandler = operations.CliListHandlerFunc(func(params operations.CliListParams) middleware.Responder {
 		var containerOnlyFlag bool = false
 		var templatesOnlyFlag bool = false
-		var detailedInfoFlag bool = false
 		var withAncestorsFlag bool = false
 		var withParentFlag bool = false
 
@@ -55,10 +53,6 @@ func configureAPI(api *operations.AgentAPI) http.Handler {
 			templatesOnlyFlag = *params.TemplatesOnly
 		}
 
-		if params.DetailedInfo != nil {
-			detailedInfoFlag = *params.DetailedInfo
-		}
-
 		if params.WithAncestors != nil {
 			withAncestorsFlag = *params.WithAncestors
 		}
@@ -67,17 +61,16 @@ func configureAPI(api *operations.AgentAPI) http.Handler {
 			withParentFlag = *params.WithParents
 		}
 
-		list := cli.LxcListJSON("", containerOnlyFlag,
+		list := cli.LxcListJSON(containerOnlyFlag,
 			templatesOnlyFlag,
-			detailedInfoFlag,
 			withAncestorsFlag,
 			withParentFlag)
 
 		okList := models.CliListOKBody{}
 
-		for _, name := range list {
-			okList = append(okList, &models.Container{nil, name})
-			fmt.Println(name)
+		for name, body := range list {
+
+			okList = append(okList, &models.Container{body["ancestors"], name, body["parent"]})
 
 		}
 

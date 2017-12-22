@@ -88,41 +88,31 @@ func LxcList(name string, c, t, i, a, p bool) {
 
 }
 
-// LxcListJSON function return a listing of Subutai instances with information such as IP address, parent template, etc.
-func LxcListJSON(name string, c, t, i, a, p bool) []string {
+// LxcListJSON function return a map of Subutai instances with information such parent template, etc.
+func LxcListJSON(c, t, a, p bool) map[string]map[string]string {
+	m := make(map[string]map[string]string)
 	list := []string{}
 
-	if i {
-		if name == "" {
-			for _, item := range container.Containers() {
-				list = append(list, info(item)...)
-			}
-		} else {
-			list = append(list, info(name)...)
-		}
-	} else if c == t {
+	if c == t {
 		list = append(list, container.All()...)
 	} else if c {
 		list = append(list, container.Containers()...)
 	} else if t {
 		list = append(list, container.Templates()...)
 	}
-	for j := range list {
-		if list[j] == name {
-			list = []string{name}
-			break
-		} else if name != "" && j == len(list)-1 && !i {
-			list = []string{}
+
+	for _, item := range list {
+		m[item] = map[string]string{"parent": ""}
+		m[item] = map[string]string{"ancestors": ""}
+		if p {
+			m[item]["parent"] = container.GetParent(item)
+		}
+		if a {
+			m[item]["ancestors"] = strings.Split(addAncestors([]string{item})[0], "\t")[1]
 		}
 	}
-	if p {
-		list = addParent(list)
-	}
-	if a {
-		list = addAncestors(list)
-	}
 
-	return list
+	return m
 
 }
 

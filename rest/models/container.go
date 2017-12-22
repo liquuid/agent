@@ -17,21 +17,35 @@ import (
 // swagger:model container
 type Container struct {
 
-	// description
-	// Required: true
+	// ancestor
 	// Min Length: 1
-	Description *string `json:"description"`
+	Ancestor string `json:"ancestor,omitempty"`
 
 	// name
+	// Required: true
 	// Read Only: true
-	Name string `json:"name,omitempty"`
+	Name string `json:"name"`
+
+	// parent
+	// Min Length: 1
+	Parent string `json:"parent,omitempty"`
 }
 
 // Validate validates this container
 func (m *Container) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateDescription(formats); err != nil {
+	if err := m.validateAncestor(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateName(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateParent(formats); err != nil {
 		// prop
 		res = append(res, err)
 	}
@@ -42,13 +56,35 @@ func (m *Container) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Container) validateDescription(formats strfmt.Registry) error {
+func (m *Container) validateAncestor(formats strfmt.Registry) error {
 
-	if err := validate.Required("description", "body", m.Description); err != nil {
+	if swag.IsZero(m.Ancestor) { // not required
+		return nil
+	}
+
+	if err := validate.MinLength("ancestor", "body", string(m.Ancestor), 1); err != nil {
 		return err
 	}
 
-	if err := validate.MinLength("description", "body", string(*m.Description), 1); err != nil {
+	return nil
+}
+
+func (m *Container) validateName(formats strfmt.Registry) error {
+
+	if err := validate.RequiredString("name", "body", string(m.Name)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Container) validateParent(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Parent) { // not required
+		return nil
+	}
+
+	if err := validate.MinLength("parent", "body", string(m.Parent), 1); err != nil {
 		return err
 	}
 

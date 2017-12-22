@@ -16,7 +16,7 @@ import (
 // CliListOKCode is the HTTP code returned for type CliListOK
 const CliListOKCode int = 200
 
-/*CliListOK GeList all subutai instances
+/*CliListOK List all subutai instances
 
 swagger:response cliListOK
 */
