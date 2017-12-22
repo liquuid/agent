@@ -11,6 +11,8 @@ import (
 	middleware "github.com/go-openapi/runtime/middleware"
 	graceful "github.com/tylerb/graceful"
 
+	"agent/cli"
+	"agent/rest/models"
 	"agent/rest/restapi/operations"
 	"agent/rest/restapi/operations/container"
 )
@@ -38,7 +40,17 @@ func configureAPI(api *operations.AgentAPI) http.Handler {
 	api.JSONProducer = runtime.JSONProducer()
 
 	api.CliListHandler = operations.CliListHandlerFunc(func(params operations.CliListParams) middleware.Responder {
-		return middleware.NotImplemented("operation .CliList has not yet been implemented")
+		lista := cli.LxcListJSON("", true, false, false, false, false)
+
+		mm := models.CliListOKBody{}
+
+		for _, containerName := range lista {
+			mm = append(mm, &models.Container{nil, containerName})
+
+		}
+
+		return &operations.CliListOK{Payload: mm}
+
 	})
 	api.ContainerDestroyOneHandler = container.DestroyOneHandlerFunc(func(params container.DestroyOneParams) middleware.Responder {
 		return middleware.NotImplemented("operation container.DestroyOne has not yet been implemented")

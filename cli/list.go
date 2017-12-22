@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -90,8 +89,9 @@ func LxcList(name string, c, t, i, a, p bool) {
 }
 
 // LxcListJSON function return a listing of Subutai instances with information such as IP address, parent template, etc.
-func LxcListJSON(name string, c, t, i, a, p bool) ([]byte, error) {
+func LxcListJSON(name string, c, t, i, a, p bool) []string {
 	list := []string{}
+
 	if i {
 		if name == "" {
 			for _, item := range container.Containers() {
@@ -122,7 +122,7 @@ func LxcListJSON(name string, c, t, i, a, p bool) ([]byte, error) {
 		list = addAncestors(list)
 	}
 
-	return json.Marshal(list)
+	return list
 
 }
 
