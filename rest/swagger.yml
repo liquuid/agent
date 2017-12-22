@@ -34,9 +34,6 @@ paths:
         - name: templatesOnly
           in: query
           type: boolean
-        - name: detailedInfo
-          in: query
-          type: boolean
         - name: withAncestors
           in: query
           type: boolean

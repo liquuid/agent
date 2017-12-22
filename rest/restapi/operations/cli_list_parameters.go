@@ -42,10 +42,6 @@ type CliListParams struct {
 	ContainersOnly *bool
 	/*
 	  In: query
-	*/
-	DetailedInfo *bool
-	/*
-	  In: query
 	  Default: 20
 	*/
 	Limit *int32
@@ -73,11 +69,6 @@ func (o *CliListParams) BindRequest(r *http.Request, route *middleware.MatchedRo
 
 	qContainersOnly, qhkContainersOnly, _ := qs.GetOK("containersOnly")
 	if err := o.bindContainersOnly(qContainersOnly, qhkContainersOnly, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
-	qDetailedInfo, qhkDetailedInfo, _ := qs.GetOK("detailedInfo")
-	if err := o.bindDetailedInfo(qDetailedInfo, qhkDetailedInfo, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -121,24 +112,6 @@ func (o *CliListParams) bindContainersOnly(rawData []string, hasKey bool, format
 		return errors.InvalidType("containersOnly", "query", "bool", raw)
 	}
 	o.ContainersOnly = &value
-
-	return nil
-}
-
-func (o *CliListParams) bindDetailedInfo(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-
-	value, err := swag.ConvertBool(raw)
-	if err != nil {
-		return errors.InvalidType("detailedInfo", "query", "bool", raw)
-	}
-	o.DetailedInfo = &value
 
 	return nil
 }

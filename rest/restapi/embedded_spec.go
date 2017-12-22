@@ -136,11 +136,6 @@ func init() {
           },
           {
             "type": "boolean",
-            "name": "detailedInfo",
-            "in": "query"
-          },
-          {
-            "type": "boolean",
             "name": "withAncestors",
             "in": "query"
           },

@@ -16,7 +16,6 @@ import (
 // CliListURL generates an URL for the cli list operation
 type CliListURL struct {
 	ContainersOnly *bool
-	DetailedInfo   *bool
 	Limit          *int32
 	TemplatesOnly  *bool
 	WithAncestors  *bool
@@ -62,14 +61,6 @@ func (o *CliListURL) Build() (*url.URL, error) {
 	}
 	if containersOnly != "" {
 		qs.Set("containersOnly", containersOnly)
-	}
-
-	var detailedInfo string
-	if o.DetailedInfo != nil {
-		detailedInfo = swag.FormatBool(*o.DetailedInfo)
-	}
-	if detailedInfo != "" {
-		qs.Set("detailedInfo", detailedInfo)
 	}
 
 	var limit string
