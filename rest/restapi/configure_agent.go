@@ -67,12 +67,6 @@ func configureAPI(api *operations.AgentAPI) http.Handler {
 			withParentFlag = *params.WithParents
 		}
 
-		fmt.Println(containerOnlyFlag,
-			templatesOnlyFlag,
-			detailedInfoFlag,
-			withAncestorsFlag,
-			withParentFlag)
-
 		list := cli.LxcListJSON("", containerOnlyFlag,
 			templatesOnlyFlag,
 			detailedInfoFlag,
