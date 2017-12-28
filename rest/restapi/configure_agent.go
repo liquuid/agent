@@ -3,8 +3,11 @@
 package restapi
 
 import (
+	"agent/config"
+	"agent/lib/gpg"
 	"crypto/tls"
 	"net/http"
+	"os"
 
 	errors "github.com/go-openapi/errors"
 	runtime "github.com/go-openapi/runtime"
@@ -83,7 +86,13 @@ func configureAPI(api *operations.AgentAPI) http.Handler {
 		return middleware.NotImplemented("operation .GetContainerInfo has not yet been implemented")
 	})
 	api.RhIDHandler = operations.RhIDHandlerFunc(func(params operations.RhIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation .RhID has not yet been implemented")
+
+		os.Setenv("GNUPGHOME", config.Agent.GpgHome)
+		defer os.Unsetenv("GNUPGHOME")
+		fingerprint := gpg.GetFingerprint("rh@subutai.io")
+		okHash := models.RhIDOKBody{}
+		okHash = append(okHash, &models.Fingerprint{fingerprint})
+		return &operations.RhIDOK{Payload: okHash}
 	})
 
 	api.ServerShutdown = func() {}
