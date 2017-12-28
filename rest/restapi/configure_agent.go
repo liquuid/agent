@@ -3,8 +3,6 @@
 package restapi
 
 import (
-	"agent/config"
-	"agent/lib/gpg"
 	"crypto/tls"
 	"net/http"
 	"os"
@@ -15,6 +13,8 @@ import (
 	graceful "github.com/tylerb/graceful"
 
 	"github.com/subutai-io/agent/cli"
+	"github.com/subutai-io/agent/config"
+	"github.com/subutai-io/agent/lib/gpg"
 	"github.com/subutai-io/agent/rest/models"
 	"github.com/subutai-io/agent/rest/restapi/operations"
 	"github.com/subutai-io/agent/rest/restapi/operations/container"
