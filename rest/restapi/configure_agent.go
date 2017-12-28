@@ -11,10 +11,10 @@ import (
 	middleware "github.com/go-openapi/runtime/middleware"
 	graceful "github.com/tylerb/graceful"
 
-	"agent/cli"
-	"agent/rest/models"
-	"agent/rest/restapi/operations"
-	"agent/rest/restapi/operations/container"
+	"github.com/subutai-io/agent/cli"
+	"github.com/subutai-io/agent/rest/models"
+	"github.com/subutai-io/agent/rest/restapi/operations"
+	"github.com/subutai-io/agent/rest/restapi/operations/container"
 )
 
 // This file is safe to edit. Once it exists it will not be overwritten
