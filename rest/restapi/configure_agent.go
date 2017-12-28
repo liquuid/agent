@@ -75,13 +75,15 @@ func configureAPI(api *operations.AgentAPI) http.Handler {
 		}
 
 		return &operations.CliListOK{Payload: okList}
-
 	})
 	api.ContainerDestroyOneHandler = container.DestroyOneHandlerFunc(func(params container.DestroyOneParams) middleware.Responder {
 		return middleware.NotImplemented("operation container.DestroyOne has not yet been implemented")
 	})
 	api.GetContainerInfoHandler = operations.GetContainerInfoHandlerFunc(func(params operations.GetContainerInfoParams) middleware.Responder {
 		return middleware.NotImplemented("operation .GetContainerInfo has not yet been implemented")
+	})
+	api.RhIDHandler = operations.RhIDHandlerFunc(func(params operations.RhIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation .RhID has not yet been implemented")
 	})
 
 	api.ServerShutdown = func() {}

@@ -162,6 +162,31 @@ func init() {
         },
         "x-swagger-router-controller": "Default"
       }
+    },
+    "/rest/v1/rh/id": {
+      "get": {
+        "description": "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint",
+        "tags": [
+          "agent",
+          "rh"
+        ],
+        "operationId": "rhID",
+        "responses": {
+          "200": {
+            "description": "JSON formatted Id of RH",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/fingerprint"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
     }
   },
   "definitions": {
@@ -197,6 +222,18 @@ func init() {
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "fingerprint": {
+      "type": "object",
+      "required": [
+        "hash"
+      ],
+      "properties": {
+        "hash": {
+          "type": "string",
+          "readOnly": true
         }
       }
     }

@@ -15,6 +15,24 @@ consumes:
 produces:
   - application/json
 paths:
+  /rest/v1/rh/id:
+    get:
+      tags: 
+        - agent 
+        - rh
+      operationId: rhID
+      description: "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint"
+      responses:
+        '200':
+          description: JSON formatted Id of RH
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/fingerprint"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
   /rest/v1/list:
     get:
       tags: 
@@ -115,6 +133,14 @@ definitions:
       ancestor:
         type: string
         minLength: 1
+  fingerprint:
+    type: object
+    required:
+      - hash
+    properties:
+      hash:
+        type: string
+        readOnly: true
   error:
     type: object
     required:

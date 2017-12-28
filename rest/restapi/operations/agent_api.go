@@ -46,6 +46,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		GetContainerInfoHandler: GetContainerInfoHandlerFunc(func(params GetContainerInfoParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetContainerInfo has not yet been implemented")
 		}),
+		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation RhID has not yet been implemented")
+		}),
 	}
 }
 
@@ -82,6 +85,8 @@ type AgentAPI struct {
 	ContainerDestroyOneHandler container.DestroyOneHandler
 	// GetContainerInfoHandler sets the operation handler for the get container info operation
 	GetContainerInfoHandler GetContainerInfoHandler
+	// RhIDHandler sets the operation handler for the rh ID operation
+	RhIDHandler RhIDHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -155,6 +160,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.GetContainerInfoHandler == nil {
 		unregistered = append(unregistered, "GetContainerInfoHandler")
+	}
+
+	if o.RhIDHandler == nil {
+		unregistered = append(unregistered, "RhIDHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -261,6 +270,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/container/{name}"] = NewGetContainerInfo(o.context, o.GetContainerInfoHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/rh/id"] = NewRhID(o.context, o.RhIDHandler)
 
 }
 
