@@ -45,7 +45,7 @@ func (o *CliListURL) SetBasePath(bp string) {
 func (o *CliListURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/agent/rest/list"
+	var _path = "/rest/v1/list"
 
 	_basePath := o._basePath
 	if _basePath == "" {

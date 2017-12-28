@@ -14,7 +14,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /agent/rest/list:
+  /rest/v1/list:
     get:
       tags: 
         - agent 
@@ -51,7 +51,7 @@ paths:
           description: generic error response
           schema:
       x-swagger-router-controller: Default
-  /agent/container/{name}:
+  /rest/v1/container/{name}:
     parameters:
       - type: string
         name: name

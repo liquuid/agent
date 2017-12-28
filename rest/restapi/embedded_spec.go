@@ -32,7 +32,7 @@ func init() {
   "host": "localhost:8080",
   "basePath": "/",
   "paths": {
-    "/agent/container/{name}": {
+    "/rest/v1/container/{name}": {
       "get": {
         "description": "Get container Info in JSON formatted object",
         "tags": [
@@ -107,7 +107,7 @@ func init() {
         }
       ]
     },
-    "/agent/rest/list": {
+    "/rest/v1/list": {
       "get": {
         "description": "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.",
         "tags": [

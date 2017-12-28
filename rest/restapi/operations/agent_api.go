@@ -19,7 +19,7 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"agent/rest/restapi/operations/container"
+	"github.com/subutai-io/agent/rest/restapi/operations/container"
 )
 
 // NewAgentAPI creates a new Agent instance
@@ -250,17 +250,17 @@ func (o *AgentAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/agent/rest/list"] = NewCliList(o.context, o.CliListHandler)
+	o.handlers["GET"]["/rest/v1/list"] = NewCliList(o.context, o.CliListHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/agent/container/{name}"] = container.NewDestroyOne(o.context, o.ContainerDestroyOneHandler)
+	o.handlers["DELETE"]["/rest/v1/container/{name}"] = container.NewDestroyOne(o.context, o.ContainerDestroyOneHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/agent/container/{name}"] = NewGetContainerInfo(o.context, o.GetContainerInfoHandler)
+	o.handlers["GET"]["/rest/v1/container/{name}"] = NewGetContainerInfo(o.context, o.GetContainerInfoHandler)
 
 }
 

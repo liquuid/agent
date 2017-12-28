@@ -29,7 +29,7 @@ func NewCliList(ctx *middleware.Context, handler CliListHandler) *CliList {
 	return &CliList{Context: ctx, Handler: handler}
 }
 
-/*CliList swagger:route GET /agent/rest/list agent cli list cliList
+/*CliList swagger:route GET /rest/v1/list agent cli list cliList
 
 Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.
 

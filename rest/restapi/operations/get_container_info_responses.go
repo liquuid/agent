@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	"agent/rest/models"
+	"github.com/subutai-io/agent/rest/models"
 )
 
 // GetContainerInfoOKCode is the HTTP code returned for type GetContainerInfoOK

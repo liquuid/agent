@@ -29,7 +29,7 @@ func NewGetContainerInfo(ctx *middleware.Context, handler GetContainerInfoHandle
 	return &GetContainerInfo{Context: ctx, Handler: handler}
 }
 
-/*GetContainerInfo swagger:route GET /agent/container/{name} agent cli container getContainerInfo
+/*GetContainerInfo swagger:route GET /rest/v1/container/{name} agent cli container getContainerInfo
 
 Get container Info in JSON formatted object
 

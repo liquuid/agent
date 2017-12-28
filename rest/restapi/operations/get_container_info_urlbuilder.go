@@ -48,7 +48,7 @@ func (o *GetContainerInfoURL) SetBasePath(bp string) {
 func (o *GetContainerInfoURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/agent/container/{name}"
+	var _path = "/rest/v1/container/{name}"
 
 	name := o.Name
 	if name != "" {
