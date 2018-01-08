@@ -9,7 +9,6 @@ host: 'localhost:8080'
 basePath: /
 schemes:
   - http
-  - https
 consumes:
   - application/json
 produces:
@@ -98,6 +97,7 @@ paths:
         - container
       operationId: getContainerInfo
       description: "Get container Info in JSON formatted object"
+
       responses:
         200:
           description: OK
