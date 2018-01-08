@@ -8,7 +8,6 @@ API to handle agent
 
     Schemes:
       http
-      https
     Host: localhost:8080
     BasePath: /
     Version: 0.0.1
