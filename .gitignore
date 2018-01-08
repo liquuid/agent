@@ -75,4 +75,5 @@ _testmain.go
 *.prof
 *.log
 subutai
+agent-server
 .*
