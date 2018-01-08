@@ -32,6 +32,49 @@ func init() {
   "host": "localhost:8080",
   "basePath": "/",
   "paths": {
+    "/rest/v1/backup/{name}": {
+      "get": {
+        "description": "BackupContainer takes a snapshots of each container's volume and stores it in the ` + "`" + `/mnt/backups/container_name/datetime/` + "`" + ` directory. A full backup creates a delta-file of each BTRFS subvolume. An incremental backup (default) creates a delta-file with the difference of changes between the current and last snapshots. All deltas are compressed to archives in ` + "`" + `/mnt/backups/` + "`" + ` directory (container_datetime.tar.gz or container_datetime_Full.tar.gz for full backup). A changelog file can be found next to backups archive (container_datetime_changelog.txt or container_datetime_Full_changelog.txt) which contains a list of changes made between two backups.",
+        "tags": [
+          "agent",
+          "cli",
+          "container"
+        ],
+        "operationId": "backupContainer",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "name",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "boolean",
+          "name": "full",
+          "in": "query"
+        },
+        {
+          "type": "boolean",
+          "name": "stop",
+          "in": "query"
+        }
+      ]
+    },
     "/rest/v1/container/{name}": {
       "get": {
         "description": "Get container Info in JSON formatted object",
@@ -231,6 +274,18 @@ func init() {
       ],
       "properties": {
         "hash": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "message": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
           "type": "string",
           "readOnly": true
         }

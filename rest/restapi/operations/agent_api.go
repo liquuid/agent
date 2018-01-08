@@ -37,6 +37,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
+		BackupContainerHandler: BackupContainerHandlerFunc(func(params BackupContainerParams) middleware.Responder {
+			return middleware.NotImplemented("operation BackupContainer has not yet been implemented")
+		}),
 		CliListHandler: CliListHandlerFunc(func(params CliListParams) middleware.Responder {
 			return middleware.NotImplemented("operation CliList has not yet been implemented")
 		}),
@@ -79,6 +82,8 @@ type AgentAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
+	// BackupContainerHandler sets the operation handler for the backup container operation
+	BackupContainerHandler BackupContainerHandler
 	// CliListHandler sets the operation handler for the cli list operation
 	CliListHandler CliListHandler
 	// ContainerDestroyOneHandler sets the operation handler for the destroy one operation
@@ -148,6 +153,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.JSONProducer == nil {
 		unregistered = append(unregistered, "JSONProducer")
+	}
+
+	if o.BackupContainerHandler == nil {
+		unregistered = append(unregistered, "BackupContainerHandler")
 	}
 
 	if o.CliListHandler == nil {
@@ -255,6 +264,11 @@ func (o *AgentAPI) initHandlerCache() {
 	if o.handlers == nil {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/backup/{name}"] = NewBackupContainer(o.context, o.BackupContainerHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
