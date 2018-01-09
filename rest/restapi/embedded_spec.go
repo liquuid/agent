@@ -515,6 +515,40 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
+    "/rest/v1/info": {
+      "get": {
+        "description": "Info command's purposed is to display common system information, such as external IP address to access the container host quotas, its CPU model, RAM size, etc. It's mainly used for internal SS needs.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "info",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "command",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/infoHostStat"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
     "/rest/v1/list": {
       "get": {
         "description": "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.",
@@ -687,6 +721,27 @@ func init() {
         }
       }
     },
+    "cpuInfo": {
+      "type": "object",
+      "properties": {
+        "coreCount": {
+          "type": "string",
+          "readOnly": true
+        },
+        "frequency": {
+          "type": "string",
+          "readOnly": true
+        },
+        "idle": {
+          "type": "string",
+          "readOnly": true
+        },
+        "model": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
     "demoteOptions": {
       "type": "object",
       "properties": {
@@ -695,6 +750,40 @@ func init() {
           "readOnly": true
         },
         "vlan": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "diskInfo": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "string",
+          "readOnly": true
+        },
+        "used": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "diskStructInfo": {
+      "type": "object",
+      "properties": {
+        "home": {
+          "type": "string",
+          "readOnly": true
+        },
+        "opt": {
+          "type": "string",
+          "readOnly": true
+        },
+        "rootfs": {
+          "type": "string",
+          "readOnly": true
+        },
+        "var": {
           "type": "string",
           "readOnly": true
         }
@@ -769,6 +858,43 @@ func init() {
         }
       }
     },
+    "infoHostStat": {
+      "type": "object",
+      "properties": {
+        "cpu": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/cpuInfo"
+          },
+          "readOnly": true
+        },
+        "disk": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/diskInfo"
+          },
+          "readOnly": true
+        },
+        "hostname": {
+          "type": "string",
+          "readOnly": true
+        },
+        "quota": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/quotaInfo"
+          },
+          "readOnly": true
+        },
+        "ram": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ramInfo"
+          },
+          "readOnly": true
+        }
+      }
+    },
     "item": {
       "type": "object",
       "required": [
@@ -792,6 +918,47 @@ func init() {
           "readOnly": true
         },
         "text": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "quotaInfo": {
+      "type": "object",
+      "properties": {
+        "container": {
+          "type": "string",
+          "readOnly": true
+        },
+        "cpu": {
+          "type": "string",
+          "readOnly": true
+        },
+        "disk": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/diskStructInfo"
+          },
+          "readOnly": true
+        },
+        "ram": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ramInfo": {
+      "type": "object",
+      "properties": {
+        "cached": {
+          "type": "string",
+          "readOnly": true
+        },
+        "free": {
+          "type": "string",
+          "readOnly": true
+        },
+        "total": {
           "type": "string",
           "readOnly": true
         }

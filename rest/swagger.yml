@@ -433,7 +433,32 @@ Configuration values for template metadata parameters can be overridden on expor
           description: generic error response
           schema:
       x-swagger-router-controller: Default
+  /rest/v1/info:
+    get:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: info
+      description: "Info command's purposed is to display common system information, such as
+external IP address to access the container host quotas, its CPU model, RAM size, etc. It's mainly used for internal SS needs."
+      parameters:
+        - type: string
+          name: command
+          in: query
+          required: true
 
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/infoHostStat"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
 definitions:
   container:
     type: object
@@ -470,6 +495,100 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/item"
+        readOnly: true
+  infoHostStat:
+    type: object
+    properties:
+      cpu:
+        type: array
+        items:
+          $ref: "#/definitions/cpuInfo"
+        readOnly: true
+      disk:
+        type: array
+        items:
+          $ref: "#/definitions/diskInfo"
+        readOnly: true
+      ram:
+        type: array
+        items:
+          $ref: "#/definitions/ramInfo"
+        readOnly: true
+      quota:
+        type: array
+        items:
+          $ref: "#/definitions/quotaInfo"
+        readOnly: true
+      hostname:
+        type: string
+        readOnly: true
+  cpuInfo:
+    type: object
+    properties:
+      model:
+          type: string
+          readOnly: true
+      coreCount:
+          type: string
+          readOnly: true
+      idle:
+          type: string
+          readOnly: true
+      frequency:
+          type: string
+          readOnly: true
+  diskInfo:
+    type: object
+    properties:
+      total:
+          type: string
+          readOnly: true
+      used:
+          type: string
+          readOnly: true
+  ramInfo:
+    type: object
+    properties:
+      free:
+          type: string
+          readOnly: true
+      total:
+          type: string
+          readOnly: true
+      cached:
+          type: string
+          readOnly: true
+  quotaInfo:
+    type: object
+    properties:
+      container:
+        type: string
+        readOnly: true
+      cpu:
+        type: string
+        readOnly: true
+      ram:
+        type: string
+        readOnly: true
+      disk:
+        type: array
+        items:
+          $ref: "#/definitions/diskStructInfo"
+        readOnly: true
+  diskStructInfo:
+    type: object
+    properties:
+      home:
+        type: string
+        readOnly: true
+      opt:
+        type: string
+        readOnly: true
+      rootfs:
+        type: string
+        readOnly: true
+      var:
+        type: string
         readOnly: true
   cloneArgs:
     type: object
