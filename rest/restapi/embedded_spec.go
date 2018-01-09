@@ -75,6 +75,40 @@ func init() {
         }
       ]
     },
+    "/rest/v1/batch": {
+      "post": {
+        "description": "Batch binding provides a mechanism to perform several Subutai commands in the container in batch, passed in a single JSON message. Initially, the purpose of this command was internal for SS \u003c-\u003e Agent communication, yet it may be invoked manually from the CLI. The response from a batch command returns a JSON array with each element representing the results (response) from each command (request) in the batch: the positions of responses correlate with the request position in the array",
+        "tags": [
+          "agent",
+          "cli",
+          "container"
+        ],
+        "operationId": "batch",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/batchLine"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
     "/rest/v1/container/{name}": {
       "get": {
         "description": "Get container Info in JSON formatted object",
@@ -232,6 +266,26 @@ func init() {
     }
   },
   "definitions": {
+    "batchLine": {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "readOnly": true
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/item"
+          },
+          "readOnly": true
+        }
+      }
+    },
     "container": {
       "type": "object",
       "required": [
@@ -279,12 +333,28 @@ func init() {
         }
       }
     },
+    "item": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
     "message": {
       "type": "object",
       "required": [
         "text"
       ],
       "properties": {
+        "exitcode": {
+          "type": "string",
+          "readOnly": true
+        },
         "text": {
           "type": "string",
           "readOnly": true

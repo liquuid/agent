@@ -13,13 +13,9 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// Message message
-// swagger:model message
-type Message struct {
-
-	// exitcode
-	// Read Only: true
-	Exitcode string `json:"exitcode,omitempty"`
+// Item item
+// swagger:model item
+type Item struct {
 
 	// text
 	// Required: true
@@ -27,8 +23,8 @@ type Message struct {
 	Text string `json:"text"`
 }
 
-// Validate validates this message
-func (m *Message) Validate(formats strfmt.Registry) error {
+// Validate validates this item
+func (m *Item) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateText(formats); err != nil {
@@ -42,7 +38,7 @@ func (m *Message) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Message) validateText(formats strfmt.Registry) error {
+func (m *Item) validateText(formats strfmt.Registry) error {
 
 	if err := validate.RequiredString("text", "body", string(m.Text)); err != nil {
 		return err
@@ -52,7 +48,7 @@ func (m *Message) validateText(formats strfmt.Registry) error {
 }
 
 // MarshalBinary interface implementation
-func (m *Message) MarshalBinary() ([]byte, error) {
+func (m *Item) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -60,8 +56,8 @@ func (m *Message) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *Message) UnmarshalBinary(b []byte) error {
-	var res Message
+func (m *Item) UnmarshalBinary(b []byte) error {
+	var res Item
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

@@ -40,6 +40,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		BackupContainerHandler: BackupContainerHandlerFunc(func(params BackupContainerParams) middleware.Responder {
 			return middleware.NotImplemented("operation BackupContainer has not yet been implemented")
 		}),
+		BatchHandler: BatchHandlerFunc(func(params BatchParams) middleware.Responder {
+			return middleware.NotImplemented("operation Batch has not yet been implemented")
+		}),
 		CliListHandler: CliListHandlerFunc(func(params CliListParams) middleware.Responder {
 			return middleware.NotImplemented("operation CliList has not yet been implemented")
 		}),
@@ -84,6 +87,8 @@ type AgentAPI struct {
 
 	// BackupContainerHandler sets the operation handler for the backup container operation
 	BackupContainerHandler BackupContainerHandler
+	// BatchHandler sets the operation handler for the batch operation
+	BatchHandler BatchHandler
 	// CliListHandler sets the operation handler for the cli list operation
 	CliListHandler CliListHandler
 	// ContainerDestroyOneHandler sets the operation handler for the destroy one operation
@@ -157,6 +162,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.BackupContainerHandler == nil {
 		unregistered = append(unregistered, "BackupContainerHandler")
+	}
+
+	if o.BatchHandler == nil {
+		unregistered = append(unregistered, "BatchHandler")
 	}
 
 	if o.CliListHandler == nil {
@@ -269,6 +278,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/backup/{name}"] = NewBackupContainer(o.context, o.BackupContainerHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/rest/v1/batch"] = NewBatch(o.context, o.BatchHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
