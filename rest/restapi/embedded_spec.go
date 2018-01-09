@@ -474,6 +474,47 @@ func init() {
         }
       }
     },
+    "/rest/v1/import/{container}": {
+      "get": {
+        "description": "Import Subutai template",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "import",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "container",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/importOptions"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/message"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
     "/rest/v1/list": {
       "get": {
         "description": "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.",
@@ -706,6 +747,23 @@ func init() {
       ],
       "properties": {
         "hash": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "importOptions": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "readOnly": true
+        },
+        "torrent": {
+          "type": "boolean",
+          "readOnly": true
+        },
+        "version": {
           "type": "string",
           "readOnly": true
         }

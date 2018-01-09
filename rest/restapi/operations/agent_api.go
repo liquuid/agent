@@ -77,6 +77,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		HostnameHandler: HostnameHandlerFunc(func(params HostnameParams) middleware.Responder {
 			return middleware.NotImplemented("operation Hostname has not yet been implemented")
 		}),
+		ImportHandler: ImportHandlerFunc(func(params ImportParams) middleware.Responder {
+			return middleware.NotImplemented("operation Import has not yet been implemented")
+		}),
 		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation RhID has not yet been implemented")
 		}),
@@ -136,6 +139,8 @@ type AgentAPI struct {
 	GetContainerInfoHandler GetContainerInfoHandler
 	// HostnameHandler sets the operation handler for the hostname operation
 	HostnameHandler HostnameHandler
+	// ImportHandler sets the operation handler for the import operation
+	ImportHandler ImportHandler
 	// RhIDHandler sets the operation handler for the rh ID operation
 	RhIDHandler RhIDHandler
 
@@ -251,6 +256,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.HostnameHandler == nil {
 		unregistered = append(unregistered, "HostnameHandler")
+	}
+
+	if o.ImportHandler == nil {
+		unregistered = append(unregistered, "ImportHandler")
 	}
 
 	if o.RhIDHandler == nil {
@@ -411,6 +420,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/rest/v1/hostname/{container}/{name}"] = NewHostname(o.context, o.HostnameHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/import/{container}"] = NewImport(o.context, o.ImportHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
