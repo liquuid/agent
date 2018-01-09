@@ -435,6 +435,45 @@ func init() {
         }
       }
     },
+    "/rest/v1/hostname/{container}/{name}": {
+      "post": {
+        "description": "        - type: string name: container in: path required: true",
+        "tags": [
+          "agent",
+          "cli",
+          "container"
+        ],
+        "operationId": "hostname",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "container",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "name",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
     "/rest/v1/list": {
       "get": {
         "description": "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.",
