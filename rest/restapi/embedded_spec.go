@@ -395,6 +395,46 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
+    "/rest/v1/export/{container}": {
+      "post": {
+        "description": "Export prepares an archive from a template in the ` + "`" + `/mnt/lib/lxc/tmpdir/` + "`" + ` path. This archive can be moved to another Subutai peer and deployed as ready-to-use template or uploaded to Subutai's global template repository to make it widely available for others to use.\nExport consist of two steps if the target is a container: container promotion to template (see \"promote\" command) and packing the template into the archive. If already a template just the packing of the archive takes place.\nConfiguration values for template metadata parameters can be overridden on export, like the recommended container size when the template is cloned using ` + "`" + `-s` + "`" + ` option.",
+        "tags": [
+          "agent",
+          "cli",
+          "container"
+        ],
+        "operationId": "export",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "container",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/exportOptions"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
     "/rest/v1/list": {
       "get": {
         "description": "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.",
@@ -592,6 +632,31 @@ func init() {
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "exportOptions": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "readOnly": true
+        },
+        "private": {
+          "type": "boolean",
+          "readOnly": true
+        },
+        "size": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "token": {
+          "type": "string",
+          "readOnly": true
+        },
+        "version": {
+          "type": "string",
+          "readOnly": true
         }
       }
     },

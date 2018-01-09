@@ -68,6 +68,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		ContainerDestroyOneHandler: container.DestroyOneHandlerFunc(func(params container.DestroyOneParams) middleware.Responder {
 			return middleware.NotImplemented("operation ContainerDestroyOne has not yet been implemented")
 		}),
+		ExportHandler: ExportHandlerFunc(func(params ExportParams) middleware.Responder {
+			return middleware.NotImplemented("operation Export has not yet been implemented")
+		}),
 		GetContainerInfoHandler: GetContainerInfoHandlerFunc(func(params GetContainerInfoParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetContainerInfo has not yet been implemented")
 		}),
@@ -124,6 +127,8 @@ type AgentAPI struct {
 	ConfigDestroyEntryHandler config.DestroyEntryHandler
 	// ContainerDestroyOneHandler sets the operation handler for the destroy one operation
 	ContainerDestroyOneHandler container.DestroyOneHandler
+	// ExportHandler sets the operation handler for the export operation
+	ExportHandler ExportHandler
 	// GetContainerInfoHandler sets the operation handler for the get container info operation
 	GetContainerInfoHandler GetContainerInfoHandler
 	// RhIDHandler sets the operation handler for the rh ID operation
@@ -229,6 +234,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.ContainerDestroyOneHandler == nil {
 		unregistered = append(unregistered, "container.DestroyOneHandler")
+	}
+
+	if o.ExportHandler == nil {
+		unregistered = append(unregistered, "ExportHandler")
 	}
 
 	if o.GetContainerInfoHandler == nil {
@@ -378,6 +387,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
 	o.handlers["DELETE"]["/rest/v1/container/{name}"] = container.NewDestroyOne(o.context, o.ContainerDestroyOneHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/rest/v1/export/{container}"] = NewExport(o.context, o.ExportHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
