@@ -19,6 +19,7 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	"github.com/subutai-io/agent/rest/restapi/operations/config"
 	"github.com/subutai-io/agent/rest/restapi/operations/container"
 )
 
@@ -51,6 +52,12 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		}),
 		CloneHandler: CloneHandlerFunc(func(params CloneParams) middleware.Responder {
 			return middleware.NotImplemented("operation Clone has not yet been implemented")
+		}),
+		ConfigHandler: ConfigHandlerFunc(func(params ConfigParams) middleware.Responder {
+			return middleware.NotImplemented("operation Config has not yet been implemented")
+		}),
+		ConfigDestroyEntryHandler: config.DestroyEntryHandlerFunc(func(params config.DestroyEntryParams) middleware.Responder {
+			return middleware.NotImplemented("operation ConfigDestroyEntry has not yet been implemented")
 		}),
 		ContainerDestroyOneHandler: container.DestroyOneHandlerFunc(func(params container.DestroyOneParams) middleware.Responder {
 			return middleware.NotImplemented("operation ContainerDestroyOne has not yet been implemented")
@@ -101,6 +108,10 @@ type AgentAPI struct {
 	CliListHandler CliListHandler
 	// CloneHandler sets the operation handler for the clone operation
 	CloneHandler CloneHandler
+	// ConfigHandler sets the operation handler for the config operation
+	ConfigHandler ConfigHandler
+	// ConfigDestroyEntryHandler sets the operation handler for the destroy entry operation
+	ConfigDestroyEntryHandler config.DestroyEntryHandler
 	// ContainerDestroyOneHandler sets the operation handler for the destroy one operation
 	ContainerDestroyOneHandler container.DestroyOneHandler
 	// GetContainerInfoHandler sets the operation handler for the get container info operation
@@ -188,6 +199,14 @@ func (o *AgentAPI) Validate() error {
 
 	if o.CloneHandler == nil {
 		unregistered = append(unregistered, "CloneHandler")
+	}
+
+	if o.ConfigHandler == nil {
+		unregistered = append(unregistered, "ConfigHandler")
+	}
+
+	if o.ConfigDestroyEntryHandler == nil {
+		unregistered = append(unregistered, "config.DestroyEntryHandler")
 	}
 
 	if o.ContainerDestroyOneHandler == nil {
@@ -316,6 +335,16 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/rest/v1/clone/{parent}/{child}"] = NewClone(o.context, o.CloneHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/rest/v1/config"] = NewConfig(o.context, o.ConfigHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/rest/v1/config"] = config.NewDestroyEntry(o.context, o.ConfigDestroyEntryHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)

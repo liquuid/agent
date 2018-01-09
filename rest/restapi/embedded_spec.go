@@ -180,6 +180,67 @@ func init() {
         }
       }
     },
+    "/rest/v1/config": {
+      "post": {
+        "description": "Allows read and write container's configuration file",
+        "tags": [
+          "agent",
+          "cli",
+          "container"
+        ],
+        "operationId": "config",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/configOptions"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete entry in configuration file",
+        "tags": [
+          "config"
+        ],
+        "operationId": "destroyEntry",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/configOptions"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
     "/rest/v1/container/{name}": {
       "get": {
         "description": "Get container Info in JSON formatted object",
@@ -385,6 +446,23 @@ func init() {
           "readOnly": true
         },
         "token": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "configOptions": {
+      "type": "object",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "readOnly": true
+        },
+        "value": {
           "type": "string",
           "readOnly": true
         }
