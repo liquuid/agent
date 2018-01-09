@@ -83,6 +83,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		InfoHandler: InfoHandlerFunc(func(params InfoParams) middleware.Responder {
 			return middleware.NotImplemented("operation Info has not yet been implemented")
 		}),
+		MetricsHandler: MetricsHandlerFunc(func(params MetricsParams) middleware.Responder {
+			return middleware.NotImplemented("operation Metrics has not yet been implemented")
+		}),
 		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation RhID has not yet been implemented")
 		}),
@@ -146,6 +149,8 @@ type AgentAPI struct {
 	ImportHandler ImportHandler
 	// InfoHandler sets the operation handler for the info operation
 	InfoHandler InfoHandler
+	// MetricsHandler sets the operation handler for the metrics operation
+	MetricsHandler MetricsHandler
 	// RhIDHandler sets the operation handler for the rh ID operation
 	RhIDHandler RhIDHandler
 
@@ -269,6 +274,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.InfoHandler == nil {
 		unregistered = append(unregistered, "InfoHandler")
+	}
+
+	if o.MetricsHandler == nil {
+		unregistered = append(unregistered, "MetricsHandler")
 	}
 
 	if o.RhIDHandler == nil {
@@ -439,6 +448,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/info"] = NewInfo(o.context, o.InfoHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/metrics"] = NewMetrics(o.context, o.MetricsHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

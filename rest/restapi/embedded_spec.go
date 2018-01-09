@@ -604,6 +604,46 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
+    "/rest/v1/metrics": {
+      "get": {
+        "description": "HostMetrics function retrieves monitoring data from a time-series database deployed in the SS Management server for container hosts and Resource Hosts. Statistics are being collected by the Subutai daemon and includes common information like CPU utilization, network load, RAM and disk usage for both containers and hosts. Since the database is located on the SS Management Host, hosts which are not a part of a Subutai peer have no access to this information. Data aggregation in the time-series database has following configuration: last hour statistic is stored \"as is\", last day data aggregates to 1 minute interval, last week is in 5 minute intervals, After 7 days all statistics is are overwritten by new incoming data.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "metrics",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "start",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "end",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/metricInfo"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
     "/rest/v1/rh/id": {
       "get": {
         "description": "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint",
@@ -918,6 +958,19 @@ func init() {
           "readOnly": true
         },
         "text": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "metricInfo": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "string",
+          "readOnly": true
+        },
+        "series": {
           "type": "string",
           "readOnly": true
         }
