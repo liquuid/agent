@@ -316,6 +316,46 @@ func init() {
         }
       ]
     },
+    "/rest/v1/demote/{container}": {
+      "post": {
+        "description": "Converts template into regular Subutai container.\nA Subutai template is a \"locked down\" container only to be used for cloning purposes. It cannot be started, and its file system cannot be modified: it's read-only. Normal operational containers are promoted into templates, but sometimes you might want to demote them back to regular containers. This is what the demote sub command does: it reverts a template without children back into a normal container. Demoted container will use NAT network interface and dynamic IP address if opposite options are not specified.",
+        "tags": [
+          "agent",
+          "cli",
+          "container"
+        ],
+        "operationId": "demote",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "container",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/demoteOptions"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
     "/rest/v1/list": {
       "get": {
         "description": "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.",
@@ -485,6 +525,19 @@ func init() {
         "parent": {
           "type": "string",
           "minLength": 1
+        }
+      }
+    },
+    "demoteOptions": {
+      "type": "object",
+      "properties": {
+        "ipaddr": {
+          "type": "string",
+          "readOnly": true
+        },
+        "vlan": {
+          "type": "string",
+          "readOnly": true
         }
       }
     },
