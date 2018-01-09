@@ -109,6 +109,31 @@ func init() {
         }
       }
     },
+    "/rest/v1/cleanup": {
+      "get": {
+        "description": "Cleanup simply removes every resource associated with a Subutai container or template: data, network, configs, etc. The destroy command always runs each step in \"force\" mode to provide reliable deletion results; even if some instance components were already removed, the destroy command will continue to perform all operations once again while ignoring possible underlying errors: i.e. missing configuration files.",
+        "tags": [
+          "agent",
+          "cli",
+          "container"
+        ],
+        "operationId": "cleanup",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
     "/rest/v1/container/{name}": {
       "get": {
         "description": "Get container Info in JSON formatted object",
