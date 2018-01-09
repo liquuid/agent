@@ -134,6 +134,52 @@ func init() {
         }
       }
     },
+    "/rest/v1/clone/{parent}/{child}": {
+      "post": {
+        "description": "Clone function creates new ` + "`" + `child` + "`" + ` container from a Subutai ` + "`" + `parent` + "`" + ` template. If the specified template argument is not deployed in system, Subutai first tries to import it, and if import succeeds, it then continues to clone from the imported template image. By default, clone will use the NAT-ed network interface with IP address received from the Subutai DHCP server, but this behavior can be changed with command options described below.\nIf ` + "`" + `ipaddr` + "`" + ` option is defined, separate bridge interface will be created in specified VLAN and new container will receive static IP address. Option ` + "`" + `envID` + "`" + ` writes the environment ID string inside new container. Option ` + "`" + `token` + "`" + ` is intended to check the origin of new container creation request during environment build. This is one of the security checks which makes sure that each container creation request is authorized by registered user.\nOption ` + "`" + `kurjunToken` + "`" + ` set kurjun token to clone private and shared templates\nThe clone options are not intended for manual use: unless you're confident about what you're doing. Use default clone format without additional options to create Subutai containers.",
+        "tags": [
+          "agent",
+          "cli",
+          "container"
+        ],
+        "operationId": "clone",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "parent",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "child",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/cloneArgs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
     "/rest/v1/container/{name}": {
       "get": {
         "description": "Get container Info in JSON formatted object",
@@ -307,6 +353,39 @@ func init() {
           "items": {
             "$ref": "#/definitions/item"
           },
+          "readOnly": true
+        }
+      }
+    },
+    "cloneArgs": {
+      "type": "object",
+      "required": [
+        "parent",
+        "child"
+      ],
+      "properties": {
+        "child": {
+          "type": "string",
+          "readOnly": true
+        },
+        "envID": {
+          "type": "string",
+          "readOnly": true
+        },
+        "ipaddr": {
+          "type": "string",
+          "readOnly": true
+        },
+        "kurjunToken": {
+          "type": "string",
+          "readOnly": true
+        },
+        "parent": {
+          "type": "string",
+          "readOnly": true
+        },
+        "token": {
+          "type": "string",
           "readOnly": true
         }
       }

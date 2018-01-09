@@ -49,6 +49,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		CliListHandler: CliListHandlerFunc(func(params CliListParams) middleware.Responder {
 			return middleware.NotImplemented("operation CliList has not yet been implemented")
 		}),
+		CloneHandler: CloneHandlerFunc(func(params CloneParams) middleware.Responder {
+			return middleware.NotImplemented("operation Clone has not yet been implemented")
+		}),
 		ContainerDestroyOneHandler: container.DestroyOneHandlerFunc(func(params container.DestroyOneParams) middleware.Responder {
 			return middleware.NotImplemented("operation ContainerDestroyOne has not yet been implemented")
 		}),
@@ -96,6 +99,8 @@ type AgentAPI struct {
 	CleanupHandler CleanupHandler
 	// CliListHandler sets the operation handler for the cli list operation
 	CliListHandler CliListHandler
+	// CloneHandler sets the operation handler for the clone operation
+	CloneHandler CloneHandler
 	// ContainerDestroyOneHandler sets the operation handler for the destroy one operation
 	ContainerDestroyOneHandler container.DestroyOneHandler
 	// GetContainerInfoHandler sets the operation handler for the get container info operation
@@ -179,6 +184,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.CliListHandler == nil {
 		unregistered = append(unregistered, "CliListHandler")
+	}
+
+	if o.CloneHandler == nil {
+		unregistered = append(unregistered, "CloneHandler")
 	}
 
 	if o.ContainerDestroyOneHandler == nil {
@@ -302,6 +311,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/list"] = NewCliList(o.context, o.CliListHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/rest/v1/clone/{parent}/{child}"] = NewClone(o.context, o.CloneHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
