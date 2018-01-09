@@ -59,6 +59,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		DemoteHandler: DemoteHandlerFunc(func(params DemoteParams) middleware.Responder {
 			return middleware.NotImplemented("operation Demote has not yet been implemented")
 		}),
+		DestroyHandler: DestroyHandlerFunc(func(params DestroyParams) middleware.Responder {
+			return middleware.NotImplemented("operation Destroy has not yet been implemented")
+		}),
 		ConfigDestroyEntryHandler: config.DestroyEntryHandlerFunc(func(params config.DestroyEntryParams) middleware.Responder {
 			return middleware.NotImplemented("operation ConfigDestroyEntry has not yet been implemented")
 		}),
@@ -115,6 +118,8 @@ type AgentAPI struct {
 	ConfigHandler ConfigHandler
 	// DemoteHandler sets the operation handler for the demote operation
 	DemoteHandler DemoteHandler
+	// DestroyHandler sets the operation handler for the destroy operation
+	DestroyHandler DestroyHandler
 	// ConfigDestroyEntryHandler sets the operation handler for the destroy entry operation
 	ConfigDestroyEntryHandler config.DestroyEntryHandler
 	// ContainerDestroyOneHandler sets the operation handler for the destroy one operation
@@ -212,6 +217,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.DemoteHandler == nil {
 		unregistered = append(unregistered, "DemoteHandler")
+	}
+
+	if o.DestroyHandler == nil {
+		unregistered = append(unregistered, "DestroyHandler")
 	}
 
 	if o.ConfigDestroyEntryHandler == nil {
@@ -354,6 +363,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/rest/v1/demote/{container}"] = NewDemote(o.context, o.DemoteHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/destroy/{ID}"] = NewDestroy(o.context, o.DestroyHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)

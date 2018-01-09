@@ -356,6 +356,45 @@ func init() {
         }
       }
     },
+    "/rest/v1/destroy/{ID}": {
+      "get": {
+        "description": "Destroy Subutai container",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "destroy",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "boolean",
+            "name": "vlan",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/message"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
     "/rest/v1/list": {
       "get": {
         "description": "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.",

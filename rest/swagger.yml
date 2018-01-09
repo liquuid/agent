@@ -308,6 +308,34 @@ Demoted container will use NAT network interface and dynamic IP address if oppos
           description: error
           schema:
             $ref: "#/definitions/error"
+  /rest/v1/destroy/{ID}:
+    get:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: destroy
+      description: "Destroy Subutai container"
+      parameters:
+        - type: string
+          name: ID
+          in: path
+          required: true
+        - name: vlan
+          in: query
+          type: boolean
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/message"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
 definitions:
   container:
     type: object
