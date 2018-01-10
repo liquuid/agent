@@ -101,6 +101,15 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		PromoteHandler: PromoteHandlerFunc(func(params PromoteParams) middleware.Responder {
 			return middleware.NotImplemented("operation Promote has not yet been implemented")
 		}),
+		ProxyCheckHandler: ProxyCheckHandlerFunc(func(params ProxyCheckParams) middleware.Responder {
+			return middleware.NotImplemented("operation ProxyCheck has not yet been implemented")
+		}),
+		ProxyCreateHandler: ProxyCreateHandlerFunc(func(params ProxyCreateParams) middleware.Responder {
+			return middleware.NotImplemented("operation ProxyCreate has not yet been implemented")
+		}),
+		ProxyDeleteHandler: ProxyDeleteHandlerFunc(func(params ProxyDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation ProxyDelete has not yet been implemented")
+		}),
 		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation RhID has not yet been implemented")
 		}),
@@ -176,6 +185,12 @@ type AgentAPI struct {
 	P2pUpdateHandler P2pUpdateHandler
 	// PromoteHandler sets the operation handler for the promote operation
 	PromoteHandler PromoteHandler
+	// ProxyCheckHandler sets the operation handler for the proxy check operation
+	ProxyCheckHandler ProxyCheckHandler
+	// ProxyCreateHandler sets the operation handler for the proxy create operation
+	ProxyCreateHandler ProxyCreateHandler
+	// ProxyDeleteHandler sets the operation handler for the proxy delete operation
+	ProxyDeleteHandler ProxyDeleteHandler
 	// RhIDHandler sets the operation handler for the rh ID operation
 	RhIDHandler RhIDHandler
 
@@ -323,6 +338,18 @@ func (o *AgentAPI) Validate() error {
 
 	if o.PromoteHandler == nil {
 		unregistered = append(unregistered, "PromoteHandler")
+	}
+
+	if o.ProxyCheckHandler == nil {
+		unregistered = append(unregistered, "ProxyCheckHandler")
+	}
+
+	if o.ProxyCreateHandler == nil {
+		unregistered = append(unregistered, "ProxyCreateHandler")
+	}
+
+	if o.ProxyDeleteHandler == nil {
+		unregistered = append(unregistered, "ProxyDeleteHandler")
 	}
 
 	if o.RhIDHandler == nil {
@@ -523,6 +550,21 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/rest/v1/promote/{container}"] = NewPromote(o.context, o.PromoteHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/proxy"] = NewProxyCheck(o.context, o.ProxyCheckHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/rest/v1/proxy"] = NewProxyCreate(o.context, o.ProxyCreateHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/rest/v1/proxy"] = NewProxyDelete(o.context, o.ProxyDeleteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

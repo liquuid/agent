@@ -809,6 +809,98 @@ func init() {
         }
       }
     },
+    "/rest/v1/proxy": {
+      "get": {
+        "description": "ProxyCheck exits with 0 code if domain or node is exists in specified vlan, otherwise exitcode is 1",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "proxyCheck",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/proxyArgs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/message"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      },
+      "post": {
+        "description": "ProxyAdd checks input args and perform required operations to configure reverse proxy",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "proxyCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/proxyArgs"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      },
+      "delete": {
+        "description": "ProxyDel checks what need to be removed - domain or node and pass args to required functions",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "proxyDelete",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/proxyArgs"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
     "/rest/v1/rh/id": {
       "get": {
         "description": "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint",
@@ -1180,6 +1272,34 @@ func init() {
       "type": "object",
       "properties": {
         "source": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "proxyArgs": {
+      "type": "object",
+      "required": [
+        "vlan"
+      ],
+      "properties": {
+        "cert": {
+          "type": "string",
+          "minLength": 1
+        },
+        "domain": {
+          "type": "boolean",
+          "minLength": 1
+        },
+        "node": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vlan": {
           "type": "string",
           "readOnly": true
         }

@@ -636,6 +636,73 @@ It doesn't matter where the containers are physically located."
           description: generic error response
           schema:
       x-swagger-router-controller: Default
+
+  /rest/v1/proxy:
+    get:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: proxyCheck
+      description: "ProxyCheck exits with 0 code if domain or node is exists in specified vlan, otherwise exitcode is 1"
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/proxyArgs"
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/message"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
+    delete:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: proxyDelete
+      description: "ProxyDel checks what need to be removed - domain or node and pass args to required functions"
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/proxyArgs"
+      responses:
+        204:
+          description: Deleted
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
+    post:
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/proxyArgs"
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: proxyCreate
+      description: "ProxyAdd checks input args and perform required operations to configure reverse proxy"
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/message"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
+
 definitions:
   text:
     type: object
@@ -658,6 +725,28 @@ definitions:
       ancestor:
         type: string
         minLength: 1
+
+  proxyArgs:
+    type: object
+    required:
+      - vlan
+    properties:
+      vlan:
+        type: string
+        readOnly: true
+      node:
+        type: string
+        minLength: 1
+      policy:
+        type: string
+        minLength: 1
+      cert:
+        type: string
+        minLength: 1
+      domain:
+        type: boolean
+        minLength: 1
+
   fingerprint:
     type: object
     required:
