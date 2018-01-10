@@ -1078,6 +1078,40 @@ func init() {
         },
         "x-swagger-router-controller": "Default"
       }
+    },
+    "/rest/v1/stop/{container}": {
+      "get": {
+        "description": "Stops a Subutai container with an additional state check.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "stop",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "container",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/message"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
     }
   },
   "definitions": {

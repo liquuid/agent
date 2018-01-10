@@ -651,7 +651,31 @@ If state is not changing for 60 seconds, then the \"start\" operation is conside
           description: generic error response
           schema:
       x-swagger-router-controller: Default
+  /rest/v1/stop/{container}:
+    get:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: stop
+      description: "Stops a Subutai container with an additional state check."
+      parameters:
+        - type: string
+          name: container
+          in: path
+          required: true
 
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/message"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
   /rest/v1/p2p:
     get:
       tags: 
