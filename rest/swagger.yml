@@ -557,6 +557,38 @@ The clone operation, sets no quotas and thresholds for new containers; quotas ne
           schema:
       x-swagger-router-controller: Default
 
+  /rest/v1/rename/{source}/{newname}:
+    get:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: rename
+      description: "Renames a Subutai container impacting filesystem paths, configuration values, etc."
+      parameters:
+        - type: string
+          name: source
+          in: path
+          required: true
+          
+        - type: string
+          name: newname
+          in: path
+          required: true
+          
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/message"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
+
   /rest/v1/p2p:
     get:
       tags: 

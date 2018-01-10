@@ -936,6 +936,46 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
+    "/rest/v1/rename/{source}/{newname}": {
+      "get": {
+        "description": "Renames a Subutai container impacting filesystem paths, configuration values, etc.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "rename",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "source",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "newname",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/message"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
     "/rest/v1/rh/id": {
       "get": {
         "description": "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint",

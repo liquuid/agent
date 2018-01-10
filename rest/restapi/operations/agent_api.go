@@ -113,6 +113,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		QuotaHandler: QuotaHandlerFunc(func(params QuotaParams) middleware.Responder {
 			return middleware.NotImplemented("operation Quota has not yet been implemented")
 		}),
+		RenameHandler: RenameHandlerFunc(func(params RenameParams) middleware.Responder {
+			return middleware.NotImplemented("operation Rename has not yet been implemented")
+		}),
 		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation RhID has not yet been implemented")
 		}),
@@ -196,6 +199,8 @@ type AgentAPI struct {
 	ProxyDeleteHandler ProxyDeleteHandler
 	// QuotaHandler sets the operation handler for the quota operation
 	QuotaHandler QuotaHandler
+	// RenameHandler sets the operation handler for the rename operation
+	RenameHandler RenameHandler
 	// RhIDHandler sets the operation handler for the rh ID operation
 	RhIDHandler RhIDHandler
 
@@ -359,6 +364,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.QuotaHandler == nil {
 		unregistered = append(unregistered, "QuotaHandler")
+	}
+
+	if o.RenameHandler == nil {
+		unregistered = append(unregistered, "RenameHandler")
 	}
 
 	if o.RhIDHandler == nil {
@@ -579,6 +588,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/quota"] = NewQuota(o.context, o.QuotaHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/rename/{source}/{newname}"] = NewRename(o.context, o.RenameHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
