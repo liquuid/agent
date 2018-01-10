@@ -86,6 +86,18 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		MetricsHandler: MetricsHandlerFunc(func(params MetricsParams) middleware.Responder {
 			return middleware.NotImplemented("operation Metrics has not yet been implemented")
 		}),
+		P2pCreateHandler: P2pCreateHandlerFunc(func(params P2pCreateParams) middleware.Responder {
+			return middleware.NotImplemented("operation P2pCreate has not yet been implemented")
+		}),
+		P2pDeleteHandler: P2pDeleteHandlerFunc(func(params P2pDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation P2pDelete has not yet been implemented")
+		}),
+		P2pListHandler: P2pListHandlerFunc(func(params P2pListParams) middleware.Responder {
+			return middleware.NotImplemented("operation P2pList has not yet been implemented")
+		}),
+		P2pUpdateHandler: P2pUpdateHandlerFunc(func(params P2pUpdateParams) middleware.Responder {
+			return middleware.NotImplemented("operation P2pUpdate has not yet been implemented")
+		}),
 		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation RhID has not yet been implemented")
 		}),
@@ -151,6 +163,14 @@ type AgentAPI struct {
 	InfoHandler InfoHandler
 	// MetricsHandler sets the operation handler for the metrics operation
 	MetricsHandler MetricsHandler
+	// P2pCreateHandler sets the operation handler for the p2p create operation
+	P2pCreateHandler P2pCreateHandler
+	// P2pDeleteHandler sets the operation handler for the p2p delete operation
+	P2pDeleteHandler P2pDeleteHandler
+	// P2pListHandler sets the operation handler for the p2p list operation
+	P2pListHandler P2pListHandler
+	// P2pUpdateHandler sets the operation handler for the p2p update operation
+	P2pUpdateHandler P2pUpdateHandler
 	// RhIDHandler sets the operation handler for the rh ID operation
 	RhIDHandler RhIDHandler
 
@@ -278,6 +298,22 @@ func (o *AgentAPI) Validate() error {
 
 	if o.MetricsHandler == nil {
 		unregistered = append(unregistered, "MetricsHandler")
+	}
+
+	if o.P2pCreateHandler == nil {
+		unregistered = append(unregistered, "P2pCreateHandler")
+	}
+
+	if o.P2pDeleteHandler == nil {
+		unregistered = append(unregistered, "P2pDeleteHandler")
+	}
+
+	if o.P2pListHandler == nil {
+		unregistered = append(unregistered, "P2pListHandler")
+	}
+
+	if o.P2pUpdateHandler == nil {
+		unregistered = append(unregistered, "P2pUpdateHandler")
 	}
 
 	if o.RhIDHandler == nil {
@@ -453,6 +489,26 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/metrics"] = NewMetrics(o.context, o.MetricsHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/rest/v1/p2p"] = NewP2pCreate(o.context, o.P2pCreateHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/rest/v1/p2p"] = NewP2pDelete(o.context, o.P2pDeleteHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/p2p"] = NewP2pList(o.context, o.P2pListHandler)
+
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/rest/v1/p2p"] = NewP2pUpdate(o.context, o.P2pUpdateHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

@@ -644,6 +644,131 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
+    "/rest/v1/p2p": {
+      "get": {
+        "description": "P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.\nP2P is a base layer for Subutai environment networking: all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN. It doesn't matter where the containers are physically located.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "p2pList",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Accepted commands: - list: list of p2p instances - interfaces: list of p2p interfaces - peers: list of p2p swarm participants by hash - version: print p2p version",
+            "name": "command",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/text"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      },
+      "put": {
+        "description": "P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.\nP2P is a base layer for Subutai environment networking: all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN. It doesn't matter where the containers are physically located.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "p2pUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/p2pArgs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/text"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      },
+      "post": {
+        "description": "P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.\nP2P is a base layer for Subutai environment networking: all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN. It doesn't matter where the containers are physically located.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "p2pCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/p2pArgs"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/item"
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      },
+      "delete": {
+        "description": "P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.\nP2P is a base layer for Subutai environment networking: all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN. It doesn't matter where the containers are physically located.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "p2pDelete",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/p2pArgs"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
     "/rest/v1/rh/id": {
       "get": {
         "description": "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint",
@@ -976,6 +1101,41 @@ func init() {
         }
       }
     },
+    "p2pArgs": {
+      "type": "object",
+      "required": [
+        "interfaceName",
+        "hash",
+        "key",
+        "ttl"
+      ],
+      "properties": {
+        "hash": {
+          "type": "string",
+          "readOnly": true
+        },
+        "interfaceName": {
+          "type": "string",
+          "readOnly": true
+        },
+        "key": {
+          "type": "string",
+          "readOnly": true
+        },
+        "localPeepIPAddr": {
+          "type": "string",
+          "readOnly": true
+        },
+        "portRange": {
+          "type": "string",
+          "readOnly": true
+        },
+        "ttl": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
     "quotaInfo": {
       "type": "object",
       "properties": {
@@ -1012,6 +1172,15 @@ func init() {
           "readOnly": true
         },
         "total": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "text": {
+      "type": "object",
+      "properties": {
+        "text": {
           "type": "string",
           "readOnly": true
         }
