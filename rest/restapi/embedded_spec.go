@@ -1112,6 +1112,146 @@ func init() {
         },
         "x-swagger-router-controller": "Default"
       }
+    },
+    "/rest/v1/tunnel/check": {
+      "get": {
+        "description": "reads list, checks tunnel ttl, its state and then adds or removes required tunnels",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "tunnelCheck",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "command",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/item"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
+    "/rest/v1/tunnel/list": {
+      "get": {
+        "description": "performs tunnel check and shows \"alive\" tunnels",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "tunnelList",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "command",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/item"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
+    "/rest/v1/tunnel/{socket}": {
+      "post": {
+        "description": "TunAdd adds tunnel to specified network socket",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "tunnelAdd",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "socket",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "timeout",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "name": "global",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      },
+      "delete": {
+        "description": "TunDel removes tunnel entry from list and kills running tunnel process",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "tunnelDelete",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "socket",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "pid",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
     }
   },
   "definitions": {

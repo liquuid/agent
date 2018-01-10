@@ -128,6 +128,18 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		StopHandler: StopHandlerFunc(func(params StopParams) middleware.Responder {
 			return middleware.NotImplemented("operation Stop has not yet been implemented")
 		}),
+		TunnelAddHandler: TunnelAddHandlerFunc(func(params TunnelAddParams) middleware.Responder {
+			return middleware.NotImplemented("operation TunnelAdd has not yet been implemented")
+		}),
+		TunnelCheckHandler: TunnelCheckHandlerFunc(func(params TunnelCheckParams) middleware.Responder {
+			return middleware.NotImplemented("operation TunnelCheck has not yet been implemented")
+		}),
+		TunnelDeleteHandler: TunnelDeleteHandlerFunc(func(params TunnelDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation TunnelDelete has not yet been implemented")
+		}),
+		TunnelListHandler: TunnelListHandlerFunc(func(params TunnelListParams) middleware.Responder {
+			return middleware.NotImplemented("operation TunnelList has not yet been implemented")
+		}),
 	}
 }
 
@@ -218,6 +230,14 @@ type AgentAPI struct {
 	StartHandler StartHandler
 	// StopHandler sets the operation handler for the stop operation
 	StopHandler StopHandler
+	// TunnelAddHandler sets the operation handler for the tunnel add operation
+	TunnelAddHandler TunnelAddHandler
+	// TunnelCheckHandler sets the operation handler for the tunnel check operation
+	TunnelCheckHandler TunnelCheckHandler
+	// TunnelDeleteHandler sets the operation handler for the tunnel delete operation
+	TunnelDeleteHandler TunnelDeleteHandler
+	// TunnelListHandler sets the operation handler for the tunnel list operation
+	TunnelListHandler TunnelListHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -399,6 +419,22 @@ func (o *AgentAPI) Validate() error {
 
 	if o.StopHandler == nil {
 		unregistered = append(unregistered, "StopHandler")
+	}
+
+	if o.TunnelAddHandler == nil {
+		unregistered = append(unregistered, "TunnelAddHandler")
+	}
+
+	if o.TunnelCheckHandler == nil {
+		unregistered = append(unregistered, "TunnelCheckHandler")
+	}
+
+	if o.TunnelDeleteHandler == nil {
+		unregistered = append(unregistered, "TunnelDeleteHandler")
+	}
+
+	if o.TunnelListHandler == nil {
+		unregistered = append(unregistered, "TunnelListHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -640,6 +676,26 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/stop/{container}"] = NewStop(o.context, o.StopHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/rest/v1/tunnel/{socket}"] = NewTunnelAdd(o.context, o.TunnelAddHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/tunnel/check"] = NewTunnelCheck(o.context, o.TunnelCheckHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/rest/v1/tunnel/{socket}"] = NewTunnelDelete(o.context, o.TunnelDeleteHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/tunnel/list"] = NewTunnelList(o.context, o.TunnelListHandler)
 
 }
 

@@ -855,6 +855,112 @@ It doesn't matter where the containers are physically located."
           schema:
       x-swagger-router-controller: Default
 
+  /rest/v1/tunnel/list:
+    get:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: tunnelList
+      description: "performs tunnel check and shows \"alive\" tunnels"
+      parameters:
+        - type: string
+          name: command
+          in: query
+          required: true
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/item"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
+  /rest/v1/tunnel/check:
+    get:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: tunnelCheck
+      description: "reads list, checks tunnel ttl, its state and then adds or removes required tunnels"
+      parameters:
+        - type: string
+          name: command
+          in: query
+          required: true
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/item"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
+  /rest/v1/tunnel/{socket}:
+    delete:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: tunnelDelete
+      description: "TunDel removes tunnel entry from list and kills running tunnel process"
+      parameters:
+        - type: string
+          name: socket
+          in: path
+          required: true
+        
+        - name: pid
+          type: string
+          in: query
+          required: false
+
+      responses:
+        204:
+          description: Deleted
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
+    post:
+      parameters:
+        - type: string
+          name: socket
+          in: path
+          required: true
+        - type: string
+          name: timeout
+          in: query
+          required: false
+        - type: boolean
+          name: global
+          in: query
+          required: false
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: tunnelAdd
+      description: "TunAdd adds tunnel to specified network socket"
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/message"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
+
 definitions:
   text:
     type: object
