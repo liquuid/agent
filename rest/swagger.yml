@@ -589,6 +589,43 @@ The clone operation, sets no quotas and thresholds for new containers; quotas ne
           schema:
       x-swagger-router-controller: Default
 
+  /rest/v1/restore/{container}:
+    get:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: restore
+      description: "RestoreContainer restores a Subutai container to a snapshot at a specified timestamp if such a backup archive is available."
+      parameters:
+        - type: string
+          name: container
+          in: path
+          required: true
+          
+        - type: string
+          name: date
+          in: query
+          required: false
+
+        - type: string
+          name: newcontainer
+          in: query
+          required: false    
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/message"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
+
+
   /rest/v1/p2p:
     get:
       tags: 

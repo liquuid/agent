@@ -976,6 +976,50 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
+    "/rest/v1/restore/{container}": {
+      "get": {
+        "description": "RestoreContainer restores a Subutai container to a snapshot at a specified timestamp if such a backup archive is available.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "restore",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "container",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "date",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "newcontainer",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/message"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
     "/rest/v1/rh/id": {
       "get": {
         "description": "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint",

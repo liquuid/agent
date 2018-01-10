@@ -116,6 +116,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		RenameHandler: RenameHandlerFunc(func(params RenameParams) middleware.Responder {
 			return middleware.NotImplemented("operation Rename has not yet been implemented")
 		}),
+		RestoreHandler: RestoreHandlerFunc(func(params RestoreParams) middleware.Responder {
+			return middleware.NotImplemented("operation Restore has not yet been implemented")
+		}),
 		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation RhID has not yet been implemented")
 		}),
@@ -201,6 +204,8 @@ type AgentAPI struct {
 	QuotaHandler QuotaHandler
 	// RenameHandler sets the operation handler for the rename operation
 	RenameHandler RenameHandler
+	// RestoreHandler sets the operation handler for the restore operation
+	RestoreHandler RestoreHandler
 	// RhIDHandler sets the operation handler for the rh ID operation
 	RhIDHandler RhIDHandler
 
@@ -368,6 +373,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.RenameHandler == nil {
 		unregistered = append(unregistered, "RenameHandler")
+	}
+
+	if o.RestoreHandler == nil {
+		unregistered = append(unregistered, "RestoreHandler")
 	}
 
 	if o.RhIDHandler == nil {
@@ -593,6 +602,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/rename/{source}/{newname}"] = NewRename(o.context, o.RenameHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/restore/{container}"] = NewRestore(o.context, o.RestoreHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
