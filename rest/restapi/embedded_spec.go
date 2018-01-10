@@ -769,6 +769,46 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
+    "/rest/v1/promote/{container}": {
+      "post": {
+        "description": "Promote turns a Subutai container into container template which may be cloned with \"clone\" command. Promote executes several simple steps, such as dropping a container's configuration to default values, dumping the list of installed packages (this step requires the target container to still be running), and setting the container's filesystem to read-only to prevent changes.",
+        "tags": [
+          "agent",
+          "cli",
+          "container"
+        ],
+        "operationId": "promote",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "container",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/promoteOptions"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
     "/rest/v1/rh/id": {
       "get": {
         "description": "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint",
@@ -1131,6 +1171,15 @@ func init() {
           "readOnly": true
         },
         "ttl": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "promoteOptions": {
+      "type": "object",
+      "properties": {
+        "source": {
           "type": "string",
           "readOnly": true
         }

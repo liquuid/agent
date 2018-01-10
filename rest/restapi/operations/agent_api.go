@@ -98,6 +98,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		P2pUpdateHandler: P2pUpdateHandlerFunc(func(params P2pUpdateParams) middleware.Responder {
 			return middleware.NotImplemented("operation P2pUpdate has not yet been implemented")
 		}),
+		PromoteHandler: PromoteHandlerFunc(func(params PromoteParams) middleware.Responder {
+			return middleware.NotImplemented("operation Promote has not yet been implemented")
+		}),
 		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation RhID has not yet been implemented")
 		}),
@@ -171,6 +174,8 @@ type AgentAPI struct {
 	P2pListHandler P2pListHandler
 	// P2pUpdateHandler sets the operation handler for the p2p update operation
 	P2pUpdateHandler P2pUpdateHandler
+	// PromoteHandler sets the operation handler for the promote operation
+	PromoteHandler PromoteHandler
 	// RhIDHandler sets the operation handler for the rh ID operation
 	RhIDHandler RhIDHandler
 
@@ -314,6 +319,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.P2pUpdateHandler == nil {
 		unregistered = append(unregistered, "P2pUpdateHandler")
+	}
+
+	if o.PromoteHandler == nil {
+		unregistered = append(unregistered, "PromoteHandler")
 	}
 
 	if o.RhIDHandler == nil {
@@ -509,6 +518,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
 	o.handlers["PUT"]["/rest/v1/p2p"] = NewP2pUpdate(o.context, o.P2pUpdateHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/rest/v1/promote/{container}"] = NewPromote(o.context, o.PromoteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
