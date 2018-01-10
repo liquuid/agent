@@ -140,6 +140,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		TunnelListHandler: TunnelListHandlerFunc(func(params TunnelListParams) middleware.Responder {
 			return middleware.NotImplemented("operation TunnelList has not yet been implemented")
 		}),
+		UpdateHandler: UpdateHandlerFunc(func(params UpdateParams) middleware.Responder {
+			return middleware.NotImplemented("operation Update has not yet been implemented")
+		}),
 	}
 }
 
@@ -238,6 +241,8 @@ type AgentAPI struct {
 	TunnelDeleteHandler TunnelDeleteHandler
 	// TunnelListHandler sets the operation handler for the tunnel list operation
 	TunnelListHandler TunnelListHandler
+	// UpdateHandler sets the operation handler for the update operation
+	UpdateHandler UpdateHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -435,6 +440,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.TunnelListHandler == nil {
 		unregistered = append(unregistered, "TunnelListHandler")
+	}
+
+	if o.UpdateHandler == nil {
+		unregistered = append(unregistered, "UpdateHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -696,6 +705,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/tunnel/list"] = NewTunnelList(o.context, o.TunnelListHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/update/{container}"] = NewUpdate(o.context, o.UpdateHandler)
 
 }
 

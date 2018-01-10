@@ -1252,6 +1252,46 @@ func init() {
         },
         "x-swagger-router-controller": "Default"
       }
+    },
+    "/rest/v1/update/{container}": {
+      "get": {
+        "description": "Update operation can be divided into two different types: container updates and Resource Host updates. Container updates simply perform apt-get update and upgrade operations inside target containers without any extra commands. Since SS Management is just another container, the Subutai update command works fine with the management container too.\nThe second type of update, a Resource Host update, checks the Ubuntu Store and compares available snap packages with those currently installed in the system and, if a newer version is found, installs it. Please note, system security policies requires that such commands should be performed by the superuser manually, otherwise an application's attempt to update itself will be blocked.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "update",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "container",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "boolean",
+            "name": "check",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/message"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
     }
   },
   "definitions": {
