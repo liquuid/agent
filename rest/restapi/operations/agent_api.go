@@ -110,6 +110,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		ProxyDeleteHandler: ProxyDeleteHandlerFunc(func(params ProxyDeleteParams) middleware.Responder {
 			return middleware.NotImplemented("operation ProxyDelete has not yet been implemented")
 		}),
+		QuotaHandler: QuotaHandlerFunc(func(params QuotaParams) middleware.Responder {
+			return middleware.NotImplemented("operation Quota has not yet been implemented")
+		}),
 		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation RhID has not yet been implemented")
 		}),
@@ -191,6 +194,8 @@ type AgentAPI struct {
 	ProxyCreateHandler ProxyCreateHandler
 	// ProxyDeleteHandler sets the operation handler for the proxy delete operation
 	ProxyDeleteHandler ProxyDeleteHandler
+	// QuotaHandler sets the operation handler for the quota operation
+	QuotaHandler QuotaHandler
 	// RhIDHandler sets the operation handler for the rh ID operation
 	RhIDHandler RhIDHandler
 
@@ -350,6 +355,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.ProxyDeleteHandler == nil {
 		unregistered = append(unregistered, "ProxyDeleteHandler")
+	}
+
+	if o.QuotaHandler == nil {
+		unregistered = append(unregistered, "QuotaHandler")
 	}
 
 	if o.RhIDHandler == nil {
@@ -565,6 +574,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
 	o.handlers["DELETE"]["/rest/v1/proxy"] = NewProxyDelete(o.context, o.ProxyDeleteHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/quota"] = NewQuota(o.context, o.QuotaHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

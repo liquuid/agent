@@ -901,6 +901,41 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
+    "/rest/v1/quota": {
+      "get": {
+        "description": "Quota function controls container's quotas and thresholds. Available resources: cpu, % cpuset, available cores ram, Mb network, Kbps rootfs/home/var/opt, Gb The threshold value represents a percentage for each resource. Once resource consumption exceeds this threshold it triggers an alert. The clone operation, sets no quotas and thresholds for new containers; quotas need to be configured with quota command after a clone operation.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "quota",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/quotaArgs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/quotaOutput"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
     "/rest/v1/rh/id": {
       "get": {
         "description": "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint",
@@ -1305,6 +1340,31 @@ func init() {
         }
       }
     },
+    "quotaArgs": {
+      "type": "object",
+      "required": [
+        "name",
+        "resource"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "resource": {
+          "type": "string",
+          "minLength": 1
+        },
+        "size": {
+          "type": "string",
+          "minLength": 1
+        },
+        "threshold": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
     "quotaInfo": {
       "type": "object",
       "properties": {
@@ -1326,6 +1386,23 @@ func init() {
         "ram": {
           "type": "string",
           "readOnly": true
+        }
+      }
+    },
+    "quotaOutput": {
+      "type": "object",
+      "required": [
+        "quota",
+        "threshold"
+      ],
+      "properties": {
+        "quota": {
+          "type": "string",
+          "readOnly": true
+        },
+        "threshold": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },
