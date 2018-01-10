@@ -1044,6 +1044,40 @@ func init() {
         },
         "x-swagger-router-controller": "Default"
       }
+    },
+    "/rest/v1/start/{container}": {
+      "get": {
+        "description": "Starts a Subutai container and checks if container state changed to \"running\" or \"starting\". If state is not changing for 60 seconds, then the \"start\" operation is considered to have failed.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "start",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "container",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/message"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
     }
   },
   "definitions": {

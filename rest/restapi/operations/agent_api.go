@@ -122,6 +122,9 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation RhID has not yet been implemented")
 		}),
+		StartHandler: StartHandlerFunc(func(params StartParams) middleware.Responder {
+			return middleware.NotImplemented("operation Start has not yet been implemented")
+		}),
 	}
 }
 
@@ -208,6 +211,8 @@ type AgentAPI struct {
 	RestoreHandler RestoreHandler
 	// RhIDHandler sets the operation handler for the rh ID operation
 	RhIDHandler RhIDHandler
+	// StartHandler sets the operation handler for the start operation
+	StartHandler StartHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -381,6 +386,10 @@ func (o *AgentAPI) Validate() error {
 
 	if o.RhIDHandler == nil {
 		unregistered = append(unregistered, "RhIDHandler")
+	}
+
+	if o.StartHandler == nil {
+		unregistered = append(unregistered, "StartHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -612,6 +621,11 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/rh/id"] = NewRhID(o.context, o.RhIDHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/start/{container}"] = NewStart(o.context, o.StartHandler)
 
 }
 
