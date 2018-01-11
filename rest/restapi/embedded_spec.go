@@ -1349,7 +1349,7 @@ func init() {
     },
     "/rest/v1/vxlan/{tunnel}": {
       "post": {
-        "description": "Creates VXLAN tunnelt",
+        "description": "Creates VXLAN tunnel",
         "tags": [
           "agent",
           "cli",

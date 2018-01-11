@@ -31,7 +31,7 @@ func NewVxlanCreate(ctx *middleware.Context, handler VxlanCreateHandler) *VxlanC
 
 /*VxlanCreate swagger:route POST /rest/v1/vxlan/{tunnel} agent cli list vxlanCreate
 
-Creates VXLAN tunnelt
+Creates VXLAN tunnel
 
 */
 type VxlanCreate struct {

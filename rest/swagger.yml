@@ -1062,7 +1062,7 @@ It doesn't matter where the containers are physically located."
         - cli 
         - list
       operationId: vxlanCreate
-      description: "Creates VXLAN tunnelt"
+      description: "Creates VXLAN tunnel"
       responses:
         201:
           description: Created
