@@ -32,6 +32,40 @@ func init() {
   "host": "localhost:8080",
   "basePath": "/",
   "paths": {
+    "/rest/v1/attach/{container}": {
+      "get": {
+        "description": "LxcAttach allows user to use container's TTY.\n` + "`" + `name` + "`" + ` should be available running Subutai container, otherwise command will return error message and non-zero exit code.",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "attach",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "container",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/message"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
     "/rest/v1/backup/{name}": {
       "get": {
         "description": "BackupContainer takes a snapshots of each container's volume and stores it in the ` + "`" + `/mnt/backups/container_name/datetime/` + "`" + ` directory. A full backup creates a delta-file of each BTRFS subvolume. An incremental backup (default) creates a delta-file with the difference of changes between the current and last snapshots. All deltas are compressed to archives in ` + "`" + `/mnt/backups/` + "`" + ` directory (container_datetime.tar.gz or container_datetime_Full.tar.gz for full backup). A changelog file can be found next to backups archive (container_datetime_changelog.txt or container_datetime_Full_changelog.txt) which contains a list of changes made between two backups.",

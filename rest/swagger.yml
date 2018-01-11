@@ -69,6 +69,36 @@ paths:
           description: generic error response
           schema:
       x-swagger-router-controller: Default
+
+  /rest/v1/attach/{container}:
+    get:
+      tags: 
+        - agent 
+        - cli 
+        - list
+      operationId: attach
+      description: "LxcAttach allows user to use container's TTY.
+
+`name` should be available running Subutai container,
+otherwise command will return error message and non-zero exit code."
+      parameters: 
+        - type: string
+          in: path
+          name: container
+          required: true
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/message"
+        default:
+          description: generic error response
+          schema:
+      x-swagger-router-controller: Default
+
   /rest/v1/container/{name}:
     parameters:
       - type: string
