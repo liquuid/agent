@@ -143,6 +143,15 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		UpdateHandler: UpdateHandlerFunc(func(params UpdateParams) middleware.Responder {
 			return middleware.NotImplemented("operation Update has not yet been implemented")
 		}),
+		VxlanCreateHandler: VxlanCreateHandlerFunc(func(params VxlanCreateParams) middleware.Responder {
+			return middleware.NotImplemented("operation VxlanCreate has not yet been implemented")
+		}),
+		VxlanDeleteHandler: VxlanDeleteHandlerFunc(func(params VxlanDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation VxlanDelete has not yet been implemented")
+		}),
+		VxlanListHandler: VxlanListHandlerFunc(func(params VxlanListParams) middleware.Responder {
+			return middleware.NotImplemented("operation VxlanList has not yet been implemented")
+		}),
 	}
 }
 
@@ -243,6 +252,12 @@ type AgentAPI struct {
 	TunnelListHandler TunnelListHandler
 	// UpdateHandler sets the operation handler for the update operation
 	UpdateHandler UpdateHandler
+	// VxlanCreateHandler sets the operation handler for the vxlan create operation
+	VxlanCreateHandler VxlanCreateHandler
+	// VxlanDeleteHandler sets the operation handler for the vxlan delete operation
+	VxlanDeleteHandler VxlanDeleteHandler
+	// VxlanListHandler sets the operation handler for the vxlan list operation
+	VxlanListHandler VxlanListHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -444,6 +459,18 @@ func (o *AgentAPI) Validate() error {
 
 	if o.UpdateHandler == nil {
 		unregistered = append(unregistered, "UpdateHandler")
+	}
+
+	if o.VxlanCreateHandler == nil {
+		unregistered = append(unregistered, "VxlanCreateHandler")
+	}
+
+	if o.VxlanDeleteHandler == nil {
+		unregistered = append(unregistered, "VxlanDeleteHandler")
+	}
+
+	if o.VxlanListHandler == nil {
+		unregistered = append(unregistered, "VxlanListHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -710,6 +737,21 @@ func (o *AgentAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/rest/v1/update/{container}"] = NewUpdate(o.context, o.UpdateHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/rest/v1/vxlan/{tunnel}"] = NewVxlanCreate(o.context, o.VxlanCreateHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/rest/v1/vxlan/{iface}"] = NewVxlanDelete(o.context, o.VxlanDeleteHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/rest/v1/vxlan/list"] = NewVxlanList(o.context, o.VxlanListHandler)
 
 }
 

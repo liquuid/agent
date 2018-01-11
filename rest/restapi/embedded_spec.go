@@ -1292,6 +1292,109 @@ func init() {
         },
         "x-swagger-router-controller": "Default"
       }
+    },
+    "/rest/v1/vxlan/list": {
+      "get": {
+        "description": "prints a list of existing VXLAN tunnels",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "vxlanList",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/item"
+              }
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
+    "/rest/v1/vxlan/{iface}": {
+      "delete": {
+        "description": "removes OVS bridges and ports by name, brings system interface down",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "vxlanDelete",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "iface",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
+    },
+    "/rest/v1/vxlan/{tunnel}": {
+      "post": {
+        "description": "Creates VXLAN tunnelt",
+        "tags": [
+          "agent",
+          "cli",
+          "list"
+        ],
+        "operationId": "vxlanCreate",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "tunnel",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "remoteip",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "vlan",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "vni",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/message"
+            }
+          },
+          "default": {
+            "description": "generic error response"
+          }
+        },
+        "x-swagger-router-controller": "Default"
+      }
     }
   },
   "definitions": {
