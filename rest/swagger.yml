@@ -17,8 +17,7 @@ paths:
   /rest/v1/rh/id:
     get:
       tags: 
-        - agent 
-        - rh
+        - resource host
       operationId: rhID
       description: "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint"
       responses:
@@ -35,8 +34,6 @@ paths:
   /rest/v1/list:
     get:
       tags: 
-        - agent 
-        - cli 
         - list
       operationId: cliList
       description: "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc."
@@ -46,18 +43,23 @@ paths:
           type: integer
           format: int32
           default: 20
+          description: "Limit of returned entries on response"
         - name: containersOnly
           in: query
           type: boolean
+          description: "Parameter to return containers only"
         - name: templatesOnly
           in: query
           type: boolean
+          description: "Parameter to return templates only"
         - name: withAncestors
           in: query
           type: boolean
+          description: "Parameter to return containers/templates with ancestors"
         - name: withParents
           in: query
           type: boolean
+          description: "Parameter to return containers/templates with parents"
       responses:
         '200':
           description: List all subutai instances
@@ -73,9 +75,7 @@ paths:
   /rest/v1/attach/{container}:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - attach
       operationId: attach
       description: "LxcAttach allows user to use container's TTY.
 
@@ -86,6 +86,7 @@ otherwise command will return error message and non-zero exit code."
           in: path
           name: container
           required: true
+          description: "Container to be attached"
 
       responses:
         '200':
@@ -105,25 +106,29 @@ otherwise command will return error message and non-zero exit code."
         name: name
         in: path
         required: true
+        description: "Name of container"
       - name: containersOnly
         in: query
         type: boolean
+        description: "Parameter to return containers only"
       - name: templatesOnly
         in: query
         type: boolean
-      - name: detailedInfo
-        in: query
-        type: boolean
+        description: "Parameter to return templates only"
       - name: withAncestors
         in: query
         type: boolean
+        description: "Parameter to return containers/templates with ancestors"
       - name: withParents
         in: query
         type: boolean
+        description: "Parameter to return containers/templates with parents"
+      - name: detailedInfo
+        in: query
+        type: boolean
+        description: "Parameter to return detailed info"
     get:
       tags:
-        - agent
-        - cli 
         - container
       operationId: getContainerInfo
       description: "Get container Info in JSON formatted object"
@@ -162,9 +167,7 @@ otherwise command will return error message and non-zero exit code."
         type: boolean
     get:
       tags:
-        - agent
-        - cli 
-        - container
+        - backup
       operationId: backupContainer
       description: "BackupContainer takes a snapshots of each container's volume and stores it in the `/mnt/backups/container_name/datetime/` directory.
 A full backup creates a delta-file of each BTRFS subvolume. An incremental backup (default) creates a delta-file with the difference of changes between the current and last snapshots.
@@ -187,9 +190,7 @@ A changelog file can be found next to backups archive (container_datetime_change
           schema:
             $ref: "#/definitions/batchLine"
       tags:
-        - agent
-        - cli 
-        - container
+        - batch
       operationId: batch
       description: "Batch binding provides a mechanism to perform several Subutai commands in the container in batch,
 passed in a single JSON message. Initially, the purpose of this command was internal for SS <-> Agent communication,
@@ -208,9 +209,7 @@ the positions of responses correlate with the request position in the array"
   /rest/v1/cleanup:
     get:
       tags:
-        - agent
-        - cli 
-        - container
+        - cleanup
       operationId: cleanup
       description: "Cleanup simply removes every resource associated with a Subutai container or template:
 data, network, configs, etc.
@@ -232,19 +231,19 @@ even if some instance components were already removed, the destroy command will 
           name: parent
           in: path
           required: true
+          description: "Parent name"
         - type: string
           name: child
           in: path
           required: true
+          description: "Child name"
         - name: body
           in: body
           schema:
             $ref: "#/definitions/cloneArgs"
 
       tags:
-        - agent
-        - cli 
-        - container
+        - clone
       operationId: clone
       description: "Clone function creates new `child` container from a Subutai `parent` template.
                     If the specified template argument is not deployed in system, Subutai first tries to import it, and if import succeeds, it then continues to clone from the imported template image.
@@ -275,9 +274,7 @@ even if some instance components were already removed, the destroy command will 
           schema:
             $ref: "#/definitions/configOptions"
       tags:
-        - agent
-        - cli 
-        - container
+        - configuration
       operationId: config
       description: "Allows read and write container's configuration file"
       responses:
@@ -314,14 +311,13 @@ even if some instance components were already removed, the destroy command will 
           name: container
           in: path
           required: true
+          description: "Container name"
         - name: body
           in: body
           schema:
             $ref: "#/definitions/demoteOptions"
       tags:
-        - agent
-        - cli 
-        - container
+        - demote
       operationId: demote
       description: "Converts template into regular Subutai container.
 
@@ -346,14 +342,13 @@ Demoted container will use NAT network interface and dynamic IP address if oppos
           name: container
           in: path
           required: true
+          description: "Container name"
         - name: body
           in: body
           schema:
             $ref: "#/definitions/promoteOptions"
       tags:
-        - agent
-        - cli 
-        - container
+        - promote
       operationId: promote
       description: "Promote turns a Subutai container into container template which may be cloned with \"clone\" command.
 Promote executes several simple steps, such as dropping a container's configuration to default values,
@@ -376,14 +371,13 @@ and setting the container's filesystem to read-only to prevent changes."
           name: container
           in: path
           required: true
+          description: "Container name"
         - name: body
           in: body
           schema:
             $ref: "#/definitions/exportOptions"
       tags:
-        - agent
-        - cli 
-        - container
+        - export
       operationId: export
       description: "Export prepares an archive from a template in the `/mnt/lib/lxc/tmpdir/` path.
 This archive can be moved to another Subutai peer and deployed as ready-to-use template or uploaded to Subutai's global template repository to make it
@@ -411,14 +405,14 @@ Configuration values for template metadata parameters can be overridden on expor
           name: container
           in: path
           required: true
+          description: "Container name"
         - type: string
           name: name
           in: path
           required: true
+          description: "New name"
       tags:
-        - agent
-        - cli 
-        - container
+        - hostname
       operationId: hostname
       description: "        - type: string
           name: container
@@ -437,9 +431,7 @@ Configuration values for template metadata parameters can be overridden on expor
   /rest/v1/destroy/{ID}:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - destroy
       operationId: destroy
       description: "Destroy Subutai container"
       parameters:
@@ -447,9 +439,11 @@ Configuration values for template metadata parameters can be overridden on expor
           name: ID
           in: path
           required: true
+          description: "container name or vlan id"
         - name: vlan
           in: query
           type: boolean
+          description: "If true the ID is a vlan, if false is a container name"
 
       responses:
         '200':
@@ -466,9 +460,7 @@ Configuration values for template metadata parameters can be overridden on expor
   /rest/v1/import/{container}:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - import
       operationId: import
       description: "Import Subutai template"
       parameters:
@@ -476,6 +468,7 @@ Configuration values for template metadata parameters can be overridden on expor
           name: container
           in: path
           required: true
+          description: "Container name"
         - name: body
           in: body
           schema:
@@ -495,9 +488,7 @@ Configuration values for template metadata parameters can be overridden on expor
   /rest/v1/info:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - info
       operationId: info
       description: "Info command's purposed is to display common system information, such as
 external IP address to access the container host quotas, its CPU model, RAM size, etc. It's mainly used for internal SS needs."
@@ -506,6 +497,7 @@ external IP address to access the container host quotas, its CPU model, RAM size
           name: command
           in: query
           required: true
+          description: "Commands available:  ipaddr, ports, os, quota, system"
 
       responses:
         '200':
@@ -521,9 +513,7 @@ external IP address to access the container host quotas, its CPU model, RAM size
   /rest/v1/metrics:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - metrics
       operationId: metrics
       description: "HostMetrics function retrieves monitoring data from a time-series database deployed in the SS Management server
 for container hosts and Resource Hosts. Statistics are being collected by the Subutai daemon
@@ -539,10 +529,12 @@ After 7 days all statistics is are overwritten by new incoming data."
           name: start
           in: query
           required: true
+          description: "Start date. Date Example: 2006-01-02 15:04:05"
         - type: string
           name: end
           in: query
           required: true
+          description: "End date.  Date Example: 2006-01-02 15:04:05"
       responses:
         '200':
           description: Ok
@@ -558,9 +550,7 @@ After 7 days all statistics is are overwritten by new incoming data."
   /rest/v1/quota:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - quota
       operationId: quota
       description: "Quota function controls container's quotas and thresholds. Available resources:
 cpu, %
@@ -590,9 +580,7 @@ The clone operation, sets no quotas and thresholds for new containers; quotas ne
   /rest/v1/rename/{source}/{newname}:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - rename
       operationId: rename
       description: "Renames a Subutai container impacting filesystem paths, configuration values, etc."
       parameters:
@@ -600,11 +588,12 @@ The clone operation, sets no quotas and thresholds for new containers; quotas ne
           name: source
           in: path
           required: true
-          
+          description: "Source name"
         - type: string
           name: newname
           in: path
           required: true
+          description: "New name"
           
 
       responses:
@@ -622,9 +611,7 @@ The clone operation, sets no quotas and thresholds for new containers; quotas ne
   /rest/v1/restore/{container}:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - restore
       operationId: restore
       description: "RestoreContainer restores a Subutai container to a snapshot at a specified timestamp if such a backup archive is available."
       parameters:
@@ -632,16 +619,18 @@ The clone operation, sets no quotas and thresholds for new containers; quotas ne
           name: container
           in: path
           required: true
+          description: "Container name"
           
         - type: string
           name: date
           in: query
           required: false
-
+          description: "Date argument"
         - type: string
           name: newcontainer
           in: query
-          required: false    
+          required: false
+          description: "Name of new container"  
 
       responses:
         '200':
@@ -658,9 +647,7 @@ The clone operation, sets no quotas and thresholds for new containers; quotas ne
   /rest/v1/start/{container}:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - start
       operationId: start
       description: "Starts a Subutai container and checks if container state changed to \"running\" or \"starting\".
 If state is not changing for 60 seconds, then the \"start\" operation is considered to have failed."
@@ -669,7 +656,7 @@ If state is not changing for 60 seconds, then the \"start\" operation is conside
           name: container
           in: path
           required: true
-
+          description: "Container name"
       responses:
         '200':
           description: Ok
@@ -684,9 +671,7 @@ If state is not changing for 60 seconds, then the \"start\" operation is conside
   /rest/v1/stop/{container}:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - stop
       operationId: stop
       description: "Stops a Subutai container with an additional state check."
       parameters:
@@ -694,7 +679,7 @@ If state is not changing for 60 seconds, then the \"start\" operation is conside
           name: container
           in: path
           required: true
-
+          description: "Container name"
       responses:
         '200':
           description: Ok
@@ -710,9 +695,7 @@ If state is not changing for 60 seconds, then the \"start\" operation is conside
   /rest/v1/update/{container}:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - update
       operationId: update
       description: "Update operation can be divided into two different types: container updates and Resource Host updates.
 Container updates simply perform apt-get update and upgrade operations inside target containers without any extra commands.
@@ -726,10 +709,12 @@ otherwise an application's attempt to update itself will be blocked."
           name: container
           in: path
           required: true
+          description: "Container name"
         - type: boolean
           name: check
           in: query
           required: true
+          description: "Just check for updates, don't update"
 
       responses:
         '200':
@@ -746,9 +731,7 @@ otherwise an application's attempt to update itself will be blocked."
   /rest/v1/p2p:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - p2p
       operationId: p2pList
       description: "P2P function controls and configures the peer-to-peer network structure:
 the swarm which includes all hosts with same the same swarm hash and secret key.
@@ -779,9 +762,7 @@ It doesn't matter where the containers are physically located."
       x-swagger-router-controller: Default
     put:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - p2p
       operationId: p2pUpdate
       description: "P2P function controls and configures the peer-to-peer network structure:
 the swarm which includes all hosts with same the same swarm hash and secret key.
@@ -807,9 +788,7 @@ It doesn't matter where the containers are physically located."
       x-swagger-router-controller: Default
     delete:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - p2p
       operationId: p2pDelete
       description: "P2P function controls and configures the peer-to-peer network structure:
 the swarm which includes all hosts with same the same swarm hash and secret key.
@@ -836,9 +815,7 @@ It doesn't matter where the containers are physically located."
           schema:
             $ref: "#/definitions/p2pArgs"
       tags: 
-        - agent 
-        - cli 
-        - list
+        - p2p
       operationId: p2pCreate
       description: "P2P function controls and configures the peer-to-peer network structure:
 the swarm which includes all hosts with same the same swarm hash and secret key.
@@ -859,9 +836,7 @@ It doesn't matter where the containers are physically located."
   /rest/v1/proxy:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - proxy
       operationId: proxyCheck
       description: "ProxyCheck exits with 0 code if domain or node is exists in specified vlan, otherwise exitcode is 1"
       parameters:
@@ -883,9 +858,7 @@ It doesn't matter where the containers are physically located."
       x-swagger-router-controller: Default
     delete:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - proxy
       operationId: proxyDelete
       description: "ProxyDel checks what need to be removed - domain or node and pass args to required functions"
       parameters:
@@ -907,9 +880,7 @@ It doesn't matter where the containers are physically located."
           schema:
             $ref: "#/definitions/proxyArgs"
       tags: 
-        - agent 
-        - cli 
-        - list
+        - proxy
       operationId: proxyCreate
       description: "ProxyAdd checks input args and perform required operations to configure reverse proxy"
       responses:
@@ -925,17 +896,9 @@ It doesn't matter where the containers are physically located."
   /rest/v1/tunnel/list:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - tunnel
       operationId: tunnelList
       description: "performs tunnel check and shows \"alive\" tunnels"
-      parameters:
-        - type: string
-          name: command
-          in: query
-          required: true
-
       responses:
         '200':
           description: Ok
@@ -950,17 +913,9 @@ It doesn't matter where the containers are physically located."
   /rest/v1/tunnel/check:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - tunnel
       operationId: tunnelCheck
       description: "reads list, checks tunnel ttl, its state and then adds or removes required tunnels"
-      parameters:
-        - type: string
-          name: command
-          in: query
-          required: true
-
       responses:
         '200':
           description: Ok
@@ -975,9 +930,7 @@ It doesn't matter where the containers are physically located."
   /rest/v1/tunnel/{socket}:
     delete:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - tunnel
       operationId: tunnelDelete
       description: "TunDel removes tunnel entry from list and kills running tunnel process"
       parameters:
@@ -985,11 +938,12 @@ It doesn't matter where the containers are physically located."
           name: socket
           in: path
           required: true
-        
+          description: "Socket name"
         - name: pid
           type: string
           in: query
           required: false
+          description: "PID"
 
       responses:
         204:
@@ -1004,18 +958,19 @@ It doesn't matter where the containers are physically located."
           name: socket
           in: path
           required: true
+          description: "Socket name"
         - type: string
           name: timeout
           in: query
           required: false
+          description: "Tunnels may also be set to be permanent (default) or temporary (ttl in seconds). The default destination port is 22."
         - type: boolean
           name: global
           in: query
           required: false
+          description: "There are two types of channels - local (default), which is created from destination address to host and global, from destination to Subutai Helper node."
       tags: 
-        - agent 
-        - cli 
-        - list
+        - tunnel
       operationId: tunnelAdd
       description: "TunAdd adds tunnel to specified network socket"
       responses:
@@ -1031,9 +986,7 @@ It doesn't matter where the containers are physically located."
   /rest/v1/vxlan/list:
     get:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - vxlan
       operationId: vxlanList
       description: "prints a list of existing VXLAN tunnels"
       responses:
@@ -1050,9 +1003,7 @@ It doesn't matter where the containers are physically located."
   /rest/v1/vxlan/{iface}:
     delete:
       tags: 
-        - agent 
-        - cli 
-        - list
+        - vxlan
       operationId: vxlanDelete
       description: "removes OVS bridges and ports by name, brings system interface down"
       parameters:
@@ -1060,7 +1011,7 @@ It doesn't matter where the containers are physically located."
           name: iface
           in: path
           required: true
-       
+          description: "Network interface name"
       responses:
         204:
           description: Deleted
@@ -1075,22 +1026,24 @@ It doesn't matter where the containers are physically located."
           name: tunnel
           in: path
           required: true
+          description: "Tunnel name"
         - type: string
           name: remoteip
           in: query
           required: true
+          description: "Remote IP"
         - type: string
           name: vlan
           in: query
           required: true
+          description: "Virtual local network"
         - type: string
           name: vni
           in: query
           required: true
+          description: "Virtual Network Interface"
       tags: 
-        - agent 
-        - cli 
-        - list
+        - vxlan
       operationId: vxlanCreate
       description: "Creates VXLAN tunnel"
       responses:
@@ -1120,12 +1073,15 @@ definitions:
       name:
         type: string
         readOnly: true
+        description: "Name of container"
       parent:
         type: string
         minLength: 1
+        description: "Name of container's parent"
       ancestor:
         type: string
         minLength: 1
+        description: "Name of container's ancestor"
 
   proxyArgs:
     type: object
