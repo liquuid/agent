@@ -32,28 +32,28 @@ type DestroyOneParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*
+	/*Parameter to return containers only
 	  In: query
 	*/
 	ContainersOnly *bool
-	/*
+	/*Parameter to return detailed info
 	  In: query
 	*/
 	DetailedInfo *bool
-	/*
+	/*Name of container
 	  Required: true
 	  In: path
 	*/
 	Name string
-	/*
+	/*Parameter to return templates only
 	  In: query
 	*/
 	TemplatesOnly *bool
-	/*
+	/*Parameter to return containers/templates with ancestors
 	  In: query
 	*/
 	WithAncestors *bool
-	/*
+	/*Parameter to return containers/templates with parents
 	  In: query
 	*/
 	WithParents *bool

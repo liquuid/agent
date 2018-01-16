@@ -19,8 +19,34 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	"github.com/subutai-io/agent/rest/restapi/operations/attach"
+	"github.com/subutai-io/agent/rest/restapi/operations/backup"
+	"github.com/subutai-io/agent/rest/restapi/operations/batch"
+	"github.com/subutai-io/agent/rest/restapi/operations/cleanup"
+	"github.com/subutai-io/agent/rest/restapi/operations/clone"
 	"github.com/subutai-io/agent/rest/restapi/operations/config"
+	"github.com/subutai-io/agent/rest/restapi/operations/configuration"
 	"github.com/subutai-io/agent/rest/restapi/operations/container"
+	"github.com/subutai-io/agent/rest/restapi/operations/demote"
+	"github.com/subutai-io/agent/rest/restapi/operations/destroy"
+	"github.com/subutai-io/agent/rest/restapi/operations/export"
+	"github.com/subutai-io/agent/rest/restapi/operations/hostname"
+	"github.com/subutai-io/agent/rest/restapi/operations/import_operations"
+	"github.com/subutai-io/agent/rest/restapi/operations/info"
+	"github.com/subutai-io/agent/rest/restapi/operations/list"
+	"github.com/subutai-io/agent/rest/restapi/operations/metrics"
+	"github.com/subutai-io/agent/rest/restapi/operations/p2p"
+	"github.com/subutai-io/agent/rest/restapi/operations/promote"
+	"github.com/subutai-io/agent/rest/restapi/operations/proxy"
+	"github.com/subutai-io/agent/rest/restapi/operations/quota"
+	"github.com/subutai-io/agent/rest/restapi/operations/rename"
+	"github.com/subutai-io/agent/rest/restapi/operations/resource_host"
+	"github.com/subutai-io/agent/rest/restapi/operations/restore"
+	"github.com/subutai-io/agent/rest/restapi/operations/start"
+	"github.com/subutai-io/agent/rest/restapi/operations/stop"
+	"github.com/subutai-io/agent/rest/restapi/operations/tunnel"
+	"github.com/subutai-io/agent/rest/restapi/operations/update"
+	"github.com/subutai-io/agent/rest/restapi/operations/vxlan"
 )
 
 // NewAgentAPI creates a new Agent instance
@@ -38,32 +64,32 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
-		AttachHandler: AttachHandlerFunc(func(params AttachParams) middleware.Responder {
-			return middleware.NotImplemented("operation Attach has not yet been implemented")
+		AttachAttachHandler: attach.AttachHandlerFunc(func(params attach.AttachParams) middleware.Responder {
+			return middleware.NotImplemented("operation AttachAttach has not yet been implemented")
 		}),
-		BackupContainerHandler: BackupContainerHandlerFunc(func(params BackupContainerParams) middleware.Responder {
-			return middleware.NotImplemented("operation BackupContainer has not yet been implemented")
+		BackupBackupContainerHandler: backup.BackupContainerHandlerFunc(func(params backup.BackupContainerParams) middleware.Responder {
+			return middleware.NotImplemented("operation BackupBackupContainer has not yet been implemented")
 		}),
-		BatchHandler: BatchHandlerFunc(func(params BatchParams) middleware.Responder {
-			return middleware.NotImplemented("operation Batch has not yet been implemented")
+		BatchBatchHandler: batch.BatchHandlerFunc(func(params batch.BatchParams) middleware.Responder {
+			return middleware.NotImplemented("operation BatchBatch has not yet been implemented")
 		}),
-		CleanupHandler: CleanupHandlerFunc(func(params CleanupParams) middleware.Responder {
-			return middleware.NotImplemented("operation Cleanup has not yet been implemented")
+		CleanupCleanupHandler: cleanup.CleanupHandlerFunc(func(params cleanup.CleanupParams) middleware.Responder {
+			return middleware.NotImplemented("operation CleanupCleanup has not yet been implemented")
 		}),
-		CliListHandler: CliListHandlerFunc(func(params CliListParams) middleware.Responder {
-			return middleware.NotImplemented("operation CliList has not yet been implemented")
+		ListCliListHandler: list.CliListHandlerFunc(func(params list.CliListParams) middleware.Responder {
+			return middleware.NotImplemented("operation ListCliList has not yet been implemented")
 		}),
-		CloneHandler: CloneHandlerFunc(func(params CloneParams) middleware.Responder {
-			return middleware.NotImplemented("operation Clone has not yet been implemented")
+		CloneCloneHandler: clone.CloneHandlerFunc(func(params clone.CloneParams) middleware.Responder {
+			return middleware.NotImplemented("operation CloneClone has not yet been implemented")
 		}),
-		ConfigHandler: ConfigHandlerFunc(func(params ConfigParams) middleware.Responder {
-			return middleware.NotImplemented("operation Config has not yet been implemented")
+		ConfigurationConfigHandler: configuration.ConfigHandlerFunc(func(params configuration.ConfigParams) middleware.Responder {
+			return middleware.NotImplemented("operation ConfigurationConfig has not yet been implemented")
 		}),
-		DemoteHandler: DemoteHandlerFunc(func(params DemoteParams) middleware.Responder {
-			return middleware.NotImplemented("operation Demote has not yet been implemented")
+		DemoteDemoteHandler: demote.DemoteHandlerFunc(func(params demote.DemoteParams) middleware.Responder {
+			return middleware.NotImplemented("operation DemoteDemote has not yet been implemented")
 		}),
-		DestroyHandler: DestroyHandlerFunc(func(params DestroyParams) middleware.Responder {
-			return middleware.NotImplemented("operation Destroy has not yet been implemented")
+		DestroyDestroyHandler: destroy.DestroyHandlerFunc(func(params destroy.DestroyParams) middleware.Responder {
+			return middleware.NotImplemented("operation DestroyDestroy has not yet been implemented")
 		}),
 		ConfigDestroyEntryHandler: config.DestroyEntryHandlerFunc(func(params config.DestroyEntryParams) middleware.Responder {
 			return middleware.NotImplemented("operation ConfigDestroyEntry has not yet been implemented")
@@ -71,89 +97,89 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 		ContainerDestroyOneHandler: container.DestroyOneHandlerFunc(func(params container.DestroyOneParams) middleware.Responder {
 			return middleware.NotImplemented("operation ContainerDestroyOne has not yet been implemented")
 		}),
-		ExportHandler: ExportHandlerFunc(func(params ExportParams) middleware.Responder {
-			return middleware.NotImplemented("operation Export has not yet been implemented")
+		ExportExportHandler: export.ExportHandlerFunc(func(params export.ExportParams) middleware.Responder {
+			return middleware.NotImplemented("operation ExportExport has not yet been implemented")
 		}),
-		GetContainerInfoHandler: GetContainerInfoHandlerFunc(func(params GetContainerInfoParams) middleware.Responder {
-			return middleware.NotImplemented("operation GetContainerInfo has not yet been implemented")
+		ContainerGetContainerInfoHandler: container.GetContainerInfoHandlerFunc(func(params container.GetContainerInfoParams) middleware.Responder {
+			return middleware.NotImplemented("operation ContainerGetContainerInfo has not yet been implemented")
 		}),
-		HostnameHandler: HostnameHandlerFunc(func(params HostnameParams) middleware.Responder {
-			return middleware.NotImplemented("operation Hostname has not yet been implemented")
+		HostnameHostnameHandler: hostname.HostnameHandlerFunc(func(params hostname.HostnameParams) middleware.Responder {
+			return middleware.NotImplemented("operation HostnameHostname has not yet been implemented")
 		}),
-		ImportHandler: ImportHandlerFunc(func(params ImportParams) middleware.Responder {
-			return middleware.NotImplemented("operation Import has not yet been implemented")
+		ImportOperationsImportHandler: import_operations.ImportHandlerFunc(func(params import_operations.ImportParams) middleware.Responder {
+			return middleware.NotImplemented("operation ImportOperationsImport has not yet been implemented")
 		}),
-		InfoHandler: InfoHandlerFunc(func(params InfoParams) middleware.Responder {
-			return middleware.NotImplemented("operation Info has not yet been implemented")
+		InfoInfoHandler: info.InfoHandlerFunc(func(params info.InfoParams) middleware.Responder {
+			return middleware.NotImplemented("operation InfoInfo has not yet been implemented")
 		}),
-		MetricsHandler: MetricsHandlerFunc(func(params MetricsParams) middleware.Responder {
-			return middleware.NotImplemented("operation Metrics has not yet been implemented")
+		MetricsMetricsHandler: metrics.MetricsHandlerFunc(func(params metrics.MetricsParams) middleware.Responder {
+			return middleware.NotImplemented("operation MetricsMetrics has not yet been implemented")
 		}),
-		P2pCreateHandler: P2pCreateHandlerFunc(func(params P2pCreateParams) middleware.Responder {
-			return middleware.NotImplemented("operation P2pCreate has not yet been implemented")
+		P2pP2pCreateHandler: p2p.P2pCreateHandlerFunc(func(params p2p.P2pCreateParams) middleware.Responder {
+			return middleware.NotImplemented("operation P2pP2pCreate has not yet been implemented")
 		}),
-		P2pDeleteHandler: P2pDeleteHandlerFunc(func(params P2pDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation P2pDelete has not yet been implemented")
+		P2pP2pDeleteHandler: p2p.P2pDeleteHandlerFunc(func(params p2p.P2pDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation P2pP2pDelete has not yet been implemented")
 		}),
-		P2pListHandler: P2pListHandlerFunc(func(params P2pListParams) middleware.Responder {
-			return middleware.NotImplemented("operation P2pList has not yet been implemented")
+		P2pP2pListHandler: p2p.P2pListHandlerFunc(func(params p2p.P2pListParams) middleware.Responder {
+			return middleware.NotImplemented("operation P2pP2pList has not yet been implemented")
 		}),
-		P2pUpdateHandler: P2pUpdateHandlerFunc(func(params P2pUpdateParams) middleware.Responder {
-			return middleware.NotImplemented("operation P2pUpdate has not yet been implemented")
+		P2pP2pUpdateHandler: p2p.P2pUpdateHandlerFunc(func(params p2p.P2pUpdateParams) middleware.Responder {
+			return middleware.NotImplemented("operation P2pP2pUpdate has not yet been implemented")
 		}),
-		PromoteHandler: PromoteHandlerFunc(func(params PromoteParams) middleware.Responder {
-			return middleware.NotImplemented("operation Promote has not yet been implemented")
+		PromotePromoteHandler: promote.PromoteHandlerFunc(func(params promote.PromoteParams) middleware.Responder {
+			return middleware.NotImplemented("operation PromotePromote has not yet been implemented")
 		}),
-		ProxyCheckHandler: ProxyCheckHandlerFunc(func(params ProxyCheckParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProxyCheck has not yet been implemented")
+		ProxyProxyCheckHandler: proxy.ProxyCheckHandlerFunc(func(params proxy.ProxyCheckParams) middleware.Responder {
+			return middleware.NotImplemented("operation ProxyProxyCheck has not yet been implemented")
 		}),
-		ProxyCreateHandler: ProxyCreateHandlerFunc(func(params ProxyCreateParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProxyCreate has not yet been implemented")
+		ProxyProxyCreateHandler: proxy.ProxyCreateHandlerFunc(func(params proxy.ProxyCreateParams) middleware.Responder {
+			return middleware.NotImplemented("operation ProxyProxyCreate has not yet been implemented")
 		}),
-		ProxyDeleteHandler: ProxyDeleteHandlerFunc(func(params ProxyDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProxyDelete has not yet been implemented")
+		ProxyProxyDeleteHandler: proxy.ProxyDeleteHandlerFunc(func(params proxy.ProxyDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation ProxyProxyDelete has not yet been implemented")
 		}),
-		QuotaHandler: QuotaHandlerFunc(func(params QuotaParams) middleware.Responder {
-			return middleware.NotImplemented("operation Quota has not yet been implemented")
+		QuotaQuotaHandler: quota.QuotaHandlerFunc(func(params quota.QuotaParams) middleware.Responder {
+			return middleware.NotImplemented("operation QuotaQuota has not yet been implemented")
 		}),
-		RenameHandler: RenameHandlerFunc(func(params RenameParams) middleware.Responder {
-			return middleware.NotImplemented("operation Rename has not yet been implemented")
+		RenameRenameHandler: rename.RenameHandlerFunc(func(params rename.RenameParams) middleware.Responder {
+			return middleware.NotImplemented("operation RenameRename has not yet been implemented")
 		}),
-		RestoreHandler: RestoreHandlerFunc(func(params RestoreParams) middleware.Responder {
-			return middleware.NotImplemented("operation Restore has not yet been implemented")
+		RestoreRestoreHandler: restore.RestoreHandlerFunc(func(params restore.RestoreParams) middleware.Responder {
+			return middleware.NotImplemented("operation RestoreRestore has not yet been implemented")
 		}),
-		RhIDHandler: RhIDHandlerFunc(func(params RhIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation RhID has not yet been implemented")
+		ResourceHostRhIDHandler: resource_host.RhIDHandlerFunc(func(params resource_host.RhIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation ResourceHostRhID has not yet been implemented")
 		}),
-		StartHandler: StartHandlerFunc(func(params StartParams) middleware.Responder {
-			return middleware.NotImplemented("operation Start has not yet been implemented")
+		StartStartHandler: start.StartHandlerFunc(func(params start.StartParams) middleware.Responder {
+			return middleware.NotImplemented("operation StartStart has not yet been implemented")
 		}),
-		StopHandler: StopHandlerFunc(func(params StopParams) middleware.Responder {
-			return middleware.NotImplemented("operation Stop has not yet been implemented")
+		StopStopHandler: stop.StopHandlerFunc(func(params stop.StopParams) middleware.Responder {
+			return middleware.NotImplemented("operation StopStop has not yet been implemented")
 		}),
-		TunnelAddHandler: TunnelAddHandlerFunc(func(params TunnelAddParams) middleware.Responder {
-			return middleware.NotImplemented("operation TunnelAdd has not yet been implemented")
+		TunnelTunnelAddHandler: tunnel.TunnelAddHandlerFunc(func(params tunnel.TunnelAddParams) middleware.Responder {
+			return middleware.NotImplemented("operation TunnelTunnelAdd has not yet been implemented")
 		}),
-		TunnelCheckHandler: TunnelCheckHandlerFunc(func(params TunnelCheckParams) middleware.Responder {
-			return middleware.NotImplemented("operation TunnelCheck has not yet been implemented")
+		TunnelTunnelCheckHandler: tunnel.TunnelCheckHandlerFunc(func(params tunnel.TunnelCheckParams) middleware.Responder {
+			return middleware.NotImplemented("operation TunnelTunnelCheck has not yet been implemented")
 		}),
-		TunnelDeleteHandler: TunnelDeleteHandlerFunc(func(params TunnelDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation TunnelDelete has not yet been implemented")
+		TunnelTunnelDeleteHandler: tunnel.TunnelDeleteHandlerFunc(func(params tunnel.TunnelDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation TunnelTunnelDelete has not yet been implemented")
 		}),
-		TunnelListHandler: TunnelListHandlerFunc(func(params TunnelListParams) middleware.Responder {
-			return middleware.NotImplemented("operation TunnelList has not yet been implemented")
+		TunnelTunnelListHandler: tunnel.TunnelListHandlerFunc(func(params tunnel.TunnelListParams) middleware.Responder {
+			return middleware.NotImplemented("operation TunnelTunnelList has not yet been implemented")
 		}),
-		UpdateHandler: UpdateHandlerFunc(func(params UpdateParams) middleware.Responder {
-			return middleware.NotImplemented("operation Update has not yet been implemented")
+		UpdateUpdateHandler: update.UpdateHandlerFunc(func(params update.UpdateParams) middleware.Responder {
+			return middleware.NotImplemented("operation UpdateUpdate has not yet been implemented")
 		}),
-		VxlanCreateHandler: VxlanCreateHandlerFunc(func(params VxlanCreateParams) middleware.Responder {
-			return middleware.NotImplemented("operation VxlanCreate has not yet been implemented")
+		VxlanVxlanCreateHandler: vxlan.VxlanCreateHandlerFunc(func(params vxlan.VxlanCreateParams) middleware.Responder {
+			return middleware.NotImplemented("operation VxlanVxlanCreate has not yet been implemented")
 		}),
-		VxlanDeleteHandler: VxlanDeleteHandlerFunc(func(params VxlanDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation VxlanDelete has not yet been implemented")
+		VxlanVxlanDeleteHandler: vxlan.VxlanDeleteHandlerFunc(func(params vxlan.VxlanDeleteParams) middleware.Responder {
+			return middleware.NotImplemented("operation VxlanVxlanDelete has not yet been implemented")
 		}),
-		VxlanListHandler: VxlanListHandlerFunc(func(params VxlanListParams) middleware.Responder {
-			return middleware.NotImplemented("operation VxlanList has not yet been implemented")
+		VxlanVxlanListHandler: vxlan.VxlanListHandlerFunc(func(params vxlan.VxlanListParams) middleware.Responder {
+			return middleware.NotImplemented("operation VxlanVxlanList has not yet been implemented")
 		}),
 	}
 }
@@ -185,84 +211,84 @@ type AgentAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
-	// AttachHandler sets the operation handler for the attach operation
-	AttachHandler AttachHandler
-	// BackupContainerHandler sets the operation handler for the backup container operation
-	BackupContainerHandler BackupContainerHandler
-	// BatchHandler sets the operation handler for the batch operation
-	BatchHandler BatchHandler
-	// CleanupHandler sets the operation handler for the cleanup operation
-	CleanupHandler CleanupHandler
-	// CliListHandler sets the operation handler for the cli list operation
-	CliListHandler CliListHandler
-	// CloneHandler sets the operation handler for the clone operation
-	CloneHandler CloneHandler
-	// ConfigHandler sets the operation handler for the config operation
-	ConfigHandler ConfigHandler
-	// DemoteHandler sets the operation handler for the demote operation
-	DemoteHandler DemoteHandler
-	// DestroyHandler sets the operation handler for the destroy operation
-	DestroyHandler DestroyHandler
+	// AttachAttachHandler sets the operation handler for the attach operation
+	AttachAttachHandler attach.AttachHandler
+	// BackupBackupContainerHandler sets the operation handler for the backup container operation
+	BackupBackupContainerHandler backup.BackupContainerHandler
+	// BatchBatchHandler sets the operation handler for the batch operation
+	BatchBatchHandler batch.BatchHandler
+	// CleanupCleanupHandler sets the operation handler for the cleanup operation
+	CleanupCleanupHandler cleanup.CleanupHandler
+	// ListCliListHandler sets the operation handler for the cli list operation
+	ListCliListHandler list.CliListHandler
+	// CloneCloneHandler sets the operation handler for the clone operation
+	CloneCloneHandler clone.CloneHandler
+	// ConfigurationConfigHandler sets the operation handler for the config operation
+	ConfigurationConfigHandler configuration.ConfigHandler
+	// DemoteDemoteHandler sets the operation handler for the demote operation
+	DemoteDemoteHandler demote.DemoteHandler
+	// DestroyDestroyHandler sets the operation handler for the destroy operation
+	DestroyDestroyHandler destroy.DestroyHandler
 	// ConfigDestroyEntryHandler sets the operation handler for the destroy entry operation
 	ConfigDestroyEntryHandler config.DestroyEntryHandler
 	// ContainerDestroyOneHandler sets the operation handler for the destroy one operation
 	ContainerDestroyOneHandler container.DestroyOneHandler
-	// ExportHandler sets the operation handler for the export operation
-	ExportHandler ExportHandler
-	// GetContainerInfoHandler sets the operation handler for the get container info operation
-	GetContainerInfoHandler GetContainerInfoHandler
-	// HostnameHandler sets the operation handler for the hostname operation
-	HostnameHandler HostnameHandler
-	// ImportHandler sets the operation handler for the import operation
-	ImportHandler ImportHandler
-	// InfoHandler sets the operation handler for the info operation
-	InfoHandler InfoHandler
-	// MetricsHandler sets the operation handler for the metrics operation
-	MetricsHandler MetricsHandler
-	// P2pCreateHandler sets the operation handler for the p2p create operation
-	P2pCreateHandler P2pCreateHandler
-	// P2pDeleteHandler sets the operation handler for the p2p delete operation
-	P2pDeleteHandler P2pDeleteHandler
-	// P2pListHandler sets the operation handler for the p2p list operation
-	P2pListHandler P2pListHandler
-	// P2pUpdateHandler sets the operation handler for the p2p update operation
-	P2pUpdateHandler P2pUpdateHandler
-	// PromoteHandler sets the operation handler for the promote operation
-	PromoteHandler PromoteHandler
-	// ProxyCheckHandler sets the operation handler for the proxy check operation
-	ProxyCheckHandler ProxyCheckHandler
-	// ProxyCreateHandler sets the operation handler for the proxy create operation
-	ProxyCreateHandler ProxyCreateHandler
-	// ProxyDeleteHandler sets the operation handler for the proxy delete operation
-	ProxyDeleteHandler ProxyDeleteHandler
-	// QuotaHandler sets the operation handler for the quota operation
-	QuotaHandler QuotaHandler
-	// RenameHandler sets the operation handler for the rename operation
-	RenameHandler RenameHandler
-	// RestoreHandler sets the operation handler for the restore operation
-	RestoreHandler RestoreHandler
-	// RhIDHandler sets the operation handler for the rh ID operation
-	RhIDHandler RhIDHandler
-	// StartHandler sets the operation handler for the start operation
-	StartHandler StartHandler
-	// StopHandler sets the operation handler for the stop operation
-	StopHandler StopHandler
-	// TunnelAddHandler sets the operation handler for the tunnel add operation
-	TunnelAddHandler TunnelAddHandler
-	// TunnelCheckHandler sets the operation handler for the tunnel check operation
-	TunnelCheckHandler TunnelCheckHandler
-	// TunnelDeleteHandler sets the operation handler for the tunnel delete operation
-	TunnelDeleteHandler TunnelDeleteHandler
-	// TunnelListHandler sets the operation handler for the tunnel list operation
-	TunnelListHandler TunnelListHandler
-	// UpdateHandler sets the operation handler for the update operation
-	UpdateHandler UpdateHandler
-	// VxlanCreateHandler sets the operation handler for the vxlan create operation
-	VxlanCreateHandler VxlanCreateHandler
-	// VxlanDeleteHandler sets the operation handler for the vxlan delete operation
-	VxlanDeleteHandler VxlanDeleteHandler
-	// VxlanListHandler sets the operation handler for the vxlan list operation
-	VxlanListHandler VxlanListHandler
+	// ExportExportHandler sets the operation handler for the export operation
+	ExportExportHandler export.ExportHandler
+	// ContainerGetContainerInfoHandler sets the operation handler for the get container info operation
+	ContainerGetContainerInfoHandler container.GetContainerInfoHandler
+	// HostnameHostnameHandler sets the operation handler for the hostname operation
+	HostnameHostnameHandler hostname.HostnameHandler
+	// ImportOperationsImportHandler sets the operation handler for the import operation
+	ImportOperationsImportHandler import_operations.ImportHandler
+	// InfoInfoHandler sets the operation handler for the info operation
+	InfoInfoHandler info.InfoHandler
+	// MetricsMetricsHandler sets the operation handler for the metrics operation
+	MetricsMetricsHandler metrics.MetricsHandler
+	// P2pP2pCreateHandler sets the operation handler for the p2p create operation
+	P2pP2pCreateHandler p2p.P2pCreateHandler
+	// P2pP2pDeleteHandler sets the operation handler for the p2p delete operation
+	P2pP2pDeleteHandler p2p.P2pDeleteHandler
+	// P2pP2pListHandler sets the operation handler for the p2p list operation
+	P2pP2pListHandler p2p.P2pListHandler
+	// P2pP2pUpdateHandler sets the operation handler for the p2p update operation
+	P2pP2pUpdateHandler p2p.P2pUpdateHandler
+	// PromotePromoteHandler sets the operation handler for the promote operation
+	PromotePromoteHandler promote.PromoteHandler
+	// ProxyProxyCheckHandler sets the operation handler for the proxy check operation
+	ProxyProxyCheckHandler proxy.ProxyCheckHandler
+	// ProxyProxyCreateHandler sets the operation handler for the proxy create operation
+	ProxyProxyCreateHandler proxy.ProxyCreateHandler
+	// ProxyProxyDeleteHandler sets the operation handler for the proxy delete operation
+	ProxyProxyDeleteHandler proxy.ProxyDeleteHandler
+	// QuotaQuotaHandler sets the operation handler for the quota operation
+	QuotaQuotaHandler quota.QuotaHandler
+	// RenameRenameHandler sets the operation handler for the rename operation
+	RenameRenameHandler rename.RenameHandler
+	// RestoreRestoreHandler sets the operation handler for the restore operation
+	RestoreRestoreHandler restore.RestoreHandler
+	// ResourceHostRhIDHandler sets the operation handler for the rh ID operation
+	ResourceHostRhIDHandler resource_host.RhIDHandler
+	// StartStartHandler sets the operation handler for the start operation
+	StartStartHandler start.StartHandler
+	// StopStopHandler sets the operation handler for the stop operation
+	StopStopHandler stop.StopHandler
+	// TunnelTunnelAddHandler sets the operation handler for the tunnel add operation
+	TunnelTunnelAddHandler tunnel.TunnelAddHandler
+	// TunnelTunnelCheckHandler sets the operation handler for the tunnel check operation
+	TunnelTunnelCheckHandler tunnel.TunnelCheckHandler
+	// TunnelTunnelDeleteHandler sets the operation handler for the tunnel delete operation
+	TunnelTunnelDeleteHandler tunnel.TunnelDeleteHandler
+	// TunnelTunnelListHandler sets the operation handler for the tunnel list operation
+	TunnelTunnelListHandler tunnel.TunnelListHandler
+	// UpdateUpdateHandler sets the operation handler for the update operation
+	UpdateUpdateHandler update.UpdateHandler
+	// VxlanVxlanCreateHandler sets the operation handler for the vxlan create operation
+	VxlanVxlanCreateHandler vxlan.VxlanCreateHandler
+	// VxlanVxlanDeleteHandler sets the operation handler for the vxlan delete operation
+	VxlanVxlanDeleteHandler vxlan.VxlanDeleteHandler
+	// VxlanVxlanListHandler sets the operation handler for the vxlan list operation
+	VxlanVxlanListHandler vxlan.VxlanListHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -326,40 +352,40 @@ func (o *AgentAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.AttachHandler == nil {
-		unregistered = append(unregistered, "AttachHandler")
+	if o.AttachAttachHandler == nil {
+		unregistered = append(unregistered, "attach.AttachHandler")
 	}
 
-	if o.BackupContainerHandler == nil {
-		unregistered = append(unregistered, "BackupContainerHandler")
+	if o.BackupBackupContainerHandler == nil {
+		unregistered = append(unregistered, "backup.BackupContainerHandler")
 	}
 
-	if o.BatchHandler == nil {
-		unregistered = append(unregistered, "BatchHandler")
+	if o.BatchBatchHandler == nil {
+		unregistered = append(unregistered, "batch.BatchHandler")
 	}
 
-	if o.CleanupHandler == nil {
-		unregistered = append(unregistered, "CleanupHandler")
+	if o.CleanupCleanupHandler == nil {
+		unregistered = append(unregistered, "cleanup.CleanupHandler")
 	}
 
-	if o.CliListHandler == nil {
-		unregistered = append(unregistered, "CliListHandler")
+	if o.ListCliListHandler == nil {
+		unregistered = append(unregistered, "list.CliListHandler")
 	}
 
-	if o.CloneHandler == nil {
-		unregistered = append(unregistered, "CloneHandler")
+	if o.CloneCloneHandler == nil {
+		unregistered = append(unregistered, "clone.CloneHandler")
 	}
 
-	if o.ConfigHandler == nil {
-		unregistered = append(unregistered, "ConfigHandler")
+	if o.ConfigurationConfigHandler == nil {
+		unregistered = append(unregistered, "configuration.ConfigHandler")
 	}
 
-	if o.DemoteHandler == nil {
-		unregistered = append(unregistered, "DemoteHandler")
+	if o.DemoteDemoteHandler == nil {
+		unregistered = append(unregistered, "demote.DemoteHandler")
 	}
 
-	if o.DestroyHandler == nil {
-		unregistered = append(unregistered, "DestroyHandler")
+	if o.DestroyDestroyHandler == nil {
+		unregistered = append(unregistered, "destroy.DestroyHandler")
 	}
 
 	if o.ConfigDestroyEntryHandler == nil {
@@ -370,116 +396,116 @@ func (o *AgentAPI) Validate() error {
 		unregistered = append(unregistered, "container.DestroyOneHandler")
 	}
 
-	if o.ExportHandler == nil {
-		unregistered = append(unregistered, "ExportHandler")
+	if o.ExportExportHandler == nil {
+		unregistered = append(unregistered, "export.ExportHandler")
 	}
 
-	if o.GetContainerInfoHandler == nil {
-		unregistered = append(unregistered, "GetContainerInfoHandler")
+	if o.ContainerGetContainerInfoHandler == nil {
+		unregistered = append(unregistered, "container.GetContainerInfoHandler")
 	}
 
-	if o.HostnameHandler == nil {
-		unregistered = append(unregistered, "HostnameHandler")
+	if o.HostnameHostnameHandler == nil {
+		unregistered = append(unregistered, "hostname.HostnameHandler")
 	}
 
-	if o.ImportHandler == nil {
-		unregistered = append(unregistered, "ImportHandler")
+	if o.ImportOperationsImportHandler == nil {
+		unregistered = append(unregistered, "import_operations.ImportHandler")
 	}
 
-	if o.InfoHandler == nil {
-		unregistered = append(unregistered, "InfoHandler")
+	if o.InfoInfoHandler == nil {
+		unregistered = append(unregistered, "info.InfoHandler")
 	}
 
-	if o.MetricsHandler == nil {
-		unregistered = append(unregistered, "MetricsHandler")
+	if o.MetricsMetricsHandler == nil {
+		unregistered = append(unregistered, "metrics.MetricsHandler")
 	}
 
-	if o.P2pCreateHandler == nil {
-		unregistered = append(unregistered, "P2pCreateHandler")
+	if o.P2pP2pCreateHandler == nil {
+		unregistered = append(unregistered, "p2p.P2pCreateHandler")
 	}
 
-	if o.P2pDeleteHandler == nil {
-		unregistered = append(unregistered, "P2pDeleteHandler")
+	if o.P2pP2pDeleteHandler == nil {
+		unregistered = append(unregistered, "p2p.P2pDeleteHandler")
 	}
 
-	if o.P2pListHandler == nil {
-		unregistered = append(unregistered, "P2pListHandler")
+	if o.P2pP2pListHandler == nil {
+		unregistered = append(unregistered, "p2p.P2pListHandler")
 	}
 
-	if o.P2pUpdateHandler == nil {
-		unregistered = append(unregistered, "P2pUpdateHandler")
+	if o.P2pP2pUpdateHandler == nil {
+		unregistered = append(unregistered, "p2p.P2pUpdateHandler")
 	}
 
-	if o.PromoteHandler == nil {
-		unregistered = append(unregistered, "PromoteHandler")
+	if o.PromotePromoteHandler == nil {
+		unregistered = append(unregistered, "promote.PromoteHandler")
 	}
 
-	if o.ProxyCheckHandler == nil {
-		unregistered = append(unregistered, "ProxyCheckHandler")
+	if o.ProxyProxyCheckHandler == nil {
+		unregistered = append(unregistered, "proxy.ProxyCheckHandler")
 	}
 
-	if o.ProxyCreateHandler == nil {
-		unregistered = append(unregistered, "ProxyCreateHandler")
+	if o.ProxyProxyCreateHandler == nil {
+		unregistered = append(unregistered, "proxy.ProxyCreateHandler")
 	}
 
-	if o.ProxyDeleteHandler == nil {
-		unregistered = append(unregistered, "ProxyDeleteHandler")
+	if o.ProxyProxyDeleteHandler == nil {
+		unregistered = append(unregistered, "proxy.ProxyDeleteHandler")
 	}
 
-	if o.QuotaHandler == nil {
-		unregistered = append(unregistered, "QuotaHandler")
+	if o.QuotaQuotaHandler == nil {
+		unregistered = append(unregistered, "quota.QuotaHandler")
 	}
 
-	if o.RenameHandler == nil {
-		unregistered = append(unregistered, "RenameHandler")
+	if o.RenameRenameHandler == nil {
+		unregistered = append(unregistered, "rename.RenameHandler")
 	}
 
-	if o.RestoreHandler == nil {
-		unregistered = append(unregistered, "RestoreHandler")
+	if o.RestoreRestoreHandler == nil {
+		unregistered = append(unregistered, "restore.RestoreHandler")
 	}
 
-	if o.RhIDHandler == nil {
-		unregistered = append(unregistered, "RhIDHandler")
+	if o.ResourceHostRhIDHandler == nil {
+		unregistered = append(unregistered, "resource_host.RhIDHandler")
 	}
 
-	if o.StartHandler == nil {
-		unregistered = append(unregistered, "StartHandler")
+	if o.StartStartHandler == nil {
+		unregistered = append(unregistered, "start.StartHandler")
 	}
 
-	if o.StopHandler == nil {
-		unregistered = append(unregistered, "StopHandler")
+	if o.StopStopHandler == nil {
+		unregistered = append(unregistered, "stop.StopHandler")
 	}
 
-	if o.TunnelAddHandler == nil {
-		unregistered = append(unregistered, "TunnelAddHandler")
+	if o.TunnelTunnelAddHandler == nil {
+		unregistered = append(unregistered, "tunnel.TunnelAddHandler")
 	}
 
-	if o.TunnelCheckHandler == nil {
-		unregistered = append(unregistered, "TunnelCheckHandler")
+	if o.TunnelTunnelCheckHandler == nil {
+		unregistered = append(unregistered, "tunnel.TunnelCheckHandler")
 	}
 
-	if o.TunnelDeleteHandler == nil {
-		unregistered = append(unregistered, "TunnelDeleteHandler")
+	if o.TunnelTunnelDeleteHandler == nil {
+		unregistered = append(unregistered, "tunnel.TunnelDeleteHandler")
 	}
 
-	if o.TunnelListHandler == nil {
-		unregistered = append(unregistered, "TunnelListHandler")
+	if o.TunnelTunnelListHandler == nil {
+		unregistered = append(unregistered, "tunnel.TunnelListHandler")
 	}
 
-	if o.UpdateHandler == nil {
-		unregistered = append(unregistered, "UpdateHandler")
+	if o.UpdateUpdateHandler == nil {
+		unregistered = append(unregistered, "update.UpdateHandler")
 	}
 
-	if o.VxlanCreateHandler == nil {
-		unregistered = append(unregistered, "VxlanCreateHandler")
+	if o.VxlanVxlanCreateHandler == nil {
+		unregistered = append(unregistered, "vxlan.VxlanCreateHandler")
 	}
 
-	if o.VxlanDeleteHandler == nil {
-		unregistered = append(unregistered, "VxlanDeleteHandler")
+	if o.VxlanVxlanDeleteHandler == nil {
+		unregistered = append(unregistered, "vxlan.VxlanDeleteHandler")
 	}
 
-	if o.VxlanListHandler == nil {
-		unregistered = append(unregistered, "VxlanListHandler")
+	if o.VxlanVxlanListHandler == nil {
+		unregistered = append(unregistered, "vxlan.VxlanListHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -575,47 +601,47 @@ func (o *AgentAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/attach/{container}"] = NewAttach(o.context, o.AttachHandler)
+	o.handlers["GET"]["/rest/v1/attach/{container}"] = attach.NewAttach(o.context, o.AttachAttachHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/backup/{name}"] = NewBackupContainer(o.context, o.BackupContainerHandler)
+	o.handlers["GET"]["/rest/v1/backup/{name}"] = backup.NewBackupContainer(o.context, o.BackupBackupContainerHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/batch"] = NewBatch(o.context, o.BatchHandler)
+	o.handlers["POST"]["/rest/v1/batch"] = batch.NewBatch(o.context, o.BatchBatchHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/cleanup"] = NewCleanup(o.context, o.CleanupHandler)
+	o.handlers["GET"]["/rest/v1/cleanup"] = cleanup.NewCleanup(o.context, o.CleanupCleanupHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/list"] = NewCliList(o.context, o.CliListHandler)
+	o.handlers["GET"]["/rest/v1/list"] = list.NewCliList(o.context, o.ListCliListHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/clone/{parent}/{child}"] = NewClone(o.context, o.CloneHandler)
+	o.handlers["POST"]["/rest/v1/clone/{parent}/{child}"] = clone.NewClone(o.context, o.CloneCloneHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/config"] = NewConfig(o.context, o.ConfigHandler)
+	o.handlers["POST"]["/rest/v1/config"] = configuration.NewConfig(o.context, o.ConfigurationConfigHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/demote/{container}"] = NewDemote(o.context, o.DemoteHandler)
+	o.handlers["POST"]["/rest/v1/demote/{container}"] = demote.NewDemote(o.context, o.DemoteDemoteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/destroy/{ID}"] = NewDestroy(o.context, o.DestroyHandler)
+	o.handlers["GET"]["/rest/v1/destroy/{ID}"] = destroy.NewDestroy(o.context, o.DestroyDestroyHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
@@ -630,142 +656,142 @@ func (o *AgentAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/export/{container}"] = NewExport(o.context, o.ExportHandler)
+	o.handlers["POST"]["/rest/v1/export/{container}"] = export.NewExport(o.context, o.ExportExportHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/container/{name}"] = NewGetContainerInfo(o.context, o.GetContainerInfoHandler)
+	o.handlers["GET"]["/rest/v1/container/{name}"] = container.NewGetContainerInfo(o.context, o.ContainerGetContainerInfoHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/hostname/{container}/{name}"] = NewHostname(o.context, o.HostnameHandler)
+	o.handlers["POST"]["/rest/v1/hostname/{container}/{name}"] = hostname.NewHostname(o.context, o.HostnameHostnameHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/import/{container}"] = NewImport(o.context, o.ImportHandler)
+	o.handlers["GET"]["/rest/v1/import/{container}"] = import_operations.NewImport(o.context, o.ImportOperationsImportHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/info"] = NewInfo(o.context, o.InfoHandler)
+	o.handlers["GET"]["/rest/v1/info"] = info.NewInfo(o.context, o.InfoInfoHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/metrics"] = NewMetrics(o.context, o.MetricsHandler)
+	o.handlers["GET"]["/rest/v1/metrics"] = metrics.NewMetrics(o.context, o.MetricsMetricsHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/p2p"] = NewP2pCreate(o.context, o.P2pCreateHandler)
+	o.handlers["POST"]["/rest/v1/p2p"] = p2p.NewP2pCreate(o.context, o.P2pP2pCreateHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/rest/v1/p2p"] = NewP2pDelete(o.context, o.P2pDeleteHandler)
+	o.handlers["DELETE"]["/rest/v1/p2p"] = p2p.NewP2pDelete(o.context, o.P2pP2pDeleteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/p2p"] = NewP2pList(o.context, o.P2pListHandler)
+	o.handlers["GET"]["/rest/v1/p2p"] = p2p.NewP2pList(o.context, o.P2pP2pListHandler)
 
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/rest/v1/p2p"] = NewP2pUpdate(o.context, o.P2pUpdateHandler)
+	o.handlers["PUT"]["/rest/v1/p2p"] = p2p.NewP2pUpdate(o.context, o.P2pP2pUpdateHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/promote/{container}"] = NewPromote(o.context, o.PromoteHandler)
+	o.handlers["POST"]["/rest/v1/promote/{container}"] = promote.NewPromote(o.context, o.PromotePromoteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/proxy"] = NewProxyCheck(o.context, o.ProxyCheckHandler)
+	o.handlers["GET"]["/rest/v1/proxy"] = proxy.NewProxyCheck(o.context, o.ProxyProxyCheckHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/proxy"] = NewProxyCreate(o.context, o.ProxyCreateHandler)
+	o.handlers["POST"]["/rest/v1/proxy"] = proxy.NewProxyCreate(o.context, o.ProxyProxyCreateHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/rest/v1/proxy"] = NewProxyDelete(o.context, o.ProxyDeleteHandler)
+	o.handlers["DELETE"]["/rest/v1/proxy"] = proxy.NewProxyDelete(o.context, o.ProxyProxyDeleteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/quota"] = NewQuota(o.context, o.QuotaHandler)
+	o.handlers["GET"]["/rest/v1/quota"] = quota.NewQuota(o.context, o.QuotaQuotaHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/rename/{source}/{newname}"] = NewRename(o.context, o.RenameHandler)
+	o.handlers["GET"]["/rest/v1/rename/{source}/{newname}"] = rename.NewRename(o.context, o.RenameRenameHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/restore/{container}"] = NewRestore(o.context, o.RestoreHandler)
+	o.handlers["GET"]["/rest/v1/restore/{container}"] = restore.NewRestore(o.context, o.RestoreRestoreHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/rh/id"] = NewRhID(o.context, o.RhIDHandler)
+	o.handlers["GET"]["/rest/v1/rh/id"] = resource_host.NewRhID(o.context, o.ResourceHostRhIDHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/start/{container}"] = NewStart(o.context, o.StartHandler)
+	o.handlers["GET"]["/rest/v1/start/{container}"] = start.NewStart(o.context, o.StartStartHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/stop/{container}"] = NewStop(o.context, o.StopHandler)
+	o.handlers["GET"]["/rest/v1/stop/{container}"] = stop.NewStop(o.context, o.StopStopHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/tunnel/{socket}"] = NewTunnelAdd(o.context, o.TunnelAddHandler)
+	o.handlers["POST"]["/rest/v1/tunnel/{socket}"] = tunnel.NewTunnelAdd(o.context, o.TunnelTunnelAddHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/tunnel/check"] = NewTunnelCheck(o.context, o.TunnelCheckHandler)
+	o.handlers["GET"]["/rest/v1/tunnel/check"] = tunnel.NewTunnelCheck(o.context, o.TunnelTunnelCheckHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/rest/v1/tunnel/{socket}"] = NewTunnelDelete(o.context, o.TunnelDeleteHandler)
+	o.handlers["DELETE"]["/rest/v1/tunnel/{socket}"] = tunnel.NewTunnelDelete(o.context, o.TunnelTunnelDeleteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/tunnel/list"] = NewTunnelList(o.context, o.TunnelListHandler)
+	o.handlers["GET"]["/rest/v1/tunnel/list"] = tunnel.NewTunnelList(o.context, o.TunnelTunnelListHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/update/{container}"] = NewUpdate(o.context, o.UpdateHandler)
+	o.handlers["GET"]["/rest/v1/update/{container}"] = update.NewUpdate(o.context, o.UpdateUpdateHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/vxlan/{tunnel}"] = NewVxlanCreate(o.context, o.VxlanCreateHandler)
+	o.handlers["POST"]["/rest/v1/vxlan/{tunnel}"] = vxlan.NewVxlanCreate(o.context, o.VxlanVxlanCreateHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/rest/v1/vxlan/{iface}"] = NewVxlanDelete(o.context, o.VxlanDeleteHandler)
+	o.handlers["DELETE"]["/rest/v1/vxlan/{iface}"] = vxlan.NewVxlanDelete(o.context, o.VxlanVxlanDeleteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/vxlan/list"] = NewVxlanList(o.context, o.VxlanListHandler)
+	o.handlers["GET"]["/rest/v1/vxlan/list"] = vxlan.NewVxlanList(o.context, o.VxlanVxlanListHandler)
 
 }
 

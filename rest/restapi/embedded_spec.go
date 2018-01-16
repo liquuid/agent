@@ -36,14 +36,13 @@ func init() {
       "get": {
         "description": "LxcAttach allows user to use container's TTY.\n` + "`" + `name` + "`" + ` should be available running Subutai container, otherwise command will return error message and non-zero exit code.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "attach"
         ],
         "operationId": "attach",
         "parameters": [
           {
             "type": "string",
+            "description": "Container to be attached",
             "name": "container",
             "in": "path",
             "required": true
@@ -70,9 +69,7 @@ func init() {
       "get": {
         "description": "BackupContainer takes a snapshots of each container's volume and stores it in the ` + "`" + `/mnt/backups/container_name/datetime/` + "`" + ` directory. A full backup creates a delta-file of each BTRFS subvolume. An incremental backup (default) creates a delta-file with the difference of changes between the current and last snapshots. All deltas are compressed to archives in ` + "`" + `/mnt/backups/` + "`" + ` directory (container_datetime.tar.gz or container_datetime_Full.tar.gz for full backup). A changelog file can be found next to backups archive (container_datetime_changelog.txt or container_datetime_Full_changelog.txt) which contains a list of changes made between two backups.",
         "tags": [
-          "agent",
-          "cli",
-          "container"
+          "backup"
         ],
         "operationId": "backupContainer",
         "responses": {
@@ -113,9 +110,7 @@ func init() {
       "post": {
         "description": "Batch binding provides a mechanism to perform several Subutai commands in the container in batch, passed in a single JSON message. Initially, the purpose of this command was internal for SS \u003c-\u003e Agent communication, yet it may be invoked manually from the CLI. The response from a batch command returns a JSON array with each element representing the results (response) from each command (request) in the batch: the positions of responses correlate with the request position in the array",
         "tags": [
-          "agent",
-          "cli",
-          "container"
+          "batch"
         ],
         "operationId": "batch",
         "parameters": [
@@ -147,9 +142,7 @@ func init() {
       "get": {
         "description": "Cleanup simply removes every resource associated with a Subutai container or template: data, network, configs, etc. The destroy command always runs each step in \"force\" mode to provide reliable deletion results; even if some instance components were already removed, the destroy command will continue to perform all operations once again while ignoring possible underlying errors: i.e. missing configuration files.",
         "tags": [
-          "agent",
-          "cli",
-          "container"
+          "cleanup"
         ],
         "operationId": "cleanup",
         "responses": {
@@ -172,20 +165,20 @@ func init() {
       "post": {
         "description": "Clone function creates new ` + "`" + `child` + "`" + ` container from a Subutai ` + "`" + `parent` + "`" + ` template. If the specified template argument is not deployed in system, Subutai first tries to import it, and if import succeeds, it then continues to clone from the imported template image. By default, clone will use the NAT-ed network interface with IP address received from the Subutai DHCP server, but this behavior can be changed with command options described below.\nIf ` + "`" + `ipaddr` + "`" + ` option is defined, separate bridge interface will be created in specified VLAN and new container will receive static IP address. Option ` + "`" + `envID` + "`" + ` writes the environment ID string inside new container. Option ` + "`" + `token` + "`" + ` is intended to check the origin of new container creation request during environment build. This is one of the security checks which makes sure that each container creation request is authorized by registered user.\nOption ` + "`" + `kurjunToken` + "`" + ` set kurjun token to clone private and shared templates\nThe clone options are not intended for manual use: unless you're confident about what you're doing. Use default clone format without additional options to create Subutai containers.",
         "tags": [
-          "agent",
-          "cli",
-          "container"
+          "clone"
         ],
         "operationId": "clone",
         "parameters": [
           {
             "type": "string",
+            "description": "Parent name",
             "name": "parent",
             "in": "path",
             "required": true
           },
           {
             "type": "string",
+            "description": "Child name",
             "name": "child",
             "in": "path",
             "required": true
@@ -218,9 +211,7 @@ func init() {
       "post": {
         "description": "Allows read and write container's configuration file",
         "tags": [
-          "agent",
-          "cli",
-          "container"
+          "configuration"
         ],
         "operationId": "config",
         "parameters": [
@@ -279,8 +270,6 @@ func init() {
       "get": {
         "description": "Get container Info in JSON formatted object",
         "tags": [
-          "agent",
-          "cli",
           "container"
         ],
         "operationId": "getContainerInfo",
@@ -319,33 +308,39 @@ func init() {
       "parameters": [
         {
           "type": "string",
+          "description": "Name of container",
           "name": "name",
           "in": "path",
           "required": true
         },
         {
           "type": "boolean",
+          "description": "Parameter to return containers only",
           "name": "containersOnly",
           "in": "query"
         },
         {
           "type": "boolean",
+          "description": "Parameter to return templates only",
           "name": "templatesOnly",
           "in": "query"
         },
         {
           "type": "boolean",
-          "name": "detailedInfo",
-          "in": "query"
-        },
-        {
-          "type": "boolean",
+          "description": "Parameter to return containers/templates with ancestors",
           "name": "withAncestors",
           "in": "query"
         },
         {
           "type": "boolean",
+          "description": "Parameter to return containers/templates with parents",
           "name": "withParents",
+          "in": "query"
+        },
+        {
+          "type": "boolean",
+          "description": "Parameter to return detailed info",
+          "name": "detailedInfo",
           "in": "query"
         }
       ]
@@ -354,14 +349,13 @@ func init() {
       "post": {
         "description": "Converts template into regular Subutai container.\nA Subutai template is a \"locked down\" container only to be used for cloning purposes. It cannot be started, and its file system cannot be modified: it's read-only. Normal operational containers are promoted into templates, but sometimes you might want to demote them back to regular containers. This is what the demote sub command does: it reverts a template without children back into a normal container. Demoted container will use NAT network interface and dynamic IP address if opposite options are not specified.",
         "tags": [
-          "agent",
-          "cli",
-          "container"
+          "demote"
         ],
         "operationId": "demote",
         "parameters": [
           {
             "type": "string",
+            "description": "Container name",
             "name": "container",
             "in": "path",
             "required": true
@@ -394,20 +388,20 @@ func init() {
       "get": {
         "description": "Destroy Subutai container",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "destroy"
         ],
         "operationId": "destroy",
         "parameters": [
           {
             "type": "string",
+            "description": "container name or vlan id",
             "name": "ID",
             "in": "path",
             "required": true
           },
           {
             "type": "boolean",
+            "description": "If true the ID is a vlan, if false is a container name",
             "name": "vlan",
             "in": "query"
           }
@@ -433,14 +427,13 @@ func init() {
       "post": {
         "description": "Export prepares an archive from a template in the ` + "`" + `/mnt/lib/lxc/tmpdir/` + "`" + ` path. This archive can be moved to another Subutai peer and deployed as ready-to-use template or uploaded to Subutai's global template repository to make it widely available for others to use.\nExport consist of two steps if the target is a container: container promotion to template (see \"promote\" command) and packing the template into the archive. If already a template just the packing of the archive takes place.\nConfiguration values for template metadata parameters can be overridden on export, like the recommended container size when the template is cloned using ` + "`" + `-s` + "`" + ` option.",
         "tags": [
-          "agent",
-          "cli",
-          "container"
+          "export"
         ],
         "operationId": "export",
         "parameters": [
           {
             "type": "string",
+            "description": "Container name",
             "name": "container",
             "in": "path",
             "required": true
@@ -473,20 +466,20 @@ func init() {
       "post": {
         "description": "        - type: string name: container in: path required: true",
         "tags": [
-          "agent",
-          "cli",
-          "container"
+          "hostname"
         ],
         "operationId": "hostname",
         "parameters": [
           {
             "type": "string",
+            "description": "Container name",
             "name": "container",
             "in": "path",
             "required": true
           },
           {
             "type": "string",
+            "description": "New name",
             "name": "name",
             "in": "path",
             "required": true
@@ -512,14 +505,13 @@ func init() {
       "get": {
         "description": "Import Subutai template",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "import"
         ],
         "operationId": "import",
         "parameters": [
           {
             "type": "string",
+            "description": "Container name",
             "name": "container",
             "in": "path",
             "required": true
@@ -553,14 +545,13 @@ func init() {
       "get": {
         "description": "Info command's purposed is to display common system information, such as external IP address to access the container host quotas, its CPU model, RAM size, etc. It's mainly used for internal SS needs.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "info"
         ],
         "operationId": "info",
         "parameters": [
           {
             "type": "string",
+            "description": "Commands available:  ipaddr, ports, os, quota, system",
             "name": "command",
             "in": "query",
             "required": true
@@ -587,8 +578,6 @@ func init() {
       "get": {
         "description": "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.",
         "tags": [
-          "agent",
-          "cli",
           "list"
         ],
         "operationId": "cliList",
@@ -597,26 +586,31 @@ func init() {
             "type": "integer",
             "format": "int32",
             "default": 20,
+            "description": "Limit of returned entries on response",
             "name": "limit",
             "in": "query"
           },
           {
             "type": "boolean",
+            "description": "Parameter to return containers only",
             "name": "containersOnly",
             "in": "query"
           },
           {
             "type": "boolean",
+            "description": "Parameter to return templates only",
             "name": "templatesOnly",
             "in": "query"
           },
           {
             "type": "boolean",
+            "description": "Parameter to return containers/templates with ancestors",
             "name": "withAncestors",
             "in": "query"
           },
           {
             "type": "boolean",
+            "description": "Parameter to return containers/templates with parents",
             "name": "withParents",
             "in": "query"
           }
@@ -642,20 +636,20 @@ func init() {
       "get": {
         "description": "HostMetrics function retrieves monitoring data from a time-series database deployed in the SS Management server for container hosts and Resource Hosts. Statistics are being collected by the Subutai daemon and includes common information like CPU utilization, network load, RAM and disk usage for both containers and hosts. Since the database is located on the SS Management Host, hosts which are not a part of a Subutai peer have no access to this information. Data aggregation in the time-series database has following configuration: last hour statistic is stored \"as is\", last day data aggregates to 1 minute interval, last week is in 5 minute intervals, After 7 days all statistics is are overwritten by new incoming data.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "metrics"
         ],
         "operationId": "metrics",
         "parameters": [
           {
             "type": "string",
+            "description": "Start date. Date Example: 2006-01-02 15:04:05",
             "name": "start",
             "in": "query",
             "required": true
           },
           {
             "type": "string",
+            "description": "End date.  Date Example: 2006-01-02 15:04:05",
             "name": "end",
             "in": "query",
             "required": true
@@ -682,9 +676,7 @@ func init() {
       "get": {
         "description": "P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.\nP2P is a base layer for Subutai environment networking: all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN. It doesn't matter where the containers are physically located.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "p2p"
         ],
         "operationId": "p2pList",
         "parameters": [
@@ -715,9 +707,7 @@ func init() {
       "put": {
         "description": "P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.\nP2P is a base layer for Subutai environment networking: all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN. It doesn't matter where the containers are physically located.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "p2p"
         ],
         "operationId": "p2pUpdate",
         "parameters": [
@@ -748,9 +738,7 @@ func init() {
       "post": {
         "description": "P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.\nP2P is a base layer for Subutai environment networking: all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN. It doesn't matter where the containers are physically located.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "p2p"
         ],
         "operationId": "p2pCreate",
         "parameters": [
@@ -778,9 +766,7 @@ func init() {
       "delete": {
         "description": "P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.\nP2P is a base layer for Subutai environment networking: all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN. It doesn't matter where the containers are physically located.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "p2p"
         ],
         "operationId": "p2pDelete",
         "parameters": [
@@ -807,14 +793,13 @@ func init() {
       "post": {
         "description": "Promote turns a Subutai container into container template which may be cloned with \"clone\" command. Promote executes several simple steps, such as dropping a container's configuration to default values, dumping the list of installed packages (this step requires the target container to still be running), and setting the container's filesystem to read-only to prevent changes.",
         "tags": [
-          "agent",
-          "cli",
-          "container"
+          "promote"
         ],
         "operationId": "promote",
         "parameters": [
           {
             "type": "string",
+            "description": "Container name",
             "name": "container",
             "in": "path",
             "required": true
@@ -847,9 +832,7 @@ func init() {
       "get": {
         "description": "ProxyCheck exits with 0 code if domain or node is exists in specified vlan, otherwise exitcode is 1",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "proxy"
         ],
         "operationId": "proxyCheck",
         "parameters": [
@@ -880,9 +863,7 @@ func init() {
       "post": {
         "description": "ProxyAdd checks input args and perform required operations to configure reverse proxy",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "proxy"
         ],
         "operationId": "proxyCreate",
         "parameters": [
@@ -910,9 +891,7 @@ func init() {
       "delete": {
         "description": "ProxyDel checks what need to be removed - domain or node and pass args to required functions",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "proxy"
         ],
         "operationId": "proxyDelete",
         "parameters": [
@@ -939,9 +918,7 @@ func init() {
       "get": {
         "description": "Quota function controls container's quotas and thresholds. Available resources: cpu, % cpuset, available cores ram, Mb network, Kbps rootfs/home/var/opt, Gb The threshold value represents a percentage for each resource. Once resource consumption exceeds this threshold it triggers an alert. The clone operation, sets no quotas and thresholds for new containers; quotas need to be configured with quota command after a clone operation.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "quota"
         ],
         "operationId": "quota",
         "parameters": [
@@ -974,20 +951,20 @@ func init() {
       "get": {
         "description": "Renames a Subutai container impacting filesystem paths, configuration values, etc.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "rename"
         ],
         "operationId": "rename",
         "parameters": [
           {
             "type": "string",
+            "description": "Source name",
             "name": "source",
             "in": "path",
             "required": true
           },
           {
             "type": "string",
+            "description": "New name",
             "name": "newname",
             "in": "path",
             "required": true
@@ -1014,25 +991,26 @@ func init() {
       "get": {
         "description": "RestoreContainer restores a Subutai container to a snapshot at a specified timestamp if such a backup archive is available.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "restore"
         ],
         "operationId": "restore",
         "parameters": [
           {
             "type": "string",
+            "description": "Container name",
             "name": "container",
             "in": "path",
             "required": true
           },
           {
             "type": "string",
+            "description": "Date argument",
             "name": "date",
             "in": "query"
           },
           {
             "type": "string",
+            "description": "Name of new container",
             "name": "newcontainer",
             "in": "query"
           }
@@ -1058,8 +1036,7 @@ func init() {
       "get": {
         "description": "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint",
         "tags": [
-          "agent",
-          "rh"
+          "resource host"
         ],
         "operationId": "rhID",
         "responses": {
@@ -1083,14 +1060,13 @@ func init() {
       "get": {
         "description": "Starts a Subutai container and checks if container state changed to \"running\" or \"starting\". If state is not changing for 60 seconds, then the \"start\" operation is considered to have failed.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "start"
         ],
         "operationId": "start",
         "parameters": [
           {
             "type": "string",
+            "description": "Container name",
             "name": "container",
             "in": "path",
             "required": true
@@ -1117,14 +1093,13 @@ func init() {
       "get": {
         "description": "Stops a Subutai container with an additional state check.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "stop"
         ],
         "operationId": "stop",
         "parameters": [
           {
             "type": "string",
+            "description": "Container name",
             "name": "container",
             "in": "path",
             "required": true
@@ -1151,19 +1126,9 @@ func init() {
       "get": {
         "description": "reads list, checks tunnel ttl, its state and then adds or removes required tunnels",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "tunnel"
         ],
         "operationId": "tunnelCheck",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "command",
-            "in": "query",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Ok",
@@ -1185,19 +1150,9 @@ func init() {
       "get": {
         "description": "performs tunnel check and shows \"alive\" tunnels",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "tunnel"
         ],
         "operationId": "tunnelList",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "command",
-            "in": "query",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Ok",
@@ -1219,25 +1174,26 @@ func init() {
       "post": {
         "description": "TunAdd adds tunnel to specified network socket",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "tunnel"
         ],
         "operationId": "tunnelAdd",
         "parameters": [
           {
             "type": "string",
+            "description": "Socket name",
             "name": "socket",
             "in": "path",
             "required": true
           },
           {
             "type": "string",
+            "description": "Tunnels may also be set to be permanent (default) or temporary (ttl in seconds). The default destination port is 22.",
             "name": "timeout",
             "in": "query"
           },
           {
             "type": "boolean",
+            "description": "There are two types of channels - local (default), which is created from destination address to host and global, from destination to Subutai Helper node.",
             "name": "global",
             "in": "query"
           }
@@ -1258,20 +1214,20 @@ func init() {
       "delete": {
         "description": "TunDel removes tunnel entry from list and kills running tunnel process",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "tunnel"
         ],
         "operationId": "tunnelDelete",
         "parameters": [
           {
             "type": "string",
+            "description": "Socket name",
             "name": "socket",
             "in": "path",
             "required": true
           },
           {
             "type": "string",
+            "description": "PID",
             "name": "pid",
             "in": "query"
           }
@@ -1291,20 +1247,20 @@ func init() {
       "get": {
         "description": "Update operation can be divided into two different types: container updates and Resource Host updates. Container updates simply perform apt-get update and upgrade operations inside target containers without any extra commands. Since SS Management is just another container, the Subutai update command works fine with the management container too.\nThe second type of update, a Resource Host update, checks the Ubuntu Store and compares available snap packages with those currently installed in the system and, if a newer version is found, installs it. Please note, system security policies requires that such commands should be performed by the superuser manually, otherwise an application's attempt to update itself will be blocked.",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "update"
         ],
         "operationId": "update",
         "parameters": [
           {
             "type": "string",
+            "description": "Container name",
             "name": "container",
             "in": "path",
             "required": true
           },
           {
             "type": "boolean",
+            "description": "Just check for updates, don't update",
             "name": "check",
             "in": "query",
             "required": true
@@ -1331,9 +1287,7 @@ func init() {
       "get": {
         "description": "prints a list of existing VXLAN tunnels",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "vxlan"
         ],
         "operationId": "vxlanList",
         "responses": {
@@ -1357,14 +1311,13 @@ func init() {
       "delete": {
         "description": "removes OVS bridges and ports by name, brings system interface down",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "vxlan"
         ],
         "operationId": "vxlanDelete",
         "parameters": [
           {
             "type": "string",
+            "description": "Network interface name",
             "name": "iface",
             "in": "path",
             "required": true
@@ -1385,32 +1338,34 @@ func init() {
       "post": {
         "description": "Creates VXLAN tunnel",
         "tags": [
-          "agent",
-          "cli",
-          "list"
+          "vxlan"
         ],
         "operationId": "vxlanCreate",
         "parameters": [
           {
             "type": "string",
+            "description": "Tunnel name",
             "name": "tunnel",
             "in": "path",
             "required": true
           },
           {
             "type": "string",
+            "description": "Remote IP",
             "name": "remoteip",
             "in": "query",
             "required": true
           },
           {
             "type": "string",
+            "description": "Virtual local network",
             "name": "vlan",
             "in": "query",
             "required": true
           },
           {
             "type": "string",
+            "description": "Virtual Network Interface",
             "name": "vni",
             "in": "query",
             "required": true
@@ -1509,14 +1464,17 @@ func init() {
       ],
       "properties": {
         "ancestor": {
+          "description": "Name of container's ancestor",
           "type": "string",
           "minLength": 1
         },
         "name": {
+          "description": "Name of container",
           "type": "string",
           "readOnly": true
         },
         "parent": {
+          "description": "Name of container's parent",
           "type": "string",
           "minLength": 1
         }
@@ -1792,7 +1750,7 @@ func init() {
           "minLength": 1
         },
         "domain": {
-          "type": "boolean",
+          "type": "string",
           "minLength": 1
         },
         "node": {

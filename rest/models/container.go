@@ -17,16 +17,16 @@ import (
 // swagger:model container
 type Container struct {
 
-	// ancestor
+	// Name of container's ancestor
 	// Min Length: 1
 	Ancestor string `json:"ancestor,omitempty"`
 
-	// name
+	// Name of container
 	// Required: true
 	// Read Only: true
 	Name string `json:"name"`
 
-	// parent
+	// Name of container's parent
 	// Min Length: 1
 	Parent string `json:"parent,omitempty"`
 }

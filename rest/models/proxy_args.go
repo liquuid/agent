@@ -23,7 +23,7 @@ type ProxyArgs struct {
 
 	// domain
 	// Min Length: 1
-	Domain bool `json:"domain,omitempty"`
+	Domain string `json:"domain,omitempty"`
 
 	// node
 	// Min Length: 1

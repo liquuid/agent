@@ -1101,7 +1101,7 @@ definitions:
         type: string
         minLength: 1
       domain:
-        type: boolean
+        type: string
         minLength: 1
 
   quotaArgs:
