@@ -731,7 +731,7 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 | node | string |  | No |
 | policy | string |  | No |
 | cert | string |  | No |
-| domain | boolean |  | No |
+| domain | string |  | No |
 
 ### quotaArgs  
 
