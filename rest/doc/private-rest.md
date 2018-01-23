@@ -1,11 +1,10 @@
-Agent API
-=========
-API to handle agent
+Hub API
+=======
+Subutai Agent private REST API
 
+**Version:** 1.0.0
 
-**Version:** 0.0.1
-
-### /rest/v1/rh/id
+### /rh/id
 ---
 ##### ***GET***
 **Description:** Returns JSON formatted Id of RH, UUID which is the PGP fingerprint
@@ -14,10 +13,10 @@ API to handle agent
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | JSON formatted Id of RH | [ [fingerprint](#fingerprint) ] |
+| 200 | JSON formatted Id of RH | [ [Fingerprint](#fingerprint) ] |
 | default | generic error response |  |
 
-### /rest/v1/list
+### /list
 ---
 ##### ***GET***
 **Description:** Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.
@@ -36,10 +35,10 @@ API to handle agent
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | List all subutai instances | [ [container](#container) ] |
+| 200 | List all subutai instances | [ [Container](#container) ] |
 | default | generic error response |  |
 
-### /rest/v1/attach/{container}
+### /attach/{container}
 ---
 ##### ***GET***
 **Description:** LxcAttach allows user to use container's TTY.
@@ -55,10 +54,10 @@ API to handle agent
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [message](#message) ] |
+| 200 | Ok | [ [Message](#message) ] |
 | default | generic error response |  |
 
-### /rest/v1/container/{name}
+### /container/{name}
 ---
 ##### ***GET***
 **Description:** Get container Info in JSON formatted object
@@ -78,8 +77,8 @@ API to handle agent
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | [container](#container) |
-| default | error | [error](#error) |
+| 200 | OK | [Container](#container) |
+| default | error | [Error](#error) |
 
 ##### ***DELETE***
 **Parameters**
@@ -98,9 +97,9 @@ API to handle agent
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 204 | Deleted |
-| default | error | [error](#error) |
+| default | error | [Error](#error) |
 
-### /rest/v1/backup/{name}
+### /backup/{name}
 ---
 ##### ***GET***
 **Description:** BackupContainer takes a snapshots of each container's volume and stores it in the `/mnt/backups/container_name/datetime/` directory. A full backup creates a delta-file of each BTRFS subvolume. An incremental backup (default) creates a delta-file with the difference of changes between the current and last snapshots. All deltas are compressed to archives in `/mnt/backups/` directory (container_datetime.tar.gz or container_datetime_Full.tar.gz for full backup). A changelog file can be found next to backups archive (container_datetime_changelog.txt or container_datetime_Full_changelog.txt) which contains a list of changes made between two backups.
@@ -117,10 +116,10 @@ API to handle agent
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | [message](#message) |
-| default | error | [error](#error) |
+| 200 | OK | [Message](#message) |
+| default | error | [Error](#error) |
 
-### /rest/v1/batch
+### /batch
 ---
 ##### ***POST***
 **Description:** Batch binding provides a mechanism to perform several Subutai commands in the container in batch, passed in a single JSON message. Initially, the purpose of this command was internal for SS <-> Agent communication, yet it may be invoked manually from the CLI. The response from a batch command returns a JSON array with each element representing the results (response) from each command (request) in the batch: the positions of responses correlate with the request position in the array
@@ -129,16 +128,16 @@ API to handle agent
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | No | [batchLine](#batchline) |
+| body | body |  | No | [Batchline](#batchline) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | [message](#message) |
-| default | error | [error](#error) |
+| 200 | OK | [Message](#message) |
+| default | error | [Error](#error) |
 
-### /rest/v1/cleanup
+### /cleanup
 ---
 ##### ***GET***
 **Description:** Cleanup simply removes every resource associated with a Subutai container or template: data, network, configs, etc. The destroy command always runs each step in "force" mode to provide reliable deletion results; even if some instance components were already removed, the destroy command will continue to perform all operations once again while ignoring possible underlying errors: i.e. missing configuration files.
@@ -147,10 +146,10 @@ API to handle agent
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | [message](#message) |
-| default | error | [error](#error) |
+| 200 | OK | [Message](#message) |
+| default | error | [Error](#error) |
 
-### /rest/v1/clone/{parent}/{child}
+### /clone/{parent}/{child}
 ---
 ##### ***POST***
 **Description:** Clone function creates new `child` container from a Subutai `parent` template. If the specified template argument is not deployed in system, Subutai first tries to import it, and if import succeeds, it then continues to clone from the imported template image. By default, clone will use the NAT-ed network interface with IP address received from the Subutai DHCP server, but this behavior can be changed with command options described below.
@@ -164,16 +163,16 @@ The clone options are not intended for manual use: unless you're confident about
 | ---- | ---------- | ----------- | -------- | ---- |
 | parent | path | Parent name | Yes | string |
 | child | path | Child name | Yes | string |
-| body | body |  | No | [cloneArgs](#cloneargs) |
+| body | body |  | No | [Cloneargs](#cloneargs) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | [message](#message) |
-| default | error | [error](#error) |
+| 200 | OK | [Message](#message) |
+| default | error | [Error](#error) |
 
-### /rest/v1/config
+### /config
 ---
 ##### ***POST***
 **Description:** Allows read and write container's configuration file
@@ -182,14 +181,14 @@ The clone options are not intended for manual use: unless you're confident about
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | No | [configOptions](#configoptions) |
+| body | body |  | No | [Configoptions](#configoptions) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | [message](#message) |
-| default | error | [error](#error) |
+| 200 | OK | [Message](#message) |
+| default | error | [Error](#error) |
 
 ##### ***DELETE***
 **Description:** Delete entry in configuration file
@@ -198,16 +197,16 @@ The clone options are not intended for manual use: unless you're confident about
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | No | [configOptions](#configoptions) |
+| body | body |  | No | [Configoptions](#configoptions) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 204 | Deleted |
-| default | error | [error](#error) |
+| default | error | [Error](#error) |
 
-### /rest/v1/demote/{container}
+### /demote/{container}
 ---
 ##### ***POST***
 **Description:** Converts template into regular Subutai container.
@@ -218,16 +217,16 @@ A Subutai template is a "locked down" container only to be used for cloning purp
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | container | path | Container name | Yes | string |
-| body | body |  | No | [demoteOptions](#demoteoptions) |
+| body | body |  | No | [Demoteoptions](#demoteoptions) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | [message](#message) |
-| default | error | [error](#error) |
+| 200 | OK | [Message](#message) |
+| default | error | [Error](#error) |
 
-### /rest/v1/promote/{container}
+### /promote/{container}
 ---
 ##### ***POST***
 **Description:** Promote turns a Subutai container into container template which may be cloned with "clone" command. Promote executes several simple steps, such as dropping a container's configuration to default values, dumping the list of installed packages (this step requires the target container to still be running), and setting the container's filesystem to read-only to prevent changes.
@@ -237,16 +236,16 @@ A Subutai template is a "locked down" container only to be used for cloning purp
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | container | path | Container name | Yes | string |
-| body | body |  | No | [promoteOptions](#promoteoptions) |
+| body | body |  | No | [Promoteoptions](#promoteoptions) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | [message](#message) |
-| default | error | [error](#error) |
+| 200 | OK | [Message](#message) |
+| default | error | [Error](#error) |
 
-### /rest/v1/export/{container}
+### /export/{container}
 ---
 ##### ***POST***
 **Description:** Export prepares an archive from a template in the `/mnt/lib/lxc/tmpdir/` path. This archive can be moved to another Subutai peer and deployed as ready-to-use template or uploaded to Subutai's global template repository to make it widely available for others to use.
@@ -258,16 +257,16 @@ Configuration values for template metadata parameters can be overridden on expor
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | container | path | Container name | Yes | string |
-| body | body |  | No | [exportOptions](#exportoptions) |
+| body | body |  | No | [Exportoptions](#exportoptions) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | [message](#message) |
-| default | error | [error](#error) |
+| 200 | OK | [Message](#message) |
+| default | error | [Error](#error) |
 
-### /rest/v1/hostname/{container}/{name}
+### /hostname/{container}/{name}
 ---
 ##### ***POST***
 **Description:**         - type: string name: container in: path required: true
@@ -283,10 +282,10 @@ Configuration values for template metadata parameters can be overridden on expor
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | [message](#message) |
-| default | error | [error](#error) |
+| 200 | OK | [Message](#message) |
+| default | error | [Error](#error) |
 
-### /rest/v1/destroy/{ID}
+### /destroy/{ID}
 ---
 ##### ***GET***
 **Description:** Destroy Subutai container
@@ -302,10 +301,10 @@ Configuration values for template metadata parameters can be overridden on expor
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [message](#message) ] |
+| 200 | Ok | [ [Message](#message) ] |
 | default | generic error response |  |
 
-### /rest/v1/import/{container}
+### /import/{container}
 ---
 ##### ***GET***
 **Description:** Import Subutai template
@@ -315,16 +314,16 @@ Configuration values for template metadata parameters can be overridden on expor
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | container | path | Container name | Yes | string |
-| body | body |  | No | [importOptions](#importoptions) |
+| body | body |  | No | [Importoptions](#importoptions) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [message](#message) ] |
+| 200 | Ok | [ [Message](#message) ] |
 | default | generic error response |  |
 
-### /rest/v1/info
+### /info
 ---
 ##### ***GET***
 **Description:** Info command's purposed is to display common system information, such as external IP address to access the container host quotas, its CPU model, RAM size, etc. It's mainly used for internal SS needs.
@@ -339,10 +338,10 @@ Configuration values for template metadata parameters can be overridden on expor
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [infoHostStat](#infohoststat) ] |
+| 200 | Ok | [ [InfoHostStat](#infohoststat) ] |
 | default | generic error response |  |
 
-### /rest/v1/metrics
+### /metrics
 ---
 ##### ***GET***
 **Description:** HostMetrics function retrieves monitoring data from a time-series database deployed in the SS Management server for container hosts and Resource Hosts. Statistics are being collected by the Subutai daemon and includes common information like CPU utilization, network load, RAM and disk usage for both containers and hosts. Since the database is located on the SS Management Host, hosts which are not a part of a Subutai peer have no access to this information. Data aggregation in the time-series database has following configuration: last hour statistic is stored "as is", last day data aggregates to 1 minute interval, last week is in 5 minute intervals, After 7 days all statistics is are overwritten by new incoming data.
@@ -358,10 +357,10 @@ Configuration values for template metadata parameters can be overridden on expor
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [metricInfo](#metricinfo) ] |
+| 200 | Ok | [ [MetricInfo](#metricinfo) ] |
 | default | generic error response |  |
 
-### /rest/v1/quota
+### /quota
 ---
 ##### ***GET***
 **Description:** Quota function controls container's quotas and thresholds. Available resources: cpu, % cpuset, available cores ram, Mb network, Kbps rootfs/home/var/opt, Gb The threshold value represents a percentage for each resource. Once resource consumption exceeds this threshold it triggers an alert. The clone operation, sets no quotas and thresholds for new containers; quotas need to be configured with quota command after a clone operation.
@@ -379,7 +378,7 @@ Configuration values for template metadata parameters can be overridden on expor
 | 200 | Ok | [ [quotaOutput](#quotaoutput) ] |
 | default | generic error response |  |
 
-### /rest/v1/rename/{source}/{newname}
+### /rename/{source}/{newname}
 ---
 ##### ***GET***
 **Description:** Renames a Subutai container impacting filesystem paths, configuration values, etc.
@@ -395,10 +394,10 @@ Configuration values for template metadata parameters can be overridden on expor
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [message](#message) ] |
+| 200 | Ok | [ [Message](#message) ] |
 | default | generic error response |  |
 
-### /rest/v1/restore/{container}
+### /restore/{container}
 ---
 ##### ***GET***
 **Description:** RestoreContainer restores a Subutai container to a snapshot at a specified timestamp if such a backup archive is available.
@@ -415,10 +414,10 @@ Configuration values for template metadata parameters can be overridden on expor
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [message](#message) ] |
+| 200 | Ok | [ [Message](#message) ] |
 | default | generic error response |  |
 
-### /rest/v1/start/{container}
+### /start/{container}
 ---
 ##### ***GET***
 **Description:** Starts a Subutai container and checks if container state changed to "running" or "starting". If state is not changing for 60 seconds, then the "start" operation is considered to have failed.
@@ -433,10 +432,10 @@ Configuration values for template metadata parameters can be overridden on expor
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [message](#message) ] |
+| 200 | Ok | [ [Message](#message) ] |
 | default | generic error response |  |
 
-### /rest/v1/stop/{container}
+### /stop/{container}
 ---
 ##### ***GET***
 **Description:** Stops a Subutai container with an additional state check.
@@ -451,10 +450,10 @@ Configuration values for template metadata parameters can be overridden on expor
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [message](#message) ] |
+| 200 | Ok | [ [Message](#message) ] |
 | default | generic error response |  |
 
-### /rest/v1/update/{container}
+### /update/{container}
 ---
 ##### ***GET***
 **Description:** Update operation can be divided into two different types: container updates and Resource Host updates. Container updates simply perform apt-get update and upgrade operations inside target containers without any extra commands. Since SS Management is just another container, the Subutai update command works fine with the management container too.
@@ -471,10 +470,10 @@ The second type of update, a Resource Host update, checks the Ubuntu Store and c
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [message](#message) ] |
+| 200 | Ok | [ [Message](#message) ] |
 | default | generic error response |  |
 
-### /rest/v1/p2p
+### /p2p
 ---
 ##### ***GET***
 **Description:** P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.
@@ -490,7 +489,7 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [text](#text) ] |
+| 200 | Ok | [ [Text](#text) ] |
 | default | generic error response |  |
 
 ##### ***PUT***
@@ -501,13 +500,13 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | No | [p2pArgs](#p2pargs) |
+| body | body |  | No | [P2pArgs](#p2pargs) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [text](#text) ] |
+| 200 | Ok | [ [Text](#text) ] |
 | default | generic error response |  |
 
 ##### ***DELETE***
@@ -518,7 +517,7 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | No | [p2pArgs](#p2pargs) |
+| body | body |  | No | [P2pArgs](#p2pargs) |
 
 **Responses**
 
@@ -535,16 +534,16 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | No | [p2pArgs](#p2pargs) |
+| body | body |  | No | [P2pArgs](#p2pargs) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 201 | Created | [item](#item) |
+| 201 | Created | [Item](#item) |
 | default | generic error response |  |
 
-### /rest/v1/proxy
+### /proxy
 ---
 ##### ***GET***
 **Description:** ProxyCheck exits with 0 code if domain or node is exists in specified vlan, otherwise exitcode is 1
@@ -553,13 +552,13 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | No | [proxyArgs](#proxyargs) |
+| body | body |  | No | [ProxyArgs](#proxyargs) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [message](#message) ] |
+| 200 | Ok | [ [Message](#message) ] |
 | default | generic error response |  |
 
 ##### ***DELETE***
@@ -569,7 +568,7 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | No | [proxyArgs](#proxyargs) |
+| body | body |  | No | [ProxyArgs](#proxyargs) |
 
 **Responses**
 
@@ -585,16 +584,16 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| body | body |  | No | [proxyArgs](#proxyargs) |
+| body | body |  | No | [ProxyArgs](#proxyargs) |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 201 | Created | [message](#message) |
+| 201 | Created | [Message](#message) |
 | default | generic error response |  |
 
-### /rest/v1/tunnel/list
+### /tunnel/list
 ---
 ##### ***GET***
 **Description:** performs tunnel check and shows "alive" tunnels
@@ -603,10 +602,10 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [item](#item) ] |
+| 200 | Ok | [ [Item](#item) ] |
 | default | generic error response |  |
 
-### /rest/v1/tunnel/check
+### /tunnel/check
 ---
 ##### ***GET***
 **Description:** reads list, checks tunnel ttl, its state and then adds or removes required tunnels
@@ -615,10 +614,10 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [item](#item) ] |
+| 200 | Ok | [ [Item](#item) ] |
 | default | generic error response |  |
 
-### /rest/v1/tunnel/{socket}
+### /tunnel/{socket}
 ---
 ##### ***DELETE***
 **Description:** TunDel removes tunnel entry from list and kills running tunnel process
@@ -652,10 +651,10 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 201 | Created | [message](#message) |
+| 201 | Created | [Message](#message) |
 | default | generic error response |  |
 
-### /rest/v1/vxlan/list
+### /vxlan/list
 ---
 ##### ***GET***
 **Description:** prints a list of existing VXLAN tunnels
@@ -664,10 +663,10 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Ok | [ [item](#item) ] |
+| 200 | Ok | [ [Item](#item) ] |
 | default | generic error response |  |
 
-### /rest/v1/vxlan/{iface}
+### /vxlan/{iface}
 ---
 ##### ***DELETE***
 **Description:** removes OVS bridges and ports by name, brings system interface down
@@ -685,7 +684,7 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 | 204 | Deleted |
 | default | generic error response |  |
 
-### /rest/v1/vxlan/{tunnel}
+### /vxlan/{tunnel}
 ---
 ##### ***POST***
 **Description:** Creates VXLAN tunnel
@@ -703,19 +702,26 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 201 | Created | [message](#message) |
+| 201 | Created | [Message](#message) |
 | default | generic error response |  |
 
 ### Models
 ---
 
-### text  
+### Error  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| text | string |  | No |
+| code | long |  | No |
+| message | string |  | Yes |
 
-### container  
+### Fingerprint  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| hash | string |  | Yes |
+
+### Container  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -723,46 +729,76 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 | parent | string | Name of container's parent | No |
 | ancestor | string | Name of container's ancestor | No |
 
-### proxyArgs  
+### Message  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| vlan | string |  | Yes |
-| node | string |  | No |
-| policy | string |  | No |
-| cert | string |  | No |
-| domain | string |  | No |
+| text | string | Message returned | Yes |
+| exitcode | string | Returned Exit code | No |
 
-### quotaArgs  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| name | string |  | Yes |
-| resource | string |  | Yes |
-| size | string |  | No |
-| threshold | string |  | No |
-
-### quotaOutput  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| quota | string |  | Yes |
-| threshold | string |  | Yes |
-
-### fingerprint  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| hash | string |  | Yes |
-
-### batchLine  
+### Batchline  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | action | string |  | Yes |
-| args | [ [item](#item) ] |  | Yes |
+| args | [ [Item](#item) ] |  | Yes |
 
-### infoHostStat  
+### Item  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| text | string |  | Yes |
+
+### Cloneargs  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| parent | string |  | Yes |
+| child | string |  | Yes |
+| envID | string |  | No |
+| ipaddr | string |  | No |
+| token | string |  | No |
+| kurjunToken | string |  | No |
+
+### Configoptions  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| key | string |  | Yes |
+| value | string |  | Yes |
+
+### Demoteoptions  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| ipaddr | string |  | No |
+| vlan | string |  | No |
+
+### Promoteoptions  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| source | string |  | No |
+
+### Exportoptions  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| version | string |  | No |
+| size | integer |  | No |
+| token | string |  | No |
+| description | string |  | No |
+| private | boolean |  | No |
+
+### Importoptions  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| version | string |  | No |
+| torrent | boolean |  | No |
+| token | string |  | No |
+
+### InfoHostStat  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -771,6 +807,13 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 | ram | [ [ramInfo](#raminfo) ] |  | No |
 | quota | [ [quotaInfo](#quotainfo) ] |  | No |
 | hostname | string |  | No |
+
+### MetricInfo  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| series | string |  | No |
+| messages | string |  | No |
 
 ### cpuInfo  
 
@@ -805,13 +848,6 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 | ram | string |  | No |
 | disk | [ [diskStructInfo](#diskstructinfo) ] |  | No |
 
-### metricInfo  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| series | string |  | No |
-| messages | string |  | No |
-
 ### diskStructInfo  
 
 | Name | Type | Description | Required |
@@ -821,18 +857,23 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 | rootfs | string |  | No |
 | var | string |  | No |
 
-### cloneArgs  
+### quotaArgs  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| parent | string |  | Yes |
-| child | string |  | Yes |
-| envID | string |  | No |
-| ipaddr | string |  | No |
-| token | string |  | No |
-| kurjunToken | string |  | No |
+| name | string |  | Yes |
+| resource | string |  | Yes |
+| size | string |  | No |
+| threshold | string |  | No |
 
-### p2pArgs  
+### quotaOutput  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| quota | string |  | Yes |
+| threshold | string |  | Yes |
+
+### P2pArgs  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -843,60 +884,18 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 | localPeepIPAddr | string |  | No |
 | portRange | string |  | No |
 
-### configOptions  
+### Text  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| key | string |  | Yes |
-| value | string |  | Yes |
+| text | string |  | No |
 
-### demoteOptions  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| ipaddr | string |  | No |
-| vlan | string |  | No |
-
-### promoteOptions  
+### ProxyArgs  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| source | string |  | No |
-
-### exportOptions  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| version | string |  | No |
-| size | integer |  | No |
-| token | string |  | No |
-| description | string |  | No |
-| private | boolean |  | No |
-
-### importOptions  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| version | string |  | No |
-| torrent | boolean |  | No |
-| token | string |  | No |
-
-### item  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| text | string |  | Yes |
-
-### message  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| text | string |  | Yes |
-| exitcode | string |  | No |
-
-### error  
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| code | long |  | No |
-| message | string |  | Yes |
+| vlan | string |  | Yes |
+| node | string |  | No |
+| policy | string |  | No |
+| cert | string |  | No |
+| domain | string |  | No |
