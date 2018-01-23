@@ -1,0 +1,14 @@
+type: object
+properties:
+  home:
+    type: string
+    readOnly: true
+  opt:
+    type: string
+    readOnly: true
+  rootfs:
+    type: string
+    readOnly: true
+  var:
+    type: string
+    readOnly: true

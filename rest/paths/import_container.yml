@@ -1,0 +1,27 @@
+get:
+  tags: 
+    - import
+  operationId: import
+  description: "Import Subutai template"
+  parameters:
+    - type: string
+      name: container
+      in: path
+      required: true
+      description: "Container name"
+    - name: body
+      in: body
+      schema:
+        $ref: "#/definitions/Importoptions"
+
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Message"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

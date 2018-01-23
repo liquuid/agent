@@ -1,0 +1,23 @@
+post:
+  parameters:
+    - name: body
+      in: body
+      schema:
+        $ref: "#/definitions/Batchline"
+  tags:
+    - batch
+  operationId: batch
+  description: "Batch binding provides a mechanism to perform several Subutai commands in the container in batch,
+passed in a single JSON message. Initially, the purpose of this command was internal for SS <-> Agent communication,
+yet it may be invoked manually from the CLI.
+The response from a batch command returns a JSON array with each element representing the results (response) from each command (request) in the batch:
+the positions of responses correlate with the request position in the array"
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: "#/definitions/Message"
+    default:
+      description: error
+      schema:
+        $ref: "#/definitions/Error"

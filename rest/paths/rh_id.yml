@@ -1,0 +1,16 @@
+get:
+  tags: 
+    - resource host
+  operationId: rhID
+  description: "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint"
+  responses:
+    '200':
+      description: JSON formatted Id of RH
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Fingerprint"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

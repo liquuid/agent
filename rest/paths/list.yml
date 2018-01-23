@@ -1,0 +1,39 @@
+get:
+  tags: 
+    - list
+  operationId: cliList
+  description: "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc."
+  parameters: 
+    - name: limit
+      in: query
+      type: integer
+      format: int32
+      default: 20
+      description: "Limit of returned entries on response"
+    - name: containersOnly
+      in: query
+      type: boolean
+      description: "Parameter to return containers only"
+    - name: templatesOnly
+      in: query
+      type: boolean
+      description: "Parameter to return templates only"
+    - name: withAncestors
+      in: query
+      type: boolean
+      description: "Parameter to return containers/templates with ancestors"
+    - name: withParents
+      in: query
+      type: boolean
+      description: "Parameter to return containers/templates with parents"
+  responses:
+    '200':
+      description: List all subutai instances
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Container"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

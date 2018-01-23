@@ -1,0 +1,23 @@
+get:
+  tags: 
+    - start
+  operationId: start
+  description: "Starts a Subutai container and checks if container state changed to \"running\" or \"starting\".
+If state is not changing for 60 seconds, then the \"start\" operation is considered to have failed."
+  parameters:
+    - type: string
+      name: container
+      in: path
+      required: true
+      description: "Container name"
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Message"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

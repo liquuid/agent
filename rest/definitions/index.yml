@@ -1,0 +1,48 @@
+Error:
+  $ref: ./Error.yml
+Fingerprint:
+  $ref: ./Fingerprint.yml
+Container:
+  $ref: ./Container.yml
+Message:
+  $ref: ./Message.yml
+Batchline:
+  $ref: ./Batchline.yml
+Item:
+  $ref: ./Item.yml
+Cloneargs:
+  $ref: ./Cloneargs.yml
+Configoptions:
+  $ref: ./Configoptions.yml
+Demoteoptions:
+  $ref: ./Demoteoptions.yml
+Promoteoptions:
+  $ref: ./Promoteoptions.yml
+Exportoptions:
+  $ref: ./Exportoptions.yml
+Importoptions:
+  $ref: ./Importoptions.yml
+InfoHostStat:
+  $ref: ./InfoHostStat.yml
+MetricInfo:
+  $ref: ./MetricInfo.yml
+cpuInfo:
+  $ref: ./cpuInfo.yml
+diskInfo:
+  $ref: ./diskInfo.yml
+ramInfo:
+  $ref: ./ramInfo.yml
+quotaInfo:
+  $ref: ./quotaInfo.yml
+diskStructInfo:
+  $ref: ./diskStructInfo.yml
+quotaArgs:
+  $ref: ./quotaArgs.yml
+quotaOutput:
+  $ref: ./quotaOutput.yml
+P2pArgs:
+  $ref: ./P2pArgs.yml
+Text:
+  $ref: ./Text.yml
+ProxyArgs:
+  $ref: ./ProxyArgs.yml

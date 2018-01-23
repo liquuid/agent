@@ -1,0 +1,8 @@
+type: object
+properties:
+  series:
+    type: string
+    readOnly: true
+  messages:
+    type: string
+    readOnly: true

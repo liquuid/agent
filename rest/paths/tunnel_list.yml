@@ -1,0 +1,16 @@
+get:
+  tags: 
+    - tunnel
+  operationId: tunnelList
+  description: "performs tunnel check and shows \"alive\" tunnels"
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Item"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

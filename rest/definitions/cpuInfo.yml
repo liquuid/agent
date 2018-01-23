@@ -1,0 +1,14 @@
+type: object
+properties:
+  model:
+      type: string
+      readOnly: true
+  coreCount:
+      type: string
+      readOnly: true
+  idle:
+      type: string
+      readOnly: true
+  frequency:
+      type: string
+      readOnly: true

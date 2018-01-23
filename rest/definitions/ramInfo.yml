@@ -1,0 +1,11 @@
+type: object
+properties:
+  free:
+      type: string
+      readOnly: true
+  total:
+      type: string
+      readOnly: true
+  cached:
+      type: string
+      readOnly: true

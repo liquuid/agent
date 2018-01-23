@@ -1,0 +1,13 @@
+type: object
+required:
+  - action
+  - args
+properties:
+  action:
+    type: string
+    readOnly: true
+  args:
+    type: array
+    items:
+      $ref: "#/definitions/Item"
+    readOnly: true

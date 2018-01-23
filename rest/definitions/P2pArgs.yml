@@ -1,0 +1,25 @@
+type: object
+required:
+  - interfaceName
+  - hash
+  - key
+  - ttl
+properties:
+  interfaceName:
+    type: string
+    readOnly: true
+  hash:
+    type: string
+    readOnly: true
+  key:
+    type: string
+    readOnly: true
+  ttl:
+    type: string
+    readOnly: true
+  localPeepIPAddr:
+    type: string
+    readOnly: true
+  portRange:
+    type: string
+    readOnly: true

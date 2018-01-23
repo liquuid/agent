@@ -1,0 +1,25 @@
+type: object
+properties:
+  cpu:
+    type: array
+    items:
+      $ref: "#/definitions/cpuInfo"
+    readOnly: true
+  disk:
+    type: array
+    items:
+      $ref: "#/definitions/diskInfo"
+    readOnly: true
+  ram:
+    type: array
+    items:
+      $ref: "#/definitions/ramInfo"
+    readOnly: true
+  quota:
+    type: array
+    items:
+      $ref: "#/definitions/quotaInfo"
+    readOnly: true
+  hostname:
+    type: string
+    readOnly: true

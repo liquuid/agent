@@ -1,0 +1,62 @@
+/rh/id:
+  $ref: ./rh_id.yml
+/list:
+  $ref: ./list.yml
+/attach/{container}:
+  $ref: ./attach_container.yml
+/container/{name}:
+  $ref: ./container_name.yml
+/backup/{name}:
+  $ref: ./backup_name.yml
+/batch:
+  $ref: ./batch.yml
+/cleanup:
+  $ref: ./cleanup.yml
+/clone/{parent}/{child}:
+  $ref: ./clone_parent_child.yml
+/config:
+  $ref: ./config.yml
+/demote/{container}:
+  $ref: ./demote_container.yml
+/promote/{container}:
+  $ref: ./promote_container.yml
+/export/{container}:
+  $ref: ./export_container.yml
+/hostname/{container}/{name}:
+  $ref: ./hostname_container_name.yml
+/destroy/{ID}:
+  $ref: ./destroy_ID.yml
+/import/{container}:
+  $ref: ./import_container.yml
+/info:
+  $ref: ./info.yml
+/metrics:
+  $ref: ./metrics.yml
+/quota:
+  $ref: ./quota.yml
+/rename/{source}/{newname}:
+  $ref: ./rename_source_newname.yml
+/restore/{container}:
+  $ref: ./restore_container.yml
+/start/{container}:
+  $ref: ./start_container.yml
+/stop/{container}:
+  $ref: ./stop_container.yml
+/update/{container}:
+  $ref: ./update_container.yml
+/p2p:
+  $ref: ./p2p.yml
+/proxy:
+  $ref: ./proxy.yml
+/tunnel/list:
+  $ref: ./tunnel_list.yml
+/tunnel/check:
+  $ref: ./tunnel_check.yml
+/tunnel/{socket}:
+  $ref: ./tunnel_socket.yml
+/vxlan/list:
+  $ref: ./vxlan_list.yml
+/vxlan/{iface}:
+  $ref: ./vxlan_iface.yml
+/vxlan/{tunnel}:
+  $ref: ./vxlan_tunnel.yml

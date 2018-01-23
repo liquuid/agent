@@ -1,0 +1,29 @@
+post:
+  parameters:
+    - type: string
+      name: container
+      in: path
+      required: true
+      description: "Container name"
+    - name: body
+      in: body
+      schema:
+        $ref: "#/definitions/Demoteoptions"
+  tags:
+    - demote
+  operationId: demote
+  description: "Converts template into regular Subutai container.
+
+A Subutai template is a \"locked down\" container only to be used for cloning purposes. It cannot be started, and its file system cannot be modified: it's read-only.
+Normal operational containers are promoted into templates, but sometimes you might want to demote them back to regular containers.
+This is what the demote sub command does: it reverts a template without children back into a normal container.
+Demoted container will use NAT network interface and dynamic IP address if opposite options are not specified."
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: "#/definitions/Message"
+    default:
+      description: error
+      schema:
+        $ref: "#/definitions/Error"

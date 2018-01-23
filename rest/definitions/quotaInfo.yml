@@ -1,0 +1,16 @@
+type: object
+properties:
+  container:
+    type: string
+    readOnly: true
+  cpu:
+    type: string
+    readOnly: true
+  ram:
+    type: string
+    readOnly: true
+  disk:
+    type: array
+    items:
+      $ref: "#/definitions/diskStructInfo"
+    readOnly: true

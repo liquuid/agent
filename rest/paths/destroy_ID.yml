@@ -1,0 +1,27 @@
+get:
+  tags: 
+    - destroy
+  operationId: destroy
+  description: "Destroy Subutai container"
+  parameters:
+    - type: string
+      name: ID
+      in: path
+      required: true
+      description: "container name or vlan id"
+    - name: vlan
+      in: query
+      type: boolean
+      description: "If true the ID is a vlan, if false is a container name"
+
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Message"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

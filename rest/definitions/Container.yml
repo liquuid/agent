@@ -1,0 +1,16 @@
+type: object
+required:
+  - name
+properties:
+  name:
+    type: string
+    readOnly: true
+    description: "Name of container"
+  parent:
+    type: string
+    minLength: 1
+    description: "Name of container's parent"
+  ancestor:
+    type: string
+    minLength: 1
+    description: "Name of container's ancestor"

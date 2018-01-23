@@ -1,0 +1,35 @@
+post:
+  parameters:
+    - type: string
+      name: tunnel
+      in: path
+      required: true
+      description: "Tunnel name"
+    - type: string
+      name: remoteip
+      in: query
+      required: true
+      description: "Remote IP"
+    - type: string
+      name: vlan
+      in: query
+      required: true
+      description: "Virtual local network"
+    - type: string
+      name: vni
+      in: query
+      required: true
+      description: "Virtual Network Interface"
+  tags: 
+    - vxlan
+  operationId: vxlanCreate
+  description: "Creates VXLAN tunnel"
+  responses:
+    201:
+      description: Created
+      schema:
+        $ref: "#/definitions/Message"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

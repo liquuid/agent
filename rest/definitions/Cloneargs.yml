@@ -1,0 +1,23 @@
+type: object
+required:
+  - parent
+  - child
+properties:
+  parent:
+    type: string
+    readOnly: true
+  child:
+    type: string
+    readOnly: true
+  envID:
+    type: string
+    readOnly: true
+  ipaddr:
+    type: string
+    readOnly: true
+  token:
+    type: string
+    readOnly: true
+  kurjunToken:
+    type: string
+    readOnly: true

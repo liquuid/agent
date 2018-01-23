@@ -1,0 +1,11 @@
+type: object
+properties:
+  version:
+    type: string
+    readOnly: true
+  torrent:
+    type: boolean
+    readOnly: true
+  token:
+    type: string
+    readOnly: true

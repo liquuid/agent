@@ -1,0 +1,29 @@
+get:
+  tags: 
+    - rename
+  operationId: rename
+  description: "Renames a Subutai container impacting filesystem paths, configuration values, etc."
+  parameters:
+    - type: string
+      name: source
+      in: path
+      required: true
+      description: "Source name"
+    - type: string
+      name: newname
+      in: path
+      required: true
+      description: "New name"
+      
+
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Message"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

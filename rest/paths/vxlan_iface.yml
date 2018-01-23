@@ -1,0 +1,18 @@
+delete:
+  tags: 
+    - vxlan
+  operationId: vxlanDelete
+  description: "removes OVS bridges and ports by name, brings system interface down"
+  parameters:
+    - type: string
+      name: iface
+      in: path
+      required: true
+      description: "Network interface name"
+  responses:
+    204:
+      description: Deleted
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

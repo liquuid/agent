@@ -1,0 +1,52 @@
+parameters:
+  - type: string
+    name: name
+    in: path
+    required: true
+    description: "Name of container"
+  - name: containersOnly
+    in: query
+    type: boolean
+    description: "Parameter to return containers only"
+  - name: templatesOnly
+    in: query
+    type: boolean
+    description: "Parameter to return templates only"
+  - name: withAncestors
+    in: query
+    type: boolean
+    description: "Parameter to return containers/templates with ancestors"
+  - name: withParents
+    in: query
+    type: boolean
+    description: "Parameter to return containers/templates with parents"
+  - name: detailedInfo
+    in: query
+    type: boolean
+    description: "Parameter to return detailed info"
+get:
+  tags:
+    - container
+  operationId: getContainerInfo
+  description: "Get container Info in JSON formatted object"
+
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: "#/definitions/Container"
+    default:
+      description: error
+      schema:
+        $ref: "#/definitions/Error"
+delete:
+  tags:
+    - container
+  operationId: destroyOne
+  responses:
+    204:
+      description: Deleted
+    default:
+      description: error
+      schema:
+        $ref: "#/definitions/Error"

@@ -1,0 +1,12 @@
+type: object
+required:
+  - text
+properties:
+  text:
+    type: string
+    readOnly: true
+    description: Message returned
+  exitcode:
+    type: string
+    readOnly: true
+    description: Returned Exit code

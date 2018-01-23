@@ -1,0 +1,24 @@
+get:
+  tags: 
+    - info
+  operationId: info
+  description: "Info command's purposed is to display common system information, such as
+external IP address to access the container host quotas, its CPU model, RAM size, etc. It's mainly used for internal SS needs."
+  parameters:
+    - type: string
+      name: command
+      in: query
+      required: true
+      description: "Commands available:  ipaddr, ports, os, quota, system"
+
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/InfoHostStat"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

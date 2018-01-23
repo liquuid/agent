@@ -1,0 +1,34 @@
+get:
+  tags: 
+    - restore
+  operationId: restore
+  description: "RestoreContainer restores a Subutai container to a snapshot at a specified timestamp if such a backup archive is available."
+  parameters:
+    - type: string
+      name: container
+      in: path
+      required: true
+      description: "Container name"
+      
+    - type: string
+      name: date
+      in: query
+      required: false
+      description: "Date argument"
+    - type: string
+      name: newcontainer
+      in: query
+      required: false
+      description: "Name of new container"  
+
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Message"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

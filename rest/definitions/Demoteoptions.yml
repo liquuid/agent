@@ -1,0 +1,8 @@
+type: object
+properties:
+  ipaddr:
+    type: string
+    readOnly: true
+  vlan:
+    type: string
+    readOnly: true

@@ -1,0 +1,28 @@
+post:
+  parameters:
+    - type: string
+      name: container
+      in: path
+      required: true
+      description: "Container name"
+    - type: string
+      name: name
+      in: path
+      required: true
+      description: "New name"
+  tags:
+    - hostname
+  operationId: hostname
+  description: "        - type: string
+      name: container
+      in: path
+      required: true"
+  responses:
+    200:
+      description: OK
+      schema:
+        $ref: "#/definitions/Message"
+    default:
+      description: error
+      schema:
+        $ref: "#/definitions/Error"

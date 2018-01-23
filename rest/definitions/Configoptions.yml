@@ -1,0 +1,11 @@
+type: object
+required:
+  - key
+  - value
+properties:
+  key:
+    type: string
+    readOnly: true
+  value:
+    type: string
+    readOnly: true

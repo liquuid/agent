@@ -1,0 +1,16 @@
+get:
+  tags: 
+    - vxlan
+  operationId: vxlanList
+  description: "prints a list of existing VXLAN tunnels"
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Item"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

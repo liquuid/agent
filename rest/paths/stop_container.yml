@@ -1,0 +1,22 @@
+get:
+  tags: 
+    - stop
+  operationId: stop
+  description: "Stops a Subutai container with an additional state check."
+  parameters:
+    - type: string
+      name: container
+      in: path
+      required: true
+      description: "Container name"
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Message"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

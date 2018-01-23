@@ -1,0 +1,54 @@
+delete:
+  tags: 
+    - tunnel
+  operationId: tunnelDelete
+  description: "TunDel removes tunnel entry from list and kills running tunnel process"
+  parameters:
+    - type: string
+      name: socket
+      in: path
+      required: true
+      description: "Socket name"
+    - name: pid
+      type: string
+      in: query
+      required: false
+      description: "PID"
+
+  responses:
+    204:
+      description: Deleted
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default
+post:
+  parameters:
+    - type: string
+      name: socket
+      in: path
+      required: true
+      description: "Socket name"
+    - type: string
+      name: timeout
+      in: query
+      required: false
+      description: "Tunnels may also be set to be permanent (default) or temporary (ttl in seconds). The default destination port is 22."
+    - type: boolean
+      name: global
+      in: query
+      required: false
+      description: "There are two types of channels - local (default), which is created from destination address to host and global, from destination to Subutai Helper node."
+  tags: 
+    - tunnel
+  operationId: tunnelAdd
+  description: "TunAdd adds tunnel to specified network socket"
+  responses:
+    201:
+      description: Created
+      schema:
+        $ref: "#/definitions/Message"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default

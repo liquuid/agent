@@ -1,0 +1,13 @@
+swagger: '2.0'
+info:
+  $ref: ./info/index.yml
+host: hub.subut.ai
+schemes:
+  - http
+basePath: /rest/v1/agent
+produces:
+  - application/json
+paths:
+  $ref: ./paths/index.yml
+definitions:
+  $ref: ./definitions/index.yml

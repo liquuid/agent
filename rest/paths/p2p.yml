@@ -1,0 +1,103 @@
+get:
+  tags: 
+    - p2p
+  operationId: p2pList
+  description: "P2P function controls and configures the peer-to-peer network structure:
+the swarm which includes all hosts with same the same swarm hash and secret key.
+
+P2P is a base layer for Subutai environment networking:
+all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN.
+It doesn't matter where the containers are physically located."
+  parameters:
+    - type: string
+      name: command
+      in: query
+      required: true
+      description: "Accepted commands:
+      - list: list of p2p instances
+      - interfaces: list of p2p interfaces
+      - peers: list of p2p swarm participants by hash
+      - version: print p2p version"
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Text"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default
+put:
+  tags: 
+    - p2p
+  operationId: p2pUpdate
+  description: "P2P function controls and configures the peer-to-peer network structure:
+the swarm which includes all hosts with same the same swarm hash and secret key.
+
+P2P is a base layer for Subutai environment networking:
+all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN.
+It doesn't matter where the containers are physically located."
+  parameters:
+    - name: body
+      in: body
+      schema:
+        $ref: "#/definitions/P2pArgs"
+  responses:
+    '200':
+      description: Ok
+      schema:
+        type: array
+        items:
+          $ref: "#/definitions/Text"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default
+delete:
+  tags: 
+    - p2p
+  operationId: p2pDelete
+  description: "P2P function controls and configures the peer-to-peer network structure:
+the swarm which includes all hosts with same the same swarm hash and secret key.
+
+P2P is a base layer for Subutai environment networking:
+all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN.
+It doesn't matter where the containers are physically located."
+  parameters:
+    - name: body
+      in: body
+      schema:
+        $ref: "#/definitions/P2pArgs"
+  responses:
+    204:
+      description: Deleted
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default
+post:
+  parameters:
+    - name: body
+      in: body
+      schema:
+        $ref: "#/definitions/P2pArgs"
+  tags: 
+    - p2p
+  operationId: p2pCreate
+  description: "P2P function controls and configures the peer-to-peer network structure:
+the swarm which includes all hosts with same the same swarm hash and secret key.
+
+P2P is a base layer for Subutai environment networking:
+all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN.
+It doesn't matter where the containers are physically located."
+  responses:
+    201:
+      description: Created
+      schema:
+        $ref: "#/definitions/Item"
+    default:
+      description: generic error response
+      schema:
+  x-swagger-router-controller: Default
