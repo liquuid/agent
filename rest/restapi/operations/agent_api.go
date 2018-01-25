@@ -184,8 +184,7 @@ func NewAgentAPI(spec *loads.Document) *AgentAPI {
 	}
 }
 
-/*AgentAPI API to handle agent
- */
+/*AgentAPI API to handle agent */
 type AgentAPI struct {
 	spec            *loads.Document
 	context         *middleware.Context
@@ -601,197 +600,197 @@ func (o *AgentAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/attach/{container}"] = attach.NewAttach(o.context, o.AttachAttachHandler)
+	o.handlers["GET"]["/attach/{container}"] = attach.NewAttach(o.context, o.AttachAttachHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/backup/{name}"] = backup.NewBackupContainer(o.context, o.BackupBackupContainerHandler)
+	o.handlers["GET"]["/backup/{name}"] = backup.NewBackupContainer(o.context, o.BackupBackupContainerHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/batch"] = batch.NewBatch(o.context, o.BatchBatchHandler)
+	o.handlers["POST"]["/batch"] = batch.NewBatch(o.context, o.BatchBatchHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/cleanup"] = cleanup.NewCleanup(o.context, o.CleanupCleanupHandler)
+	o.handlers["GET"]["/cleanup"] = cleanup.NewCleanup(o.context, o.CleanupCleanupHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/list"] = list.NewCliList(o.context, o.ListCliListHandler)
+	o.handlers["GET"]["/list"] = list.NewCliList(o.context, o.ListCliListHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/clone/{parent}/{child}"] = clone.NewClone(o.context, o.CloneCloneHandler)
+	o.handlers["POST"]["/clone/{parent}/{child}"] = clone.NewClone(o.context, o.CloneCloneHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/config"] = configuration.NewConfig(o.context, o.ConfigurationConfigHandler)
+	o.handlers["POST"]["/config"] = configuration.NewConfig(o.context, o.ConfigurationConfigHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/demote/{container}"] = demote.NewDemote(o.context, o.DemoteDemoteHandler)
+	o.handlers["POST"]["/demote/{container}"] = demote.NewDemote(o.context, o.DemoteDemoteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/destroy/{ID}"] = destroy.NewDestroy(o.context, o.DestroyDestroyHandler)
+	o.handlers["GET"]["/destroy/{ID}"] = destroy.NewDestroy(o.context, o.DestroyDestroyHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/rest/v1/config"] = config.NewDestroyEntry(o.context, o.ConfigDestroyEntryHandler)
+	o.handlers["DELETE"]["/config"] = config.NewDestroyEntry(o.context, o.ConfigDestroyEntryHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/rest/v1/container/{name}"] = container.NewDestroyOne(o.context, o.ContainerDestroyOneHandler)
+	o.handlers["DELETE"]["/container/{name}"] = container.NewDestroyOne(o.context, o.ContainerDestroyOneHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/export/{container}"] = export.NewExport(o.context, o.ExportExportHandler)
+	o.handlers["POST"]["/export/{container}"] = export.NewExport(o.context, o.ExportExportHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/container/{name}"] = container.NewGetContainerInfo(o.context, o.ContainerGetContainerInfoHandler)
+	o.handlers["GET"]["/container/{name}"] = container.NewGetContainerInfo(o.context, o.ContainerGetContainerInfoHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/hostname/{container}/{name}"] = hostname.NewHostname(o.context, o.HostnameHostnameHandler)
+	o.handlers["POST"]["/hostname/{container}/{name}"] = hostname.NewHostname(o.context, o.HostnameHostnameHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/import/{container}"] = import_operations.NewImport(o.context, o.ImportOperationsImportHandler)
+	o.handlers["GET"]["/import/{container}"] = import_operations.NewImport(o.context, o.ImportOperationsImportHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/info"] = info.NewInfo(o.context, o.InfoInfoHandler)
+	o.handlers["GET"]["/info"] = info.NewInfo(o.context, o.InfoInfoHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/metrics"] = metrics.NewMetrics(o.context, o.MetricsMetricsHandler)
+	o.handlers["GET"]["/metrics"] = metrics.NewMetrics(o.context, o.MetricsMetricsHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/p2p"] = p2p.NewP2pCreate(o.context, o.P2pP2pCreateHandler)
+	o.handlers["POST"]["/p2p"] = p2p.NewP2pCreate(o.context, o.P2pP2pCreateHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/rest/v1/p2p"] = p2p.NewP2pDelete(o.context, o.P2pP2pDeleteHandler)
+	o.handlers["DELETE"]["/p2p"] = p2p.NewP2pDelete(o.context, o.P2pP2pDeleteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/p2p"] = p2p.NewP2pList(o.context, o.P2pP2pListHandler)
+	o.handlers["GET"]["/p2p"] = p2p.NewP2pList(o.context, o.P2pP2pListHandler)
 
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/rest/v1/p2p"] = p2p.NewP2pUpdate(o.context, o.P2pP2pUpdateHandler)
+	o.handlers["PUT"]["/p2p"] = p2p.NewP2pUpdate(o.context, o.P2pP2pUpdateHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/promote/{container}"] = promote.NewPromote(o.context, o.PromotePromoteHandler)
+	o.handlers["POST"]["/promote/{container}"] = promote.NewPromote(o.context, o.PromotePromoteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/proxy"] = proxy.NewProxyCheck(o.context, o.ProxyProxyCheckHandler)
+	o.handlers["GET"]["/proxy"] = proxy.NewProxyCheck(o.context, o.ProxyProxyCheckHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/proxy"] = proxy.NewProxyCreate(o.context, o.ProxyProxyCreateHandler)
+	o.handlers["POST"]["/proxy"] = proxy.NewProxyCreate(o.context, o.ProxyProxyCreateHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/rest/v1/proxy"] = proxy.NewProxyDelete(o.context, o.ProxyProxyDeleteHandler)
+	o.handlers["DELETE"]["/proxy"] = proxy.NewProxyDelete(o.context, o.ProxyProxyDeleteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/quota"] = quota.NewQuota(o.context, o.QuotaQuotaHandler)
+	o.handlers["GET"]["/quota"] = quota.NewQuota(o.context, o.QuotaQuotaHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/rename/{source}/{newname}"] = rename.NewRename(o.context, o.RenameRenameHandler)
+	o.handlers["GET"]["/rename/{source}/{newname}"] = rename.NewRename(o.context, o.RenameRenameHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/restore/{container}"] = restore.NewRestore(o.context, o.RestoreRestoreHandler)
+	o.handlers["GET"]["/restore/{container}"] = restore.NewRestore(o.context, o.RestoreRestoreHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/rh/id"] = resource_host.NewRhID(o.context, o.ResourceHostRhIDHandler)
+	o.handlers["GET"]["/rh/id"] = resource_host.NewRhID(o.context, o.ResourceHostRhIDHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/start/{container}"] = start.NewStart(o.context, o.StartStartHandler)
+	o.handlers["GET"]["/start/{container}"] = start.NewStart(o.context, o.StartStartHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/stop/{container}"] = stop.NewStop(o.context, o.StopStopHandler)
+	o.handlers["GET"]["/stop/{container}"] = stop.NewStop(o.context, o.StopStopHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/tunnel/{socket}"] = tunnel.NewTunnelAdd(o.context, o.TunnelTunnelAddHandler)
+	o.handlers["POST"]["/tunnel/{socket}"] = tunnel.NewTunnelAdd(o.context, o.TunnelTunnelAddHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/tunnel/check"] = tunnel.NewTunnelCheck(o.context, o.TunnelTunnelCheckHandler)
+	o.handlers["GET"]["/tunnel/check"] = tunnel.NewTunnelCheck(o.context, o.TunnelTunnelCheckHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/rest/v1/tunnel/{socket}"] = tunnel.NewTunnelDelete(o.context, o.TunnelTunnelDeleteHandler)
+	o.handlers["DELETE"]["/tunnel/{socket}"] = tunnel.NewTunnelDelete(o.context, o.TunnelTunnelDeleteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/tunnel/list"] = tunnel.NewTunnelList(o.context, o.TunnelTunnelListHandler)
+	o.handlers["GET"]["/tunnel/list"] = tunnel.NewTunnelList(o.context, o.TunnelTunnelListHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/update/{container}"] = update.NewUpdate(o.context, o.UpdateUpdateHandler)
+	o.handlers["GET"]["/update/{container}"] = update.NewUpdate(o.context, o.UpdateUpdateHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/rest/v1/vxlan/{tunnel}"] = vxlan.NewVxlanCreate(o.context, o.VxlanVxlanCreateHandler)
+	o.handlers["POST"]["/vxlan/{tunnel}"] = vxlan.NewVxlanCreate(o.context, o.VxlanVxlanCreateHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/rest/v1/vxlan/{iface}"] = vxlan.NewVxlanDelete(o.context, o.VxlanVxlanDeleteHandler)
+	o.handlers["DELETE"]["/vxlan/{iface}"] = vxlan.NewVxlanDelete(o.context, o.VxlanVxlanDeleteHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/rest/v1/vxlan/list"] = vxlan.NewVxlanList(o.context, o.VxlanVxlanListHandler)
+	o.handlers["GET"]["/vxlan/list"] = vxlan.NewVxlanList(o.context, o.VxlanVxlanListHandler)
 
 }
 

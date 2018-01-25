@@ -29,7 +29,7 @@ func main() {
 
 	parser := flags.NewParser(server, flags.Default)
 	parser.ShortDescription = "Agent API"
-	parser.LongDescription = "API to handle agent\n"
+	parser.LongDescription = "API to handle agent"
 
 	server.ConfigureFlags()
 	for _, optsGroup := range api.CommandLineOptionsGroups {

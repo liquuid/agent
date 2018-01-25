@@ -1,8 +1,8 @@
-Hub API
-=======
-Subutai Agent private REST API
+Agent API
+=========
+API to handle agent
 
-**Version:** 1.0.0
+**Version:** 0.0.1
 
 ### /rh/id
 ---

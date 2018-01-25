@@ -22,9 +22,9 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "description": "Subutai Agent private REST API",
-    "title": "Hub API",
-    "version": "1.0.0"
+    "description": "API to handle agent",
+    "title": "Agent API",
+    "version": "0.0.1"
   },
   "host": "hub.subut.ai",
   "basePath": "/rest/v1/agent",
