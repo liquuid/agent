@@ -3,3 +3,4 @@ properties:
   source:
     type: string
     readOnly: true
+    description:  Source name

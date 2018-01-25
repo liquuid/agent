@@ -3,6 +3,8 @@ properties:
   ipaddr:
     type: string
     readOnly: true
+    description: Ip address
   vlan:
     type: string
     readOnly: true
+    description: VLAN name

@@ -1,14 +1,10 @@
 type: object
 properties:
-  home:
+  resource:
     type: string
-    readOnly: true
-  opt:
-    type: string
-    readOnly: true
-  rootfs:
-    type: string
-    readOnly: true
-  var:
-    type: string
-    readOnly: true
+    description: Resources available
+    enum:
+      - home
+      - opt 
+      - rootfs 
+      - var 

@@ -3,9 +3,12 @@ properties:
   version:
     type: string
     readOnly: true
+    description: Version
   torrent:
     type: boolean
     readOnly: true
+    description: Get template using torrent
   token:
     type: string
     readOnly: true
+    description: Token

@@ -3,12 +3,16 @@ properties:
   model:
       type: string
       readOnly: true
+      description: CPU model
   coreCount:
       type: string
       readOnly: true
+      description: Number of CPU Cores
   idle:
       type: string
       readOnly: true
+      description: CPU Idle
   frequency:
       type: string
       readOnly: true
+      description: CPU frequency

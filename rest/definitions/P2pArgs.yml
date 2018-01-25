@@ -8,18 +8,24 @@ properties:
   interfaceName:
     type: string
     readOnly: true
+    description: Interface Name
   hash:
     type: string
     readOnly: true
+    description: Hash
   key:
     type: string
     readOnly: true
+    description: Key
   ttl:
     type: string
     readOnly: true
+    description: Life time
   localPeepIPAddr:
     type: string
     readOnly: true
+    description: Local Peep IP Address
   portRange:
     type: string
     readOnly: true
+    description:  Port Range

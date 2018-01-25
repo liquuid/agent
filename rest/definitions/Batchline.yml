@@ -6,8 +6,10 @@ properties:
   action:
     type: string
     readOnly: true
+    description: Action to be executed list, backup, import, promote etc.
   args:
     type: array
     items:
       $ref: "#/definitions/Item"
     readOnly: true
+    description: Arguments to action command

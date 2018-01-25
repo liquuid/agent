@@ -3,15 +3,25 @@ properties:
   version:
     type: string
     readOnly: true
+    description: Version number
   size:
-    type: integer
-    readOnly: true
+    type: string
+    description: Size
+    enum:
+      - tiny
+      - small
+      - medium
+      - large
+      - huge
   token:
     type: string
     readOnly: true
+    description: Token
   description:
     type: string
     readOnly: true
+    description: Description
   private:
     type: boolean
     readOnly: true
+    description: Export to private template

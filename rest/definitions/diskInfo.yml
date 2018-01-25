@@ -3,6 +3,8 @@ properties:
   total:
       type: string
       readOnly: true
+      description: Total space available
   used:
       type: string
       readOnly: true
+      description: Used space

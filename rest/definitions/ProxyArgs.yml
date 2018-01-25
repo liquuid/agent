@@ -5,15 +5,23 @@ properties:
   vlan:
     type: string
     readOnly: true
+    description: VLan Name
   node:
     type: string
     minLength: 1
+    description: Node Name
   policy:
     type: string
-    minLength: 1
+    enum:
+      - rr  
+      - lb 
+      - hash 
+
   cert:
     type: string
     minLength: 1
+    description: SSL certificate
   domain:
     type: string
     minLength: 1
+    description: Domain name

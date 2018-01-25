@@ -6,18 +6,23 @@ properties:
   parent:
     type: string
     readOnly: true
+    description: Container/Template parent name
   child:
     type: string
     readOnly: true
+    description: Child name
   envID:
     type: string
     readOnly: true
+    description: Environment ID
   ipaddr:
     type: string
     readOnly: true
+    description: IP address
   token:
     type: string
     readOnly: true
   kurjunToken:
     type: string
     readOnly: true
+    description: Kurjun Token

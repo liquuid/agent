@@ -2,10 +2,13 @@ type: object
 required:
   - key
   - value
+description: Key / Value pair configuration
 properties:
   key:
     type: string
     readOnly: true
+    description: Key
   value:
     type: string
     readOnly: true
+    description: Value

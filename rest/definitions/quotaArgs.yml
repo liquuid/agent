@@ -8,7 +8,16 @@ properties:
     readOnly: true
   resource:
     type: string
-    minLength: 1
+    enum:
+      - network 
+      - rootfs 
+      - home 
+      - var 
+      - opt 
+      - disk 
+      - cpuset 
+      - ram 
+      - cpu 
   size:
     type: string
     minLength: 1

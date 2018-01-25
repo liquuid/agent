@@ -5,3 +5,4 @@ properties:
   hash:
     type: string
     readOnly: true
+    description: fingerprint
