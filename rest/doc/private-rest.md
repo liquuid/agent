@@ -712,14 +712,14 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| code | long |  | No |
-| message | string |  | Yes |
+| code | long | Error code | No |
+| message | string | Error message | Yes |
 
 ### Fingerprint  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| hash | string |  | Yes |
+| hash | string | fingerprint | Yes |
 
 ### Container  
 
@@ -740,8 +740,8 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| action | string |  | Yes |
-| args | [ [Item](#item) ] |  | Yes |
+| action | string | Action to be executed list, backup, import, promote etc. | Yes |
+| args | [ [Item](#item) ] | Arguments to action command | Yes |
 
 ### Item  
 
@@ -753,50 +753,50 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| parent | string |  | Yes |
-| child | string |  | Yes |
-| envID | string |  | No |
-| ipaddr | string |  | No |
+| parent | string | Container/Template parent name | Yes |
+| child | string | Child name | Yes |
+| envID | string | Environment ID | No |
+| ipaddr | string | IP address | No |
 | token | string |  | No |
-| kurjunToken | string |  | No |
+| kurjunToken | string | Kurjun Token | No |
 
 ### Configoptions  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| key | string |  | Yes |
-| value | string |  | Yes |
+| key | string | Key | Yes |
+| value | string | Value | Yes |
 
 ### Demoteoptions  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| ipaddr | string |  | No |
-| vlan | string |  | No |
+| ipaddr | string | Ip address | No |
+| vlan | string | VLAN name | No |
 
 ### Promoteoptions  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| source | string |  | No |
+| source | string | Source name | No |
 
 ### Exportoptions  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| version | string |  | No |
-| size | integer |  | No |
-| token | string |  | No |
-| description | string |  | No |
-| private | boolean |  | No |
+| version | string | Version number | No |
+| size | string | Size | No |
+| token | string | Token | No |
+| description | string | Description | No |
+| private | boolean | Export to private template | No |
 
 ### Importoptions  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| version | string |  | No |
-| torrent | boolean |  | No |
-| token | string |  | No |
+| version | string | Version | No |
+| torrent | boolean | Get template using torrent | No |
+| token | string | Token | No |
 
 ### InfoHostStat  
 
@@ -819,17 +819,17 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| model | string |  | No |
-| coreCount | string |  | No |
-| idle | string |  | No |
-| frequency | string |  | No |
+| model | string | CPU model | No |
+| coreCount | string | Number of CPU Cores | No |
+| idle | string | CPU Idle | No |
+| frequency | string | CPU frequency | No |
 
 ### diskInfo  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| total | string |  | No |
-| used | string |  | No |
+| total | string | Total space available | No |
+| used | string | Used space | No |
 
 ### ramInfo  
 
@@ -852,10 +852,7 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| home | string |  | No |
-| opt | string |  | No |
-| rootfs | string |  | No |
-| var | string |  | No |
+| resource | string | Resources available | No |
 
 ### quotaArgs  
 
@@ -877,12 +874,12 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| interfaceName | string |  | Yes |
-| hash | string |  | Yes |
-| key | string |  | Yes |
-| ttl | string |  | Yes |
-| localPeepIPAddr | string |  | No |
-| portRange | string |  | No |
+| interfaceName | string | Interface Name | Yes |
+| hash | string | Hash | Yes |
+| key | string | Key | Yes |
+| ttl | string | Life time | Yes |
+| localPeepIPAddr | string | Local Peep IP Address | No |
+| portRange | string | Port Range | No |
 
 ### Text  
 
@@ -894,8 +891,8 @@ P2P is a base layer for Subutai environment networking: all containers in same e
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| vlan | string |  | Yes |
-| node | string |  | No |
+| vlan | string | VLan Name | Yes |
+| node | string | Node Name | No |
 | policy | string |  | No |
-| cert | string |  | No |
-| domain | string |  | No |
+| cert | string | SSL certificate | No |
+| domain | string | Domain name | No |
