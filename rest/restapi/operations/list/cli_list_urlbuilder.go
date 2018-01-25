@@ -45,11 +45,11 @@ func (o *CliListURL) SetBasePath(bp string) {
 func (o *CliListURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/list"
+	var _path = "/list"
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

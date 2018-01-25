@@ -29,7 +29,7 @@ func NewInfo(ctx *middleware.Context, handler InfoHandler) *Info {
 	return &Info{Context: ctx, Handler: handler}
 }
 
-/*Info swagger:route GET /rest/v1/info info info
+/*Info swagger:route GET /info info info
 
 Info command's purposed is to display common system information, such as external IP address to access the container host quotas, its CPU model, RAM size, etc. It's mainly used for internal SS needs.
 

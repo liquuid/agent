@@ -35,11 +35,11 @@ func (o *CleanupURL) SetBasePath(bp string) {
 func (o *CleanupURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/cleanup"
+	var _path = "/cleanup"
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

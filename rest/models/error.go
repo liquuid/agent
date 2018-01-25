@@ -14,13 +14,13 @@ import (
 )
 
 // Error error
-// swagger:model error
+// swagger:model Error
 type Error struct {
 
-	// code
+	// Error code
 	Code int64 `json:"code,omitempty"`
 
-	// message
+	// Error message
 	// Required: true
 	Message *string `json:"message"`
 }

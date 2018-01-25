@@ -35,11 +35,11 @@ func (o *P2pCreateURL) SetBasePath(bp string) {
 func (o *P2pCreateURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/p2p"
+	var _path = "/p2p"
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

@@ -45,7 +45,7 @@ func (o *TunnelAddURL) SetBasePath(bp string) {
 func (o *TunnelAddURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/tunnel/{socket}"
+	var _path = "/tunnel/{socket}"
 
 	socket := o.Socket
 	if socket != "" {
@@ -55,7 +55,7 @@ func (o *TunnelAddURL) Build() (*url.URL, error) {
 	}
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

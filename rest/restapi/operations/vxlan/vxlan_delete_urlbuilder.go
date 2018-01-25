@@ -40,7 +40,7 @@ func (o *VxlanDeleteURL) SetBasePath(bp string) {
 func (o *VxlanDeleteURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/vxlan/{iface}"
+	var _path = "/vxlan/{iface}"
 
 	iface := o.Iface
 	if iface != "" {
@@ -50,7 +50,7 @@ func (o *VxlanDeleteURL) Build() (*url.URL, error) {
 	}
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

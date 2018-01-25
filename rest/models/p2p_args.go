@@ -14,33 +14,33 @@ import (
 )
 
 // P2pArgs p2p args
-// swagger:model p2pArgs
+// swagger:model P2pArgs
 type P2pArgs struct {
 
-	// hash
+	// Hash
 	// Required: true
 	// Read Only: true
 	Hash string `json:"hash"`
 
-	// interface name
+	// Interface Name
 	// Required: true
 	// Read Only: true
 	InterfaceName string `json:"interfaceName"`
 
-	// key
+	// Key
 	// Required: true
 	// Read Only: true
 	Key string `json:"key"`
 
-	// local peep IP addr
+	// Local Peep IP Address
 	// Read Only: true
 	LocalPeepIPAddr string `json:"localPeepIPAddr,omitempty"`
 
-	// port range
+	// Port Range
 	// Read Only: true
 	PortRange string `json:"portRange,omitempty"`
 
-	// ttl
+	// Life time
 	// Required: true
 	// Read Only: true
 	TTL string `json:"ttl"`

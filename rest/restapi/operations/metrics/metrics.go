@@ -29,7 +29,7 @@ func NewMetrics(ctx *middleware.Context, handler MetricsHandler) *Metrics {
 	return &Metrics{Context: ctx, Handler: handler}
 }
 
-/*Metrics swagger:route GET /rest/v1/metrics metrics metrics
+/*Metrics swagger:route GET /metrics metrics metrics
 
 HostMetrics function retrieves monitoring data from a time-series database deployed in the SS Management server for container hosts and Resource Hosts. Statistics are being collected by the Subutai daemon and includes common information like CPU utilization, network load, RAM and disk usage for both containers and hosts. Since the database is located on the SS Management Host, hosts which are not a part of a Subutai peer have no access to this information. Data aggregation in the time-series database has following configuration: last hour statistic is stored "as is", last day data aggregates to 1 minute interval, last week is in 5 minute intervals, After 7 days all statistics is are overwritten by new incoming data.
 

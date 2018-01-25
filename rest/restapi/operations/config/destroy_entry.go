@@ -29,7 +29,7 @@ func NewDestroyEntry(ctx *middleware.Context, handler DestroyEntryHandler) *Dest
 	return &DestroyEntry{Context: ctx, Handler: handler}
 }
 
-/*DestroyEntry swagger:route DELETE /rest/v1/config config destroyEntry
+/*DestroyEntry swagger:route DELETE /config config destroyEntry
 
 Delete entry in configuration file
 

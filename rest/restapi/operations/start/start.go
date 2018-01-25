@@ -29,7 +29,7 @@ func NewStart(ctx *middleware.Context, handler StartHandler) *Start {
 	return &Start{Context: ctx, Handler: handler}
 }
 
-/*Start swagger:route GET /rest/v1/start/{container} start start
+/*Start swagger:route GET /start/{container} start start
 
 Starts a Subutai container and checks if container state changed to "running" or "starting". If state is not changing for 60 seconds, then the "start" operation is considered to have failed.
 

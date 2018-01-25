@@ -36,7 +36,7 @@ type DemoteParams struct {
 	/*
 	  In: body
 	*/
-	Body *models.DemoteOptions
+	Body *models.Demoteoptions
 	/*Container name
 	  Required: true
 	  In: path
@@ -52,7 +52,7 @@ func (o *DemoteParams) BindRequest(r *http.Request, route *middleware.MatchedRou
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body models.DemoteOptions
+		var body models.Demoteoptions
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			res = append(res, errors.NewParseError("body", "body", "", err))
 		} else {

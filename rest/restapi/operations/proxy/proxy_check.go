@@ -29,7 +29,7 @@ func NewProxyCheck(ctx *middleware.Context, handler ProxyCheckHandler) *ProxyChe
 	return &ProxyCheck{Context: ctx, Handler: handler}
 }
 
-/*ProxyCheck swagger:route GET /rest/v1/proxy proxy proxyCheck
+/*ProxyCheck swagger:route GET /proxy proxy proxyCheck
 
 ProxyCheck exits with 0 code if domain or node is exists in specified vlan, otherwise exitcode is 1
 

@@ -14,7 +14,7 @@ import (
 )
 
 // Container container
-// swagger:model container
+// swagger:model Container
 type Container struct {
 
 	// Name of container's ancestor

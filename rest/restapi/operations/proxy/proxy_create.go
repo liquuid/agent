@@ -29,7 +29,7 @@ func NewProxyCreate(ctx *middleware.Context, handler ProxyCreateHandler) *ProxyC
 	return &ProxyCreate{Context: ctx, Handler: handler}
 }
 
-/*ProxyCreate swagger:route POST /rest/v1/proxy proxy proxyCreate
+/*ProxyCreate swagger:route POST /proxy proxy proxyCreate
 
 ProxyAdd checks input args and perform required operations to configure reverse proxy
 

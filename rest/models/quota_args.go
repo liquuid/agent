@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
+
 	strfmt "github.com/go-openapi/strfmt"
 
 	"github.com/go-openapi/errors"
@@ -24,7 +26,6 @@ type QuotaArgs struct {
 
 	// resource
 	// Required: true
-	// Min Length: 1
 	Resource *string `json:"resource"`
 
 	// size
@@ -75,13 +76,55 @@ func (m *QuotaArgs) validateName(formats strfmt.Registry) error {
 	return nil
 }
 
+var quotaArgsTypeResourcePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["network","rootfs","home","var","opt","disk","cpuset","ram","cpu"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		quotaArgsTypeResourcePropEnum = append(quotaArgsTypeResourcePropEnum, v)
+	}
+}
+
+const (
+	// QuotaArgsResourceNetwork captures enum value "network"
+	QuotaArgsResourceNetwork string = "network"
+	// QuotaArgsResourceRootfs captures enum value "rootfs"
+	QuotaArgsResourceRootfs string = "rootfs"
+	// QuotaArgsResourceHome captures enum value "home"
+	QuotaArgsResourceHome string = "home"
+	// QuotaArgsResourceVar captures enum value "var"
+	QuotaArgsResourceVar string = "var"
+	// QuotaArgsResourceOpt captures enum value "opt"
+	QuotaArgsResourceOpt string = "opt"
+	// QuotaArgsResourceDisk captures enum value "disk"
+	QuotaArgsResourceDisk string = "disk"
+	// QuotaArgsResourceCpuset captures enum value "cpuset"
+	QuotaArgsResourceCpuset string = "cpuset"
+	// QuotaArgsResourceRAM captures enum value "ram"
+	QuotaArgsResourceRAM string = "ram"
+	// QuotaArgsResourceCPU captures enum value "cpu"
+	QuotaArgsResourceCPU string = "cpu"
+)
+
+// prop value enum
+func (m *QuotaArgs) validateResourceEnum(path, location string, value string) error {
+	if err := validate.Enum(path, location, value, quotaArgsTypeResourcePropEnum); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (m *QuotaArgs) validateResource(formats strfmt.Registry) error {
 
 	if err := validate.Required("resource", "body", m.Resource); err != nil {
 		return err
 	}
 
-	if err := validate.MinLength("resource", "body", string(*m.Resource), 1); err != nil {
+	// value enum
+	if err := m.validateResourceEnum("resource", "body", *m.Resource); err != nil {
 		return err
 	}
 

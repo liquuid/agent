@@ -14,9 +14,6 @@ var SwaggerJSON json.RawMessage
 
 func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
-  "consumes": [
-    "application/json"
-  ],
   "produces": [
     "application/json"
   ],
@@ -25,14 +22,14 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "description": "API to handle agent\n",
-    "title": "Agent API",
-    "version": "0.0.1"
+    "description": "Subutai Agent private REST API",
+    "title": "Hub API",
+    "version": "1.0.0"
   },
-  "host": "localhost:8080",
-  "basePath": "/",
+  "host": "hub.subut.ai",
+  "basePath": "/rest/v1/agent",
   "paths": {
-    "/rest/v1/attach/{container}": {
+    "/attach/{container}": {
       "get": {
         "description": "LxcAttach allows user to use container's TTY.\n` + "`" + `name` + "`" + ` should be available running Subutai container, otherwise command will return error message and non-zero exit code.",
         "tags": [
@@ -54,7 +51,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/message"
+                "$ref": "#/definitions/Message"
               }
             }
           },
@@ -65,7 +62,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/backup/{name}": {
+    "/backup/{name}": {
       "get": {
         "description": "BackupContainer takes a snapshots of each container's volume and stores it in the ` + "`" + `/mnt/backups/container_name/datetime/` + "`" + ` directory. A full backup creates a delta-file of each BTRFS subvolume. An incremental backup (default) creates a delta-file with the difference of changes between the current and last snapshots. All deltas are compressed to archives in ` + "`" + `/mnt/backups/` + "`" + ` directory (container_datetime.tar.gz or container_datetime_Full.tar.gz for full backup). A changelog file can be found next to backups archive (container_datetime_changelog.txt or container_datetime_Full_changelog.txt) which contains a list of changes made between two backups.",
         "tags": [
@@ -76,13 +73,13 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
@@ -106,7 +103,7 @@ func init() {
         }
       ]
     },
-    "/rest/v1/batch": {
+    "/batch": {
       "post": {
         "description": "Batch binding provides a mechanism to perform several Subutai commands in the container in batch, passed in a single JSON message. Initially, the purpose of this command was internal for SS \u003c-\u003e Agent communication, yet it may be invoked manually from the CLI. The response from a batch command returns a JSON array with each element representing the results (response) from each command (request) in the batch: the positions of responses correlate with the request position in the array",
         "tags": [
@@ -118,7 +115,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/batchLine"
+              "$ref": "#/definitions/Batchline"
             }
           }
         ],
@@ -126,19 +123,19 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
       }
     },
-    "/rest/v1/cleanup": {
+    "/cleanup": {
       "get": {
         "description": "Cleanup simply removes every resource associated with a Subutai container or template: data, network, configs, etc. The destroy command always runs each step in \"force\" mode to provide reliable deletion results; even if some instance components were already removed, the destroy command will continue to perform all operations once again while ignoring possible underlying errors: i.e. missing configuration files.",
         "tags": [
@@ -149,19 +146,19 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
       }
     },
-    "/rest/v1/clone/{parent}/{child}": {
+    "/clone/{parent}/{child}": {
       "post": {
         "description": "Clone function creates new ` + "`" + `child` + "`" + ` container from a Subutai ` + "`" + `parent` + "`" + ` template. If the specified template argument is not deployed in system, Subutai first tries to import it, and if import succeeds, it then continues to clone from the imported template image. By default, clone will use the NAT-ed network interface with IP address received from the Subutai DHCP server, but this behavior can be changed with command options described below.\nIf ` + "`" + `ipaddr` + "`" + ` option is defined, separate bridge interface will be created in specified VLAN and new container will receive static IP address. Option ` + "`" + `envID` + "`" + ` writes the environment ID string inside new container. Option ` + "`" + `token` + "`" + ` is intended to check the origin of new container creation request during environment build. This is one of the security checks which makes sure that each container creation request is authorized by registered user.\nOption ` + "`" + `kurjunToken` + "`" + ` set kurjun token to clone private and shared templates\nThe clone options are not intended for manual use: unless you're confident about what you're doing. Use default clone format without additional options to create Subutai containers.",
         "tags": [
@@ -187,7 +184,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/cloneArgs"
+              "$ref": "#/definitions/Cloneargs"
             }
           }
         ],
@@ -195,19 +192,19 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
       }
     },
-    "/rest/v1/config": {
+    "/config": {
       "post": {
         "description": "Allows read and write container's configuration file",
         "tags": [
@@ -219,7 +216,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/configOptions"
+              "$ref": "#/definitions/Configoptions"
             }
           }
         ],
@@ -227,13 +224,13 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
@@ -249,7 +246,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/configOptions"
+              "$ref": "#/definitions/Configoptions"
             }
           }
         ],
@@ -260,13 +257,13 @@ func init() {
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
       }
     },
-    "/rest/v1/container/{name}": {
+    "/container/{name}": {
       "get": {
         "description": "Get container Info in JSON formatted object",
         "tags": [
@@ -277,13 +274,13 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/container"
+              "$ref": "#/definitions/Container"
             }
           },
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
@@ -300,7 +297,7 @@ func init() {
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
@@ -345,7 +342,7 @@ func init() {
         }
       ]
     },
-    "/rest/v1/demote/{container}": {
+    "/demote/{container}": {
       "post": {
         "description": "Converts template into regular Subutai container.\nA Subutai template is a \"locked down\" container only to be used for cloning purposes. It cannot be started, and its file system cannot be modified: it's read-only. Normal operational containers are promoted into templates, but sometimes you might want to demote them back to regular containers. This is what the demote sub command does: it reverts a template without children back into a normal container. Demoted container will use NAT network interface and dynamic IP address if opposite options are not specified.",
         "tags": [
@@ -364,7 +361,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/demoteOptions"
+              "$ref": "#/definitions/Demoteoptions"
             }
           }
         ],
@@ -372,19 +369,19 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
       }
     },
-    "/rest/v1/destroy/{ID}": {
+    "/destroy/{ID}": {
       "get": {
         "description": "Destroy Subutai container",
         "tags": [
@@ -412,7 +409,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/message"
+                "$ref": "#/definitions/Message"
               }
             }
           },
@@ -423,7 +420,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/export/{container}": {
+    "/export/{container}": {
       "post": {
         "description": "Export prepares an archive from a template in the ` + "`" + `/mnt/lib/lxc/tmpdir/` + "`" + ` path. This archive can be moved to another Subutai peer and deployed as ready-to-use template or uploaded to Subutai's global template repository to make it widely available for others to use.\nExport consist of two steps if the target is a container: container promotion to template (see \"promote\" command) and packing the template into the archive. If already a template just the packing of the archive takes place.\nConfiguration values for template metadata parameters can be overridden on export, like the recommended container size when the template is cloned using ` + "`" + `-s` + "`" + ` option.",
         "tags": [
@@ -442,7 +439,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/exportOptions"
+              "$ref": "#/definitions/Exportoptions"
             }
           }
         ],
@@ -450,19 +447,19 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
       }
     },
-    "/rest/v1/hostname/{container}/{name}": {
+    "/hostname/{container}/{name}": {
       "post": {
         "description": "        - type: string name: container in: path required: true",
         "tags": [
@@ -489,19 +486,19 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
       }
     },
-    "/rest/v1/import/{container}": {
+    "/import/{container}": {
       "get": {
         "description": "Import Subutai template",
         "tags": [
@@ -520,7 +517,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/importOptions"
+              "$ref": "#/definitions/Importoptions"
             }
           }
         ],
@@ -530,7 +527,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/message"
+                "$ref": "#/definitions/Message"
               }
             }
           },
@@ -541,7 +538,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/info": {
+    "/info": {
       "get": {
         "description": "Info command's purposed is to display common system information, such as external IP address to access the container host quotas, its CPU model, RAM size, etc. It's mainly used for internal SS needs.",
         "tags": [
@@ -563,7 +560,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/infoHostStat"
+                "$ref": "#/definitions/InfoHostStat"
               }
             }
           },
@@ -574,7 +571,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/list": {
+    "/list": {
       "get": {
         "description": "Info returns JSON formatted list of Subutai instances with information such as IP address, parent template, etc.",
         "tags": [
@@ -621,7 +618,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/container"
+                "$ref": "#/definitions/Container"
               }
             }
           },
@@ -632,7 +629,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/metrics": {
+    "/metrics": {
       "get": {
         "description": "HostMetrics function retrieves monitoring data from a time-series database deployed in the SS Management server for container hosts and Resource Hosts. Statistics are being collected by the Subutai daemon and includes common information like CPU utilization, network load, RAM and disk usage for both containers and hosts. Since the database is located on the SS Management Host, hosts which are not a part of a Subutai peer have no access to this information. Data aggregation in the time-series database has following configuration: last hour statistic is stored \"as is\", last day data aggregates to 1 minute interval, last week is in 5 minute intervals, After 7 days all statistics is are overwritten by new incoming data.",
         "tags": [
@@ -661,7 +658,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/metricInfo"
+                "$ref": "#/definitions/MetricInfo"
               }
             }
           },
@@ -672,7 +669,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/p2p": {
+    "/p2p": {
       "get": {
         "description": "P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.\nP2P is a base layer for Subutai environment networking: all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN. It doesn't matter where the containers are physically located.",
         "tags": [
@@ -694,7 +691,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/text"
+                "$ref": "#/definitions/Text"
               }
             }
           },
@@ -715,7 +712,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/p2pArgs"
+              "$ref": "#/definitions/P2pArgs"
             }
           }
         ],
@@ -725,7 +722,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/text"
+                "$ref": "#/definitions/Text"
               }
             }
           },
@@ -746,7 +743,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/p2pArgs"
+              "$ref": "#/definitions/P2pArgs"
             }
           }
         ],
@@ -754,7 +751,7 @@ func init() {
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/item"
+              "$ref": "#/definitions/Item"
             }
           },
           "default": {
@@ -774,7 +771,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/p2pArgs"
+              "$ref": "#/definitions/P2pArgs"
             }
           }
         ],
@@ -789,7 +786,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/promote/{container}": {
+    "/promote/{container}": {
       "post": {
         "description": "Promote turns a Subutai container into container template which may be cloned with \"clone\" command. Promote executes several simple steps, such as dropping a container's configuration to default values, dumping the list of installed packages (this step requires the target container to still be running), and setting the container's filesystem to read-only to prevent changes.",
         "tags": [
@@ -808,7 +805,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/promoteOptions"
+              "$ref": "#/definitions/Promoteoptions"
             }
           }
         ],
@@ -816,19 +813,19 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
             "description": "error",
             "schema": {
-              "$ref": "#/definitions/error"
+              "$ref": "#/definitions/Error"
             }
           }
         }
       }
     },
-    "/rest/v1/proxy": {
+    "/proxy": {
       "get": {
         "description": "ProxyCheck exits with 0 code if domain or node is exists in specified vlan, otherwise exitcode is 1",
         "tags": [
@@ -840,7 +837,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/proxyArgs"
+              "$ref": "#/definitions/ProxyArgs"
             }
           }
         ],
@@ -850,7 +847,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/message"
+                "$ref": "#/definitions/Message"
               }
             }
           },
@@ -871,7 +868,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/proxyArgs"
+              "$ref": "#/definitions/ProxyArgs"
             }
           }
         ],
@@ -879,7 +876,7 @@ func init() {
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
@@ -899,7 +896,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/proxyArgs"
+              "$ref": "#/definitions/ProxyArgs"
             }
           }
         ],
@@ -914,7 +911,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/quota": {
+    "/quota": {
       "get": {
         "description": "Quota function controls container's quotas and thresholds. Available resources: cpu, % cpuset, available cores ram, Mb network, Kbps rootfs/home/var/opt, Gb The threshold value represents a percentage for each resource. Once resource consumption exceeds this threshold it triggers an alert. The clone operation, sets no quotas and thresholds for new containers; quotas need to be configured with quota command after a clone operation.",
         "tags": [
@@ -947,7 +944,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/rename/{source}/{newname}": {
+    "/rename/{source}/{newname}": {
       "get": {
         "description": "Renames a Subutai container impacting filesystem paths, configuration values, etc.",
         "tags": [
@@ -976,7 +973,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/message"
+                "$ref": "#/definitions/Message"
               }
             }
           },
@@ -987,7 +984,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/restore/{container}": {
+    "/restore/{container}": {
       "get": {
         "description": "RestoreContainer restores a Subutai container to a snapshot at a specified timestamp if such a backup archive is available.",
         "tags": [
@@ -1021,7 +1018,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/message"
+                "$ref": "#/definitions/Message"
               }
             }
           },
@@ -1032,7 +1029,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/rh/id": {
+    "/rh/id": {
       "get": {
         "description": "Returns JSON formatted Id of RH, UUID which is the PGP fingerprint",
         "tags": [
@@ -1045,7 +1042,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/fingerprint"
+                "$ref": "#/definitions/Fingerprint"
               }
             }
           },
@@ -1056,7 +1053,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/start/{container}": {
+    "/start/{container}": {
       "get": {
         "description": "Starts a Subutai container and checks if container state changed to \"running\" or \"starting\". If state is not changing for 60 seconds, then the \"start\" operation is considered to have failed.",
         "tags": [
@@ -1078,7 +1075,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/message"
+                "$ref": "#/definitions/Message"
               }
             }
           },
@@ -1089,7 +1086,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/stop/{container}": {
+    "/stop/{container}": {
       "get": {
         "description": "Stops a Subutai container with an additional state check.",
         "tags": [
@@ -1111,7 +1108,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/message"
+                "$ref": "#/definitions/Message"
               }
             }
           },
@@ -1122,7 +1119,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/tunnel/check": {
+    "/tunnel/check": {
       "get": {
         "description": "reads list, checks tunnel ttl, its state and then adds or removes required tunnels",
         "tags": [
@@ -1135,7 +1132,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/item"
+                "$ref": "#/definitions/Item"
               }
             }
           },
@@ -1146,7 +1143,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/tunnel/list": {
+    "/tunnel/list": {
       "get": {
         "description": "performs tunnel check and shows \"alive\" tunnels",
         "tags": [
@@ -1159,7 +1156,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/item"
+                "$ref": "#/definitions/Item"
               }
             }
           },
@@ -1170,7 +1167,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/tunnel/{socket}": {
+    "/tunnel/{socket}": {
       "post": {
         "description": "TunAdd adds tunnel to specified network socket",
         "tags": [
@@ -1202,7 +1199,7 @@ func init() {
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
@@ -1243,7 +1240,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/update/{container}": {
+    "/update/{container}": {
       "get": {
         "description": "Update operation can be divided into two different types: container updates and Resource Host updates. Container updates simply perform apt-get update and upgrade operations inside target containers without any extra commands. Since SS Management is just another container, the Subutai update command works fine with the management container too.\nThe second type of update, a Resource Host update, checks the Ubuntu Store and compares available snap packages with those currently installed in the system and, if a newer version is found, installs it. Please note, system security policies requires that such commands should be performed by the superuser manually, otherwise an application's attempt to update itself will be blocked.",
         "tags": [
@@ -1272,7 +1269,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/message"
+                "$ref": "#/definitions/Message"
               }
             }
           },
@@ -1283,7 +1280,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/vxlan/list": {
+    "/vxlan/list": {
       "get": {
         "description": "prints a list of existing VXLAN tunnels",
         "tags": [
@@ -1296,7 +1293,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/item"
+                "$ref": "#/definitions/Item"
               }
             }
           },
@@ -1307,7 +1304,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/vxlan/{iface}": {
+    "/vxlan/{iface}": {
       "delete": {
         "description": "removes OVS bridges and ports by name, brings system interface down",
         "tags": [
@@ -1334,7 +1331,7 @@ func init() {
         "x-swagger-router-controller": "Default"
       }
     },
-    "/rest/v1/vxlan/{tunnel}": {
+    "/vxlan/{tunnel}": {
       "post": {
         "description": "Creates VXLAN tunnel",
         "tags": [
@@ -1375,7 +1372,7 @@ func init() {
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/message"
+              "$ref": "#/definitions/Message"
             }
           },
           "default": {
@@ -1387,7 +1384,7 @@ func init() {
     }
   },
   "definitions": {
-    "batchLine": {
+    "Batchline": {
       "type": "object",
       "required": [
         "action",
@@ -1395,19 +1392,21 @@ func init() {
       ],
       "properties": {
         "action": {
+          "description": "Action to be executed list, backup, import, promote etc.",
           "type": "string",
           "readOnly": true
         },
         "args": {
+          "description": "Arguments to action command",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/item"
+            "$ref": "#/definitions/Item"
           },
           "readOnly": true
         }
       }
     },
-    "cloneArgs": {
+    "Cloneargs": {
       "type": "object",
       "required": [
         "parent",
@@ -1415,22 +1414,27 @@ func init() {
       ],
       "properties": {
         "child": {
+          "description": "Child name",
           "type": "string",
           "readOnly": true
         },
         "envID": {
+          "description": "Environment ID",
           "type": "string",
           "readOnly": true
         },
         "ipaddr": {
+          "description": "IP address",
           "type": "string",
           "readOnly": true
         },
         "kurjunToken": {
+          "description": "Kurjun Token",
           "type": "string",
           "readOnly": true
         },
         "parent": {
+          "description": "Container/Template parent name",
           "type": "string",
           "readOnly": true
         },
@@ -1440,7 +1444,8 @@ func init() {
         }
       }
     },
-    "configOptions": {
+    "Configoptions": {
+      "description": "Key / Value pair configuration",
       "type": "object",
       "required": [
         "key",
@@ -1448,16 +1453,18 @@ func init() {
       ],
       "properties": {
         "key": {
+          "description": "Key",
           "type": "string",
           "readOnly": true
         },
         "value": {
+          "description": "Value",
           "type": "string",
           "readOnly": true
         }
       }
     },
-    "container": {
+    "Container": {
       "type": "object",
       "required": [
         "name"
@@ -1480,144 +1487,108 @@ func init() {
         }
       }
     },
-    "cpuInfo": {
-      "type": "object",
-      "properties": {
-        "coreCount": {
-          "type": "string",
-          "readOnly": true
-        },
-        "frequency": {
-          "type": "string",
-          "readOnly": true
-        },
-        "idle": {
-          "type": "string",
-          "readOnly": true
-        },
-        "model": {
-          "type": "string",
-          "readOnly": true
-        }
-      }
-    },
-    "demoteOptions": {
+    "Demoteoptions": {
       "type": "object",
       "properties": {
         "ipaddr": {
+          "description": "Ip address",
           "type": "string",
           "readOnly": true
         },
         "vlan": {
+          "description": "VLAN name",
           "type": "string",
           "readOnly": true
         }
       }
     },
-    "diskInfo": {
-      "type": "object",
-      "properties": {
-        "total": {
-          "type": "string",
-          "readOnly": true
-        },
-        "used": {
-          "type": "string",
-          "readOnly": true
-        }
-      }
-    },
-    "diskStructInfo": {
-      "type": "object",
-      "properties": {
-        "home": {
-          "type": "string",
-          "readOnly": true
-        },
-        "opt": {
-          "type": "string",
-          "readOnly": true
-        },
-        "rootfs": {
-          "type": "string",
-          "readOnly": true
-        },
-        "var": {
-          "type": "string",
-          "readOnly": true
-        }
-      }
-    },
-    "error": {
+    "Error": {
       "type": "object",
       "required": [
         "message"
       ],
       "properties": {
         "code": {
+          "description": "Error code",
           "type": "integer",
           "format": "int64"
         },
         "message": {
+          "description": "Error message",
           "type": "string"
         }
       }
     },
-    "exportOptions": {
+    "Exportoptions": {
       "type": "object",
       "properties": {
         "description": {
+          "description": "Description",
           "type": "string",
           "readOnly": true
         },
         "private": {
+          "description": "Export to private template",
           "type": "boolean",
           "readOnly": true
         },
         "size": {
-          "type": "integer",
-          "readOnly": true
+          "description": "Size",
+          "type": "string",
+          "enum": [
+            "tiny",
+            "small",
+            "medium",
+            "large",
+            "huge"
+          ]
         },
         "token": {
+          "description": "Token",
           "type": "string",
           "readOnly": true
         },
         "version": {
+          "description": "Version number",
           "type": "string",
           "readOnly": true
         }
       }
     },
-    "fingerprint": {
+    "Fingerprint": {
       "type": "object",
       "required": [
         "hash"
       ],
       "properties": {
         "hash": {
+          "description": "fingerprint",
           "type": "string",
           "readOnly": true
         }
       }
     },
-    "importOptions": {
+    "Importoptions": {
       "type": "object",
       "properties": {
         "token": {
+          "description": "Token",
           "type": "string",
           "readOnly": true
         },
         "torrent": {
+          "description": "Get template using torrent",
           "type": "boolean",
           "readOnly": true
         },
         "version": {
+          "description": "Version",
           "type": "string",
           "readOnly": true
         }
       }
     },
-    "infoHostStat": {
+    "InfoHostStat": {
       "type": "object",
       "properties": {
         "cpu": {
@@ -1654,7 +1625,7 @@ func init() {
         }
       }
     },
-    "item": {
+    "Item": {
       "type": "object",
       "required": [
         "text"
@@ -1666,23 +1637,25 @@ func init() {
         }
       }
     },
-    "message": {
+    "Message": {
       "type": "object",
       "required": [
         "text"
       ],
       "properties": {
         "exitcode": {
+          "description": "Returned Exit code",
           "type": "string",
           "readOnly": true
         },
         "text": {
+          "description": "Message returned",
           "type": "string",
           "readOnly": true
         }
       }
     },
-    "metricInfo": {
+    "MetricInfo": {
       "type": "object",
       "properties": {
         "messages": {
@@ -1695,7 +1668,7 @@ func init() {
         }
       }
     },
-    "p2pArgs": {
+    "P2pArgs": {
       "type": "object",
       "required": [
         "interfaceName",
@@ -1705,65 +1678,144 @@ func init() {
       ],
       "properties": {
         "hash": {
+          "description": "Hash",
           "type": "string",
           "readOnly": true
         },
         "interfaceName": {
+          "description": "Interface Name",
           "type": "string",
           "readOnly": true
         },
         "key": {
+          "description": "Key",
           "type": "string",
           "readOnly": true
         },
         "localPeepIPAddr": {
+          "description": "Local Peep IP Address",
           "type": "string",
           "readOnly": true
         },
         "portRange": {
+          "description": "Port Range",
           "type": "string",
           "readOnly": true
         },
         "ttl": {
+          "description": "Life time",
           "type": "string",
           "readOnly": true
         }
       }
     },
-    "promoteOptions": {
+    "Promoteoptions": {
       "type": "object",
       "properties": {
         "source": {
+          "description": "Source name",
           "type": "string",
           "readOnly": true
         }
       }
     },
-    "proxyArgs": {
+    "ProxyArgs": {
       "type": "object",
       "required": [
         "vlan"
       ],
       "properties": {
         "cert": {
+          "description": "SSL certificate",
           "type": "string",
           "minLength": 1
         },
         "domain": {
+          "description": "Domain name",
           "type": "string",
           "minLength": 1
         },
         "node": {
+          "description": "Node Name",
           "type": "string",
           "minLength": 1
         },
         "policy": {
           "type": "string",
-          "minLength": 1
+          "enum": [
+            "rr",
+            "lb",
+            "hash"
+          ]
         },
         "vlan": {
+          "description": "VLan Name",
           "type": "string",
           "readOnly": true
+        }
+      }
+    },
+    "Text": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "cpuInfo": {
+      "type": "object",
+      "properties": {
+        "coreCount": {
+          "description": "Number of CPU Cores",
+          "type": "string",
+          "readOnly": true
+        },
+        "frequency": {
+          "description": "CPU frequency",
+          "type": "string",
+          "readOnly": true
+        },
+        "idle": {
+          "description": "CPU Idle",
+          "type": "string",
+          "readOnly": true
+        },
+        "model": {
+          "description": "CPU model",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "diskInfo": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "description": "Total space available",
+          "type": "string",
+          "readOnly": true
+        },
+        "used": {
+          "description": "Used space",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "diskStructInfo": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "description": "Resources available",
+          "type": "string",
+          "enum": [
+            "home",
+            "opt",
+            "rootfs",
+            "var"
+          ]
         }
       }
     },
@@ -1780,7 +1832,17 @@ func init() {
         },
         "resource": {
           "type": "string",
-          "minLength": 1
+          "enum": [
+            "network",
+            "rootfs",
+            "home",
+            "var",
+            "opt",
+            "disk",
+            "cpuset",
+            "ram",
+            "cpu"
+          ]
         },
         "size": {
           "type": "string",
@@ -1845,15 +1907,6 @@ func init() {
           "readOnly": true
         },
         "total": {
-          "type": "string",
-          "readOnly": true
-        }
-      }
-    },
-    "text": {
-      "type": "object",
-      "properties": {
-        "text": {
           "type": "string",
           "readOnly": true
         }

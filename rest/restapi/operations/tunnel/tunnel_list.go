@@ -29,7 +29,7 @@ func NewTunnelList(ctx *middleware.Context, handler TunnelListHandler) *TunnelLi
 	return &TunnelList{Context: ctx, Handler: handler}
 }
 
-/*TunnelList swagger:route GET /rest/v1/tunnel/list tunnel tunnelList
+/*TunnelList swagger:route GET /tunnel/list tunnel tunnelList
 
 performs tunnel check and shows "alive" tunnels
 

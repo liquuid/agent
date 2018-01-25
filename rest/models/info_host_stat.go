@@ -13,7 +13,7 @@ import (
 )
 
 // InfoHostStat info host stat
-// swagger:model infoHostStat
+// swagger:model InfoHostStat
 type InfoHostStat struct {
 
 	// cpu

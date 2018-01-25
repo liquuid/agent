@@ -40,7 +40,7 @@ func (o *ExportURL) SetBasePath(bp string) {
 func (o *ExportURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/export/{container}"
+	var _path = "/export/{container}"
 
 	container := o.Container
 	if container != "" {
@@ -50,7 +50,7 @@ func (o *ExportURL) Build() (*url.URL, error) {
 	}
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

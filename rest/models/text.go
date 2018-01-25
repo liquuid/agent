@@ -13,7 +13,7 @@ import (
 )
 
 // Text text
-// swagger:model text
+// swagger:model Text
 type Text struct {
 
 	// text

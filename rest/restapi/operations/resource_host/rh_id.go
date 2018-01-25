@@ -29,7 +29,7 @@ func NewRhID(ctx *middleware.Context, handler RhIDHandler) *RhID {
 	return &RhID{Context: ctx, Handler: handler}
 }
 
-/*RhID swagger:route GET /rest/v1/rh/id resource host rhId
+/*RhID swagger:route GET /rh/id resource host rhId
 
 Returns JSON formatted Id of RH, UUID which is the PGP fingerprint
 

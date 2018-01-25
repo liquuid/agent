@@ -34,7 +34,7 @@ type DestroyEntryParams struct {
 	/*
 	  In: body
 	*/
-	Body *models.ConfigOptions
+	Body *models.Configoptions
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -45,7 +45,7 @@ func (o *DestroyEntryParams) BindRequest(r *http.Request, route *middleware.Matc
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body models.ConfigOptions
+		var body models.Configoptions
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			res = append(res, errors.NewParseError("body", "body", "", err))
 		} else {

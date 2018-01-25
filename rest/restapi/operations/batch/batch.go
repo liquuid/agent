@@ -29,7 +29,7 @@ func NewBatch(ctx *middleware.Context, handler BatchHandler) *Batch {
 	return &Batch{Context: ctx, Handler: handler}
 }
 
-/*Batch swagger:route POST /rest/v1/batch batch batch
+/*Batch swagger:route POST /batch batch batch
 
 Batch binding provides a mechanism to perform several Subutai commands in the container in batch, passed in a single JSON message. Initially, the purpose of this command was internal for SS <-> Agent communication, yet it may be invoked manually from the CLI. The response from a batch command returns a JSON array with each element representing the results (response) from each command (request) in the batch: the positions of responses correlate with the request position in the array
 

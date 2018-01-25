@@ -29,7 +29,7 @@ func NewProxyDelete(ctx *middleware.Context, handler ProxyDeleteHandler) *ProxyD
 	return &ProxyDelete{Context: ctx, Handler: handler}
 }
 
-/*ProxyDelete swagger:route DELETE /rest/v1/proxy proxy proxyDelete
+/*ProxyDelete swagger:route DELETE /proxy proxy proxyDelete
 
 ProxyDel checks what need to be removed - domain or node and pass args to required functions
 

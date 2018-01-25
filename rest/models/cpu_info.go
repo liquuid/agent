@@ -16,19 +16,19 @@ import (
 // swagger:model cpuInfo
 type CPUInfo struct {
 
-	// core count
+	// Number of CPU Cores
 	// Read Only: true
 	CoreCount string `json:"coreCount,omitempty"`
 
-	// frequency
+	// CPU frequency
 	// Read Only: true
 	Frequency string `json:"frequency,omitempty"`
 
-	// idle
+	// CPU Idle
 	// Read Only: true
 	IDLE string `json:"idle,omitempty"`
 
-	// model
+	// CPU model
 	// Read Only: true
 	Model string `json:"model,omitempty"`
 }

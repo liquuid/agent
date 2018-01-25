@@ -14,7 +14,7 @@ import (
 )
 
 // Item item
-// swagger:model item
+// swagger:model Item
 type Item struct {
 
 	// text

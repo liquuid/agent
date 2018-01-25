@@ -41,7 +41,7 @@ func (o *HostnameURL) SetBasePath(bp string) {
 func (o *HostnameURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/hostname/{container}/{name}"
+	var _path = "/hostname/{container}/{name}"
 
 	container := o.Container
 	if container != "" {
@@ -57,7 +57,7 @@ func (o *HostnameURL) Build() (*url.URL, error) {
 	}
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

@@ -14,10 +14,10 @@ import (
 )
 
 // Fingerprint fingerprint
-// swagger:model fingerprint
+// swagger:model Fingerprint
 type Fingerprint struct {
 
-	// hash
+	// fingerprint
 	// Required: true
 	// Read Only: true
 	Hash string `json:"hash"`

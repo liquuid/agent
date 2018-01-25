@@ -29,7 +29,7 @@ func NewDestroy(ctx *middleware.Context, handler DestroyHandler) *Destroy {
 	return &Destroy{Context: ctx, Handler: handler}
 }
 
-/*Destroy swagger:route GET /rest/v1/destroy/{ID} destroy destroy
+/*Destroy swagger:route GET /destroy/{ID} destroy destroy
 
 Destroy Subutai container
 

@@ -29,7 +29,7 @@ func NewQuota(ctx *middleware.Context, handler QuotaHandler) *Quota {
 	return &Quota{Context: ctx, Handler: handler}
 }
 
-/*Quota swagger:route GET /rest/v1/quota quota quota
+/*Quota swagger:route GET /quota quota quota
 
 Quota function controls container's quotas and thresholds. Available resources: cpu, % cpuset, available cores ram, Mb network, Kbps rootfs/home/var/opt, Gb The threshold value represents a percentage for each resource. Once resource consumption exceeds this threshold it triggers an alert. The clone operation, sets no quotas and thresholds for new containers; quotas need to be configured with quota command after a clone operation.
 

@@ -29,7 +29,7 @@ func NewDemote(ctx *middleware.Context, handler DemoteHandler) *Demote {
 	return &Demote{Context: ctx, Handler: handler}
 }
 
-/*Demote swagger:route POST /rest/v1/demote/{container} demote demote
+/*Demote swagger:route POST /demote/{container} demote demote
 
 Converts template into regular Subutai container.
 A Subutai template is a "locked down" container only to be used for cloning purposes. It cannot be started, and its file system cannot be modified: it's read-only. Normal operational containers are promoted into templates, but sometimes you might want to demote them back to regular containers. This is what the demote sub command does: it reverts a template without children back into a normal container. Demoted container will use NAT network interface and dynamic IP address if opposite options are not specified.

@@ -29,7 +29,7 @@ func NewStop(ctx *middleware.Context, handler StopHandler) *Stop {
 	return &Stop{Context: ctx, Handler: handler}
 }
 
-/*Stop swagger:route GET /rest/v1/stop/{container} stop stop
+/*Stop swagger:route GET /stop/{container} stop stop
 
 Stops a Subutai container with an additional state check.
 

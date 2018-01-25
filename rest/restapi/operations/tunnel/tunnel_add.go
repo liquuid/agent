@@ -29,7 +29,7 @@ func NewTunnelAdd(ctx *middleware.Context, handler TunnelAddHandler) *TunnelAdd 
 	return &TunnelAdd{Context: ctx, Handler: handler}
 }
 
-/*TunnelAdd swagger:route POST /rest/v1/tunnel/{socket} tunnel tunnelAdd
+/*TunnelAdd swagger:route POST /tunnel/{socket} tunnel tunnelAdd
 
 TunAdd adds tunnel to specified network socket
 

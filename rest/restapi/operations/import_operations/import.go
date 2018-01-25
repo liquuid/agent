@@ -29,7 +29,7 @@ func NewImport(ctx *middleware.Context, handler ImportHandler) *Import {
 	return &Import{Context: ctx, Handler: handler}
 }
 
-/*Import swagger:route GET /rest/v1/import/{container} import import
+/*Import swagger:route GET /import/{container} import import
 
 Import Subutai template
 

@@ -35,11 +35,11 @@ func (o *VxlanListURL) SetBasePath(bp string) {
 func (o *VxlanListURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/vxlan/list"
+	var _path = "/vxlan/list"
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

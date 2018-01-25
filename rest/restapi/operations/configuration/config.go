@@ -29,7 +29,7 @@ func NewConfig(ctx *middleware.Context, handler ConfigHandler) *Config {
 	return &Config{Context: ctx, Handler: handler}
 }
 
-/*Config swagger:route POST /rest/v1/config configuration config
+/*Config swagger:route POST /config configuration config
 
 Allows read and write container's configuration file
 

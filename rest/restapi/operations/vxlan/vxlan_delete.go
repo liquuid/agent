@@ -29,7 +29,7 @@ func NewVxlanDelete(ctx *middleware.Context, handler VxlanDeleteHandler) *VxlanD
 	return &VxlanDelete{Context: ctx, Handler: handler}
 }
 
-/*VxlanDelete swagger:route DELETE /rest/v1/vxlan/{iface} vxlan vxlanDelete
+/*VxlanDelete swagger:route DELETE /vxlan/{iface} vxlan vxlanDelete
 
 removes OVS bridges and ports by name, brings system interface down
 

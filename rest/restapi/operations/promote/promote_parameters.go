@@ -36,7 +36,7 @@ type PromoteParams struct {
 	/*
 	  In: body
 	*/
-	Body *models.PromoteOptions
+	Body *models.Promoteoptions
 	/*Container name
 	  Required: true
 	  In: path
@@ -52,7 +52,7 @@ func (o *PromoteParams) BindRequest(r *http.Request, route *middleware.MatchedRo
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body models.PromoteOptions
+		var body models.Promoteoptions
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			res = append(res, errors.NewParseError("body", "body", "", err))
 		} else {

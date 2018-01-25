@@ -14,14 +14,14 @@ import (
 )
 
 // Message message
-// swagger:model message
+// swagger:model Message
 type Message struct {
 
-	// exitcode
+	// Returned Exit code
 	// Read Only: true
 	Exitcode string `json:"exitcode,omitempty"`
 
-	// text
+	// Message returned
 	// Required: true
 	// Read Only: true
 	Text string `json:"text"`

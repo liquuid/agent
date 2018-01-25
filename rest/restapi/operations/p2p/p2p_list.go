@@ -29,7 +29,7 @@ func NewP2pList(ctx *middleware.Context, handler P2pListHandler) *P2pList {
 	return &P2pList{Context: ctx, Handler: handler}
 }
 
-/*P2pList swagger:route GET /rest/v1/p2p p2p p2pList
+/*P2pList swagger:route GET /p2p p2p p2pList
 
 P2P function controls and configures the peer-to-peer network structure: the swarm which includes all hosts with same the same swarm hash and secret key.
 P2P is a base layer for Subutai environment networking: all containers in same environment are connected to each other via VXLAN tunnels and are accesses as if they were in one LAN. It doesn't matter where the containers are physically located.

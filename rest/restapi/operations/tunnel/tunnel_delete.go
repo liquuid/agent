@@ -29,7 +29,7 @@ func NewTunnelDelete(ctx *middleware.Context, handler TunnelDeleteHandler) *Tunn
 	return &TunnelDelete{Context: ctx, Handler: handler}
 }
 
-/*TunnelDelete swagger:route DELETE /rest/v1/tunnel/{socket} tunnel tunnelDelete
+/*TunnelDelete swagger:route DELETE /tunnel/{socket} tunnel tunnelDelete
 
 TunDel removes tunnel entry from list and kills running tunnel process
 

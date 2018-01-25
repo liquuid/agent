@@ -29,7 +29,7 @@ func NewAttach(ctx *middleware.Context, handler AttachHandler) *Attach {
 	return &Attach{Context: ctx, Handler: handler}
 }
 
-/*Attach swagger:route GET /rest/v1/attach/{container} attach attach
+/*Attach swagger:route GET /attach/{container} attach attach
 
 LxcAttach allows user to use container's TTY.
 `name` should be available running Subutai container, otherwise command will return error message and non-zero exit code.

@@ -29,7 +29,7 @@ func NewCleanup(ctx *middleware.Context, handler CleanupHandler) *Cleanup {
 	return &Cleanup{Context: ctx, Handler: handler}
 }
 
-/*Cleanup swagger:route GET /rest/v1/cleanup cleanup cleanup
+/*Cleanup swagger:route GET /cleanup cleanup cleanup
 
 Cleanup simply removes every resource associated with a Subutai container or template: data, network, configs, etc. The destroy command always runs each step in "force" mode to provide reliable deletion results; even if some instance components were already removed, the destroy command will continue to perform all operations once again while ignoring possible underlying errors: i.e. missing configuration files.
 

@@ -35,11 +35,11 @@ func (o *TunnelListURL) SetBasePath(bp string) {
 func (o *TunnelListURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/tunnel/list"
+	var _path = "/tunnel/list"
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

@@ -29,7 +29,7 @@ func NewUpdate(ctx *middleware.Context, handler UpdateHandler) *Update {
 	return &Update{Context: ctx, Handler: handler}
 }
 
-/*Update swagger:route GET /rest/v1/update/{container} update update
+/*Update swagger:route GET /update/{container} update update
 
 Update operation can be divided into two different types: container updates and Resource Host updates. Container updates simply perform apt-get update and upgrade operations inside target containers without any extra commands. Since SS Management is just another container, the Subutai update command works fine with the management container too.
 The second type of update, a Resource Host update, checks the Ubuntu Store and compares available snap packages with those currently installed in the system and, if a newer version is found, installs it. Please note, system security policies requires that such commands should be performed by the superuser manually, otherwise an application's attempt to update itself will be blocked.

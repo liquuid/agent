@@ -36,7 +36,7 @@ type CloneParams struct {
 	/*
 	  In: body
 	*/
-	Body *models.CloneArgs
+	Body *models.Cloneargs
 	/*Child name
 	  Required: true
 	  In: path
@@ -57,7 +57,7 @@ func (o *CloneParams) BindRequest(r *http.Request, route *middleware.MatchedRout
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body models.CloneArgs
+		var body models.Cloneargs
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			res = append(res, errors.NewParseError("body", "body", "", err))
 		} else {

@@ -29,7 +29,7 @@ func NewRestore(ctx *middleware.Context, handler RestoreHandler) *Restore {
 	return &Restore{Context: ctx, Handler: handler}
 }
 
-/*Restore swagger:route GET /rest/v1/restore/{container} restore restore
+/*Restore swagger:route GET /restore/{container} restore restore
 
 RestoreContainer restores a Subutai container to a snapshot at a specified timestamp if such a backup archive is available.
 

@@ -40,7 +40,7 @@ func (o *DemoteURL) SetBasePath(bp string) {
 func (o *DemoteURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/demote/{container}"
+	var _path = "/demote/{container}"
 
 	container := o.Container
 	if container != "" {
@@ -50,7 +50,7 @@ func (o *DemoteURL) Build() (*url.URL, error) {
 	}
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

@@ -29,7 +29,7 @@ func NewExport(ctx *middleware.Context, handler ExportHandler) *Export {
 	return &Export{Context: ctx, Handler: handler}
 }
 
-/*Export swagger:route POST /rest/v1/export/{container} export export
+/*Export swagger:route POST /export/{container} export export
 
 Export prepares an archive from a template in the `/mnt/lib/lxc/tmpdir/` path. This archive can be moved to another Subutai peer and deployed as ready-to-use template or uploaded to Subutai's global template repository to make it widely available for others to use.
 Export consist of two steps if the target is a container: container promotion to template (see "promote" command) and packing the template into the archive. If already a template just the packing of the archive takes place.

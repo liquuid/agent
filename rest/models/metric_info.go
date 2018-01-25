@@ -13,7 +13,7 @@ import (
 )
 
 // MetricInfo metric info
-// swagger:model metricInfo
+// swagger:model MetricInfo
 type MetricInfo struct {
 
 	// messages

@@ -29,7 +29,7 @@ func NewVxlanCreate(ctx *middleware.Context, handler VxlanCreateHandler) *VxlanC
 	return &VxlanCreate{Context: ctx, Handler: handler}
 }
 
-/*VxlanCreate swagger:route POST /rest/v1/vxlan/{tunnel} vxlan vxlanCreate
+/*VxlanCreate swagger:route POST /vxlan/{tunnel} vxlan vxlanCreate
 
 Creates VXLAN tunnel
 

@@ -16,11 +16,11 @@ import (
 // swagger:model diskInfo
 type DiskInfo struct {
 
-	// total
+	// Total space available
 	// Read Only: true
 	Total string `json:"total,omitempty"`
 
-	// used
+	// Used space
 	// Read Only: true
 	Used string `json:"used,omitempty"`
 }

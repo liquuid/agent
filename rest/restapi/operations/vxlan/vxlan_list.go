@@ -29,7 +29,7 @@ func NewVxlanList(ctx *middleware.Context, handler VxlanListHandler) *VxlanList 
 	return &VxlanList{Context: ctx, Handler: handler}
 }
 
-/*VxlanList swagger:route GET /rest/v1/vxlan/list vxlan vxlanList
+/*VxlanList swagger:route GET /vxlan/list vxlan vxlanList
 
 prints a list of existing VXLAN tunnels
 

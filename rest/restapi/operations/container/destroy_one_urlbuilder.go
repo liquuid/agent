@@ -48,7 +48,7 @@ func (o *DestroyOneURL) SetBasePath(bp string) {
 func (o *DestroyOneURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/container/{name}"
+	var _path = "/container/{name}"
 
 	name := o.Name
 	if name != "" {
@@ -58,7 +58,7 @@ func (o *DestroyOneURL) Build() (*url.URL, error) {
 	}
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

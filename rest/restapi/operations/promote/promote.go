@@ -29,7 +29,7 @@ func NewPromote(ctx *middleware.Context, handler PromoteHandler) *Promote {
 	return &Promote{Context: ctx, Handler: handler}
 }
 
-/*Promote swagger:route POST /rest/v1/promote/{container} promote promote
+/*Promote swagger:route POST /promote/{container} promote promote
 
 Promote turns a Subutai container into container template which may be cloned with "clone" command. Promote executes several simple steps, such as dropping a container's configuration to default values, dumping the list of installed packages (this step requires the target container to still be running), and setting the container's filesystem to read-only to prevent changes.
 

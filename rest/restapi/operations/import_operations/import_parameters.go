@@ -36,7 +36,7 @@ type ImportParams struct {
 	/*
 	  In: body
 	*/
-	Body *models.ImportOptions
+	Body *models.Importoptions
 	/*Container name
 	  Required: true
 	  In: path
@@ -52,7 +52,7 @@ func (o *ImportParams) BindRequest(r *http.Request, route *middleware.MatchedRou
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body models.ImportOptions
+		var body models.Importoptions
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			res = append(res, errors.NewParseError("body", "body", "", err))
 		} else {

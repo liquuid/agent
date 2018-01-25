@@ -40,7 +40,7 @@ func (o *ImportURL) SetBasePath(bp string) {
 func (o *ImportURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/import/{container}"
+	var _path = "/import/{container}"
 
 	container := o.Container
 	if container != "" {
@@ -50,7 +50,7 @@ func (o *ImportURL) Build() (*url.URL, error) {
 	}
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

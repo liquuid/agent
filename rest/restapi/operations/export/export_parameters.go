@@ -36,7 +36,7 @@ type ExportParams struct {
 	/*
 	  In: body
 	*/
-	Body *models.ExportOptions
+	Body *models.Exportoptions
 	/*Container name
 	  Required: true
 	  In: path
@@ -52,7 +52,7 @@ func (o *ExportParams) BindRequest(r *http.Request, route *middleware.MatchedRou
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body models.ExportOptions
+		var body models.Exportoptions
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			res = append(res, errors.NewParseError("body", "body", "", err))
 		} else {

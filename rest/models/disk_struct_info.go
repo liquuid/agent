@@ -6,40 +6,80 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
+
 	strfmt "github.com/go-openapi/strfmt"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // DiskStructInfo disk struct info
 // swagger:model diskStructInfo
 type DiskStructInfo struct {
 
-	// home
-	// Read Only: true
-	Home string `json:"home,omitempty"`
-
-	// opt
-	// Read Only: true
-	Opt string `json:"opt,omitempty"`
-
-	// rootfs
-	// Read Only: true
-	Rootfs string `json:"rootfs,omitempty"`
-
-	// var
-	// Read Only: true
-	Var string `json:"var,omitempty"`
+	// Resources available
+	Resource string `json:"resource,omitempty"`
 }
 
 // Validate validates this disk struct info
 func (m *DiskStructInfo) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateResource(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+var diskStructInfoTypeResourcePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["home","opt","rootfs","var"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		diskStructInfoTypeResourcePropEnum = append(diskStructInfoTypeResourcePropEnum, v)
+	}
+}
+
+const (
+	// DiskStructInfoResourceHome captures enum value "home"
+	DiskStructInfoResourceHome string = "home"
+	// DiskStructInfoResourceOpt captures enum value "opt"
+	DiskStructInfoResourceOpt string = "opt"
+	// DiskStructInfoResourceRootfs captures enum value "rootfs"
+	DiskStructInfoResourceRootfs string = "rootfs"
+	// DiskStructInfoResourceVar captures enum value "var"
+	DiskStructInfoResourceVar string = "var"
+)
+
+// prop value enum
+func (m *DiskStructInfo) validateResourceEnum(path, location string, value string) error {
+	if err := validate.Enum(path, location, value, diskStructInfoTypeResourcePropEnum); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *DiskStructInfo) validateResource(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Resource) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateResourceEnum("resource", "body", m.Resource); err != nil {
+		return err
+	}
+
 	return nil
 }
 

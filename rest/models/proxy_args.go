@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
+
 	strfmt "github.com/go-openapi/strfmt"
 
 	"github.com/go-openapi/errors"
@@ -14,26 +16,25 @@ import (
 )
 
 // ProxyArgs proxy args
-// swagger:model proxyArgs
+// swagger:model ProxyArgs
 type ProxyArgs struct {
 
-	// cert
+	// SSL certificate
 	// Min Length: 1
 	Cert string `json:"cert,omitempty"`
 
-	// domain
+	// Domain name
 	// Min Length: 1
 	Domain string `json:"domain,omitempty"`
 
-	// node
+	// Node Name
 	// Min Length: 1
 	Node string `json:"node,omitempty"`
 
 	// policy
-	// Min Length: 1
 	Policy string `json:"policy,omitempty"`
 
-	// vlan
+	// VLan Name
 	// Required: true
 	// Read Only: true
 	Vlan string `json:"vlan"`
@@ -113,13 +114,43 @@ func (m *ProxyArgs) validateNode(formats strfmt.Registry) error {
 	return nil
 }
 
+var proxyArgsTypePolicyPropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["rr","lb","hash"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		proxyArgsTypePolicyPropEnum = append(proxyArgsTypePolicyPropEnum, v)
+	}
+}
+
+const (
+	// ProxyArgsPolicyRr captures enum value "rr"
+	ProxyArgsPolicyRr string = "rr"
+	// ProxyArgsPolicyLb captures enum value "lb"
+	ProxyArgsPolicyLb string = "lb"
+	// ProxyArgsPolicyHash captures enum value "hash"
+	ProxyArgsPolicyHash string = "hash"
+)
+
+// prop value enum
+func (m *ProxyArgs) validatePolicyEnum(path, location string, value string) error {
+	if err := validate.Enum(path, location, value, proxyArgsTypePolicyPropEnum); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (m *ProxyArgs) validatePolicy(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Policy) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("policy", "body", string(m.Policy), 1); err != nil {
+	// value enum
+	if err := m.validatePolicyEnum("policy", "body", m.Policy); err != nil {
 		return err
 	}
 

@@ -39,11 +39,11 @@ func (o *InfoURL) SetBasePath(bp string) {
 func (o *InfoURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/info"
+	var _path = "/info"
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

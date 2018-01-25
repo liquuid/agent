@@ -29,7 +29,7 @@ func NewHostname(ctx *middleware.Context, handler HostnameHandler) *Hostname {
 	return &Hostname{Context: ctx, Handler: handler}
 }
 
-/*Hostname swagger:route POST /rest/v1/hostname/{container}/{name} hostname hostname
+/*Hostname swagger:route POST /hostname/{container}/{name} hostname hostname
 
   - type: string name: container in: path required: true
 

@@ -35,11 +35,11 @@ func (o *QuotaURL) SetBasePath(bp string) {
 func (o *QuotaURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/rest/v1/quota"
+	var _path = "/quota"
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/"
+		_basePath = "/rest/v1/agent"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

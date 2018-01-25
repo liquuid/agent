@@ -29,7 +29,7 @@ func NewTunnelCheck(ctx *middleware.Context, handler TunnelCheckHandler) *Tunnel
 	return &TunnelCheck{Context: ctx, Handler: handler}
 }
 
-/*TunnelCheck swagger:route GET /rest/v1/tunnel/check tunnel tunnelCheck
+/*TunnelCheck swagger:route GET /tunnel/check tunnel tunnelCheck
 
 reads list, checks tunnel ttl, its state and then adds or removes required tunnels
 

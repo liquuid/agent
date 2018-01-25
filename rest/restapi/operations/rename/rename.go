@@ -29,7 +29,7 @@ func NewRename(ctx *middleware.Context, handler RenameHandler) *Rename {
 	return &Rename{Context: ctx, Handler: handler}
 }
 
-/*Rename swagger:route GET /rest/v1/rename/{source}/{newname} rename rename
+/*Rename swagger:route GET /rename/{source}/{newname} rename rename
 
 Renames a Subutai container impacting filesystem paths, configuration values, etc.
 
